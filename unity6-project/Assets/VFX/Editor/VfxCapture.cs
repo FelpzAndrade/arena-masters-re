@@ -229,7 +229,7 @@ public static class VfxCapture
 			return "ok";
 		}
 		aj.Resetar();   // sempre do mesmo lugar, para comparar fotos
-		System.Action disparo = acao == "skillB" ? aj.SkillB : acao == "combo" ? aj.Atacar : (System.Action)null;
+		System.Action disparo = acao == "skillB" ? aj.SkillB : acao == "combo" ? aj.Atacar : acao == "ult" ? aj.Ultimate : (System.Action)null;
 		CapturaSequencia.Iniciar(name, times, disparo);   // dispara e fotografa de dentro do jogo, no tempo exato
 		return "agendado";
 	}
@@ -255,6 +255,26 @@ public static class VfxCapture
 			skill.Iniciar(dir);
 			skill.CorteEntrada();
 		});
+		return "agendado";
+	}
+
+	// Teste da Skill A (ultimate) com a luz da arena: igual ao ArenaSkillB, no Axie, impacto pelo relogio.
+	public static string ArenaUlt(string name, float[] times)
+	{
+		BattleManager bm = Object.FindAnyObjectByType<BattleManager>();
+		if (!EditorApplication.isPlaying || bm == null)
+		{
+			return "precisa estar no Play com a luta aberta";
+		}
+		bm.brainsPaused = true;
+		bm.player.invulnerable = bm.enemy.invulnerable = true;
+		GameObject go = bm.player.go;
+		SkillUltimateExplosao ult = go.GetComponent<SkillUltimateExplosao>() ?? go.AddComponent<SkillUltimateExplosao>();
+		ult.impactoPeloRelogio = true;
+		ult.aoImpacto = p => { HitStop.Request(0.12f); CameraShake.Add(0.45f); };
+		ult.aoExplosao = p => CameraShake.Add(0.14f);
+		Vector3 alvo = bm.enemy.Position + Vector3.down * Arena.CenterHeight;
+		CapturaSequencia.Iniciar(name, times, () => ult.Iniciar(alvo));
 		return "agendado";
 	}
 

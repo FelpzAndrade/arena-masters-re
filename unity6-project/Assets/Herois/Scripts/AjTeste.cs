@@ -19,6 +19,7 @@ public class AjTeste : MonoBehaviour
 	private string m_acao = "";
 	private int m_impactos;
 	private bool m_acertouCaminho;
+	private SkillUltimateExplosao m_ult;
 	private int m_passo;
 	private float m_semTocar = 99f;
 	private static GameObject s_impacto;
@@ -28,6 +29,13 @@ public class AjTeste : MonoBehaviour
 		m_anim = GetComponent<Animator>();
 		m_anim.applyRootMotion = false;
 		m_skillB = GetComponent<SkillEsferaGiratoria>();
+		m_ult = GetComponent<SkillUltimateExplosao>();
+		if (m_ult != null)
+		{
+			m_ult.mao = m_anim.GetBoneTransform(HumanBodyBones.RightHand);
+			m_ult.aoImpacto = UltImpacto;
+			m_ult.aoExplosao = UltExplosao;
+		}
 		m_inicio = transform.position;
 		if (boneco != null)
 		{
@@ -45,6 +53,10 @@ public class AjTeste : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.J))
 		{
 			Atacar();
+		}
+		if (Input.GetKeyDown(KeyCode.R))
+		{
+			Ultimate();
 		}
 		if (Input.GetKeyDown(KeyCode.T))
 		{
@@ -102,7 +114,12 @@ public class AjTeste : MonoBehaviour
 	private void OnGUI()
 	{
 		GUI.skin.button.fontSize = 22;
-		float w = 170f, h = 56f, x = Screen.width - w - 20f, y = Screen.height - 3f * (h + 10f) - 20f;
+		float w = 170f, h = 56f, x = Screen.width - w - 20f, y = Screen.height - 4f * (h + 10f) - 20f;
+		if (GUI.Button(new Rect(x, y, w, h), "Ultimate (R)"))
+		{
+			Ultimate();
+		}
+		y += h + 10f;
 		if (GUI.Button(new Rect(x, y, w, h), "Skill B (Espaco)"))
 		{
 			SkillB(null);
@@ -115,7 +132,7 @@ public class AjTeste : MonoBehaviour
 		{
 			Resetar();
 		}
-		GUI.Label(new Rect(20f, 20f, 600f, 30f), "WASD anda | Espaco Skill B | J ataque | T volta");
+		GUI.Label(new Rect(20f, 20f, 700f, 30f), "WASD anda | Espaco Skill B | R ultimate | J ataque | T volta");
 	}
 
 	public void Resetar()
@@ -160,6 +177,56 @@ public class AjTeste : MonoBehaviour
 		m_skillB.Iniciar(transform.forward);
 	}
 
+	// Skill A da ficha como ultimate: avanca, tela tinge, impacto pesado, 2a onda e fumaca (SkillUltimateExplosao)
+	public void Ultimate()
+	{
+		if (m_ult == null || m_ult.Ativa || m_skillB.Ativa || boneco == null)
+		{
+			return;
+		}
+		m_acao = "GolpeChao";
+		m_anim.SetTrigger("GolpeChao");
+		m_ult.Iniciar(boneco.transform.position);
+	}
+
+	// impacto principal: hit stop de ultimate, tremida forte e varios numeros em sequencia (multi-hit)
+	private void UltImpacto(Vector3 pos)
+	{
+		HitStop.Request(0.12f);
+		CameraShake.Add(0.45f);
+		StartCoroutine(Rajada(new[] { 2400, 2650, 2380, 3120 }, 0.1f));
+	}
+
+	private System.Collections.IEnumerator Rajada(int[] danos, float intervalo)
+	{
+		foreach (int dano in danos)
+		{
+			bool critico = Random.value < 0.25f;
+			boneco.Acertar(critico ? Mathf.RoundToInt(dano * 1.8f) : dano, critico, transform.position);
+			if (combo != null)
+			{
+				combo.Hit();
+			}
+			yield return new WaitForSecondsRealtime(intervalo);
+		}
+	}
+
+	// cada explosao da 2a onda: tremida fraca e dano se o boneco estiver perto
+	private void UltExplosao(Vector3 pos)
+	{
+		CameraShake.Add(0.14f);
+		Vector3 d = boneco.transform.position - pos;
+		d.y = 0f;
+		if (d.magnitude < 2.4f)
+		{
+			boneco.Acertar(Random.Range(700, 900), false, pos);
+			if (combo != null)
+			{
+				combo.Hit();
+			}
+		}
+	}
+
 	public void Atacar()
 	{
 		if (m_semTocar > 0.8f)
@@ -180,6 +247,11 @@ public class AjTeste : MonoBehaviour
 	public void OnImpacto()
 	{
 		m_impactos++;
+		if (m_acao == "GolpeChao")
+		{
+			m_ult.Impacto();
+			return;
+		}
 		if (m_acao == "Redemoinho")
 		{
 			if (m_impactos == 1)

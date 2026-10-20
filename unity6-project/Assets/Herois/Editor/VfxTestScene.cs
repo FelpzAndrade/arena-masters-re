@@ -14,6 +14,7 @@ public static class VfxTestScene
 	public static void Build()
 	{
 		VfxSkillBBuilder.Build();
+		VfxSkillABuilder.Build();
 		VfxAmbienteBuilder.Build();
 		EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
@@ -80,6 +81,8 @@ public static class VfxTestScene
 		SkillEsferaGiratoria skill = aj.AddComponent<SkillEsferaGiratoria>();
 		skill.alturaCentro = b.size.y * 0.52f;
 		skill.escala = b.size.y / 1.8f + 0.15f;
+		SkillUltimateExplosao ult = aj.AddComponent<SkillUltimateExplosao>();
+		ult.escala = skill.escala;
 		AjTeste teste = aj.AddComponent<AjTeste>();
 
 		// boneco de treino: o cavaleiro do KayKit parado
