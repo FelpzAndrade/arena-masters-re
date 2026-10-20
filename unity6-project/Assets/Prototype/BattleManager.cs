@@ -3,7 +3,8 @@ using CS;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Prototipo de luta 1x1 offline: jogador (Machadinha) contra bot (Bruxa) na DuelArena.
+// Prototipo de luta 1x1 offline na DuelArena: jogador contra bot, cada um com um dos herois (Axie, Spark, Cavaleiro).
+// A escolha fica nos botoes do canto da tela (salva em PlayerPrefs; a luta recomeca com os herois novos).
 // Regras de combate: codigo reconstruido do jogo (CharStatus + XCalculator). Resto: estrutura propria simples.
 public class BattleManager : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class BattleManager : MonoBehaviour
 	public Font font;
 	public GameObject machadinhaModel;
 	public GameObject bruxaModel;
+	public GameObject cavaleiroModel;       // Assets/Herois/Cavaleiro/CavaleiroLuta.prefab (Arena Masters/Herois/Montar Cavaleiro para a luta)
+	public static readonly string[] Herois = { "Axie", "Spark", "Cavaleiro" };
 	public GameObject[] effectPrefabs;      // Cartoon FX Remaster Free
 
 	public Fighter player;
@@ -104,12 +107,8 @@ public class BattleManager : MonoBehaviour
 			RenderSettings.ambientLight = new Color(0.17f, 0.16f, 0.21f);   // espaco de cor Linear (URP): mais escuro que no Gamma
 		}
 
-		FighterDef machadinha = FighterDef.Axie();
-		machadinha.model = machadinhaModel;
-		FighterDef bruxa = FighterDef.Spark();
-		bruxa.model = bruxaModel;
-		player = new Fighter(machadinha, arena.SpawnPoint(new Vector3(-10f, 0f, 0f)), arena);
-		enemy = new Fighter(bruxa, arena.SpawnPoint(new Vector3(10f, 0f, 0f)), arena);
+		player = new Fighter(Def(Escolha("heroiJogador", "Axie")), arena.SpawnPoint(new Vector3(-10f, 0f, 0f)), arena);
+		enemy = new Fighter(Def(Escolha("heroiInimigo", "Spark")), arena.SpawnPoint(new Vector3(10f, 0f, 0f)), arena);
 		player.opponent = enemy;
 		enemy.opponent = player;
 		foreach (Fighter f in new[] { player, enemy })
@@ -181,6 +180,61 @@ public class BattleManager : MonoBehaviour
 		UpdateCamera(1f);
 	}
 
+	// heroi escolhido (PlayerPrefs; na captura do CI fica o padrao Axie x Spark)
+	private static string Escolha(string chave, string padrao)
+	{
+		string h = Application.isPlaying ? PlayerPrefs.GetString(chave, padrao) : padrao;
+		return System.Array.IndexOf(Herois, h) >= 0 ? h : padrao;
+	}
+
+	private FighterDef Def(string heroi)
+	{
+		FighterDef d = heroi == "Spark" ? FighterDef.Spark() : heroi == "Cavaleiro" ? FighterDef.Cavaleiro() : FighterDef.Axie();
+		d.model = heroi == "Spark" ? bruxaModel : heroi == "Cavaleiro" ? cavaleiroModel : machadinhaModel;
+		return d;
+	}
+
+	// escolha dos herois (provisoria, ate existir a tela de escolha): troca e recomeca a luta
+	private void OnGUI()
+	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
+		GUI.skin.button.fontSize = 13;
+		Linha(8f, "Voce:", "heroiJogador", player.def.name);
+		Linha(36f, "Bot:", "heroiInimigo", enemy.def.name);
+	}
+
+	private void Linha(float y, string rotulo, string chave, string atual)
+	{
+		GUI.Label(new Rect(8f, y + 4f, 44f, 24f), rotulo);
+		for (int i = 0; i < Herois.Length; i++)
+		{
+			bool marcado = Herois[i] == atual;
+			if (GUI.Toggle(new Rect(52f + i * 86f, y, 82f, 24f), marcado, Herois[i], GUI.skin.button) && !marcado)
+			{
+				PlayerPrefs.SetString(chave, Herois[i]);
+				PlayerPrefs.Save();
+				Recomecar();
+			}
+		}
+	}
+
+	private void Recomecar()
+	{
+		UnityEngine.SceneManagement.Scene cena = gameObject.scene;
+#if UNITY_EDITOR
+		if (cena.buildIndex < 0)
+		{
+			// cena fora da lista de build (normal no prototipo): recarrega pelo caminho
+			UnityEditor.SceneManagement.EditorSceneManager.LoadSceneInPlayMode(cena.path, new UnityEngine.SceneManagement.LoadSceneParameters(UnityEngine.SceneManagement.LoadSceneMode.Single));
+			return;
+		}
+#endif
+		UnityEngine.SceneManagement.SceneManager.LoadScene(cena.buildIndex);
+	}
+
 	private void Update()
 	{
 		HitStop.Tick(Time.unscaledDeltaTime);
@@ -213,6 +267,8 @@ public class BattleManager : MonoBehaviour
 		UpdateProjectiles(dt);
 		UpdateIndicator();
 		UpdateFx(dt);
+		EspadaPronta(player);
+		EspadaPronta(enemy);
 		Vfx.Update(dt);
 		arena.UpdateBlockers(dt);
 		UpdateCamera(dt);
@@ -325,6 +381,11 @@ public class BattleManager : MonoBehaviour
 			case "terrasplitter":
 				Vfx.TerraSplitter(owner.Position + Vector3.down * Arena.CenterHeight, owner.facing, sd.color, sd.range);
 				return;
+			case "esfera":
+				return;   // a esfera (SkillEsferaGiratoria) ja esta na tela desde o inicio da skill; cada acerto so da o dano
+			case "explosao":
+				owner.Visual?.GetComponent<SkillUltimateExplosao>()?.Impacto();   // golpe no chao: massa escura, onda, 2a onda depois
+				return;
 		}
 		GameObject disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 		Object.DestroyImmediate(disc.GetComponent<Collider>());
@@ -368,6 +429,62 @@ public class BattleManager : MonoBehaviour
 		if (sd.vfx == "bufalo")
 		{
 			Vfx.BufaloRun(owner.go.transform, sd.windup + 0.9f);   // corrida + tempo para a poeira assentar
+		}
+		if (sd.vfx == "esfera")
+		{
+			SkillEsferaGiratoria esfera = owner.Visual?.GetComponent<SkillEsferaGiratoria>();
+			if (esfera != null)
+			{
+				esfera.atraso = sd.windup;
+				esfera.duracao = Mathf.Max(0.2f, sd.dashTime - sd.windup);
+				esfera.Iniciar(owner.facing);
+				esfera.CorteEntrada();
+			}
+			Espada(owner)?.Pico(sd.dashTime);
+		}
+		if (sd.vfx == "explosao")
+		{
+			SkillUltimateExplosao ult = owner.Visual?.GetComponent<SkillUltimateExplosao>();
+			if (ult != null && owner.opponent != null)
+			{
+				ult.tempoImpacto = sd.windup + 0.3f;   // + camera lenta da ativacao (HitStop 0,35 s); o golpe chama Impacto() na hora certa
+				ult.aoExplosao = p => ExplosaoArcana(owner, p);
+				ult.Iniciar(owner.opponent.Position + Vector3.down * Arena.CenterHeight);
+			}
+			Espada(owner)?.Pico(sd.windup);
+		}
+	}
+
+	// 2a onda da Explosao Arcana: cada explosao da dano em quem estiver perto (estimativa: 150%)
+	private static readonly SkillDef s_explosao = new SkillDef { name = "Explosao Arcana", damageRatio = 1.5f, hitstop = 0.03f, shake = 0.14f, ultimateCharge = 0f };
+	private CS.CSSkillInfo m_explosaoInfo;
+
+	private void ExplosaoArcana(Fighter owner, Vector3 p)
+	{
+		CameraShake.Add(0.14f);
+		Fighter alvo = owner.opponent;
+		if (alvo == null || !alvo.IsAlive || alvo.invulnerable)
+		{
+			return;
+		}
+		Vector3 d = alvo.Position + Vector3.down * Arena.CenterHeight - p;
+		d.y = 0f;
+		if (d.magnitude < 2.4f)
+		{
+			m_explosaoInfo ??= s_explosao.BuildInfo(990);
+			owner.ResolveHit(alvo, s_explosao, m_explosaoInfo, d.sqrMagnitude > 0.01f ? d.normalized : owner.facing);
+		}
+	}
+
+	private static EspadaBrilho Espada(Fighter f) => f.Visual != null ? f.Visual.GetComponent<EspadaBrilho>() : null;
+
+	// espada no brilho maximo enquanto a ultimate estiver pronta (da para ver de longe)
+	private static void EspadaPronta(Fighter f)
+	{
+		EspadaBrilho e = Espada(f);
+		if (e != null)
+		{
+			e.ultimatePronta = f.IsAlive && f.UltReady;
 		}
 	}
 
@@ -615,7 +732,8 @@ public class BattleManager : MonoBehaviour
 		string[] keys = { "J", "K", "L", "I", "Espaco" };
 		for (int i = 0; i < 5; i++)
 		{
-			string skillName = i < 4 ? player.def.skills[i].name : player.def.dodge.name;
+			SkillDef slotSkill = player.SlotSkill(i);
+			string skillName = slotSkill != null ? slotSkill.name : "-";   // lugar vazio (heroi com menos skills)
 			RectTransform box = Rect("skill" + i, canvas.transform, new Vector2(0.5f, 0f), new Vector2(-256f + i * 128f, 30f), new Vector2(124f, 70f));
 			box.pivot = new Vector2(0.5f, 0f);
 			box.gameObject.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.6f);

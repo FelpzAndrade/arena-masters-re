@@ -48691,6 +48691,8 @@ MonoBehaviour:
     type: 3}
   bruxaModel: {fileID: 919132149155446097, guid: 41012b4569aec544abdea2c358b5cfe2,
     type: 3}
+  cavaleiroModel: {fileID: 1829235189115600024, guid: 02e25afa6dd5f5845b411e47dcc128ae,
+    type: 3}
   effectPrefabs:
   - {fileID: 5985634496115995773, guid: 463cf9f7af4680240898f6aeba3fe3e6, type: 3}
   - {fileID: 5642766282230003982, guid: b5c8ca7ed10b61e499cce8ec3b6e2e4c, type: 3}

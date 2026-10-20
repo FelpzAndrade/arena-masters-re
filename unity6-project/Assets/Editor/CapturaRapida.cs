@@ -25,7 +25,7 @@ public static class CapturaRapida
 	[System.Serializable]
 	public class Personagem
 	{
-		public string heroi = "Axie";      // Axie, Spark, Cavaleiro, Boneco, Aj
+		public string heroi = "Axie";      // Axie, Spark, Cavaleiro, CavaleiroLuta (prefab da luta, clipes assados), Boneco, Aj
 		public string pose = "idle";       // idle, correr, skill1..4 / ult (Axie e Spark), Redemoinho, GolpeChao, Ataque1..4 (Cavaleiro/Aj) ou o nome do clipe
 		public float tempo = 0.5f;         // segundos dentro do clipe
 		public int quadro = -1;            // >= 0: usa o quadro do clipe no lugar do tempo
@@ -242,6 +242,11 @@ public static class CapturaRapida
 				CavaleiroSetup.Vestir(go);
 				return Preparar(go);
 			}
+			case "CavaleiroLuta":
+			{
+				GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(CavaleiroLutaSetup.Prefab));
+				return go != null ? Preparar(go) : null;
+			}
 			case "Aj":
 				return Preparar((GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Herois/Aj/Aj_Idle.fbx")));
 			case "Boneco":
@@ -270,6 +275,11 @@ public static class CapturaRapida
 
 	static GameObject Preparar(GameObject go)
 	{
+		Animator anim = go.GetComponent<Animator>();
+		if (anim != null)
+		{
+			anim.applyRootMotion = false;   // como na cena VFX_Test: o giro e o passo do clipe ficam no corpo, o heroi nao sai do lugar
+		}
 		foreach (SkinnedMeshRenderer smr in go.GetComponentsInChildren<SkinnedMeshRenderer>(true))
 		{
 			smr.forceMatrixRecalculationPerRender = true;   // sem isso a malha com esqueleto fica uma pose atrasada na foto
@@ -281,7 +291,7 @@ public static class CapturaRapida
 	// amostra o clipe da pose; devolve a descricao para a legenda
 	static string Posar(GameObject go, Personagem pe)
 	{
-		AnimationClip clip = pe.heroi == "Axie" || pe.heroi == "Spark" ? ClipeLutador(pe) : pe.heroi == "Boneco" ? ClipeBoneco() : ClipeHumanoide(pe.pose);
+		AnimationClip clip = pe.heroi == "Axie" || pe.heroi == "Spark" || pe.heroi == "CavaleiroLuta" ? ClipeLutador(pe) : pe.heroi == "Boneco" ? ClipeBoneco() : ClipeHumanoide(pe.pose);
 		if (clip == null)
 		{
 			return pe.pose + " (clipe nao achado)";
@@ -313,7 +323,7 @@ public static class CapturaRapida
 
 	static AnimationClip ClipeLutador(Personagem pe)
 	{
-		FighterDef def = pe.heroi == "Axie" ? FighterDef.Axie() : FighterDef.Spark();
+		FighterDef def = pe.heroi == "Axie" ? FighterDef.Axie() : pe.heroi == "CavaleiroLuta" ? FighterDef.Cavaleiro() : FighterDef.Spark();
 		string nome = pe.pose;
 		if (pe.pose == "idle")
 		{
@@ -340,7 +350,7 @@ public static class CapturaRapida
 		{
 			return c;
 		}
-		string fbx = pe.heroi == "Axie" ? "Assets/Prototype/KayKit/Characters/Barbarian.fbx" : "Assets/Prototype/KayKit/Characters/Mage.fbx";
+		string fbx = pe.heroi == "Axie" ? "Assets/Prototype/KayKit/Characters/Barbarian.fbx" : pe.heroi == "CavaleiroLuta" ? "Assets/Prototype/KayKit/Characters/Knight.fbx" : "Assets/Prototype/KayKit/Characters/Mage.fbx";
 		foreach (Object o in AssetDatabase.LoadAllAssetsAtPath(fbx))
 		{
 			if (o is AnimationClip ac && ac.name == nome)
@@ -474,7 +484,7 @@ public static class CapturaRapida
 // janela: escolhe heroi, pose, tempo e efeito de cada lugar da fila
 public class CapturaRapidaJanela : EditorWindow
 {
-	static readonly string[] Herois = { "Axie", "Spark", "Cavaleiro", "Boneco", "Aj" };
+	static readonly string[] Herois = { "Axie", "Spark", "Cavaleiro", "CavaleiroLuta", "Boneco", "Aj" };
 	CapturaRapida.Pedido m_pedido;
 	Vector2 m_rolagem;
 

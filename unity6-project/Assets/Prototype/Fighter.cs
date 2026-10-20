@@ -58,6 +58,7 @@ public class Fighter : IActor
 	private int m_slot = -1;
 	private float m_stateTime;
 	private Vector3 m_aim;
+	private float m_dashLen;               // avanco desta skill (dashDistance, ou menos com dashStop)
 	private int m_comboStep;
 	private float m_comboTimer;
 	private int m_queuedSlot = -1;
@@ -103,6 +104,9 @@ public class Fighter : IActor
 		{ "Spark_Disparo", 0.133f },   // feitas no Blender: estocada do cajado no quadro 4 de 12
 		{ "Spark_Feixe", 0.3f },       // solta o feixe no quadro 9 de 22
 		{ "Spark_Onda", 0.3f },        // varrida passa pela frente no quadro 9 de 18 (Relampago e Ruptura tem varios golpes: tocam esticadas)
+		// Cavaleiro: clipes do Mixamo assados no esqueleto do KayKit (Herois/Editor/CavaleiroLutaSetup); evento OnImpacto do clipe original
+		{ "Cavaleiro_Ataque1", 0.7f }, { "Cavaleiro_Ataque2", 0.333f }, { "Cavaleiro_Ataque3", 0.367f }, { "Cavaleiro_Ataque4", 0.167f },
+		{ "Cavaleiro_GolpeChao", 1.267f },
 	};
 
 	// velocidade natural de cada clipe de locomocao (m/s, medida no pe de apoio no Blender): o clipe toca na
@@ -112,7 +116,9 @@ public class Fighter : IActor
 		{ "Running_A", 3.72f }, { "Running_Strafe_Left", 3.44f }, { "Running_Strafe_Right", 3.39f }, { "Walking_Backwards", 0.81f },
 		{ "Correr", 4.58f }, { "Axie_Correr", 4.58f }, { "Correr_Tras", 4f }, { "Axie_Correr_Tras", 4f },
 		{ "Axie_Lado_E", 3.44f }, { "Axie_Lado_D", 3.39f },
+		{ "Cavaleiro_Correr", CavaleiroCorrer },
 	};
+	private const float CavaleiroCorrer = 1.79f;   // medido no pe de apoio do clipe assado (CavaleiroLutaSetup); a corrida do Mixamo e curta
 	private bool m_ultHitCharge;           // EnableHitCharge: so o primeiro acerto de cada skill carrega
 
 	public Vector3 Position => go.transform.position;
@@ -143,7 +149,7 @@ public class Fighter : IActor
 		status.Copy(baseStatus);
 		maxHp = status.MaxHP.Calc();
 		hp = maxHp;
-		cooldowns = new float[def.skills.Length + 2];
+		cooldowns = new float[UltSlot + 1];   // lugares fixos: 0 basico, 1..3 skills (pode faltar), 4 esquiva, 5 ultimate
 
 		go = new GameObject(def.name);
 		if (def.model != null)
@@ -211,11 +217,16 @@ public class Fighter : IActor
 		PlayLoop(def.animIdle);
 	}
 
-	public SkillDef SlotSkill(int slot) => slot < def.skills.Length ? def.skills[slot] : slot == UltSlot ? def.ultimate : def.dodge;
+	// null = lugar vazio (heroi com menos de 3 skills)
+	public SkillDef SlotSkill(int slot) => slot < def.skills.Length ? def.skills[slot] : slot == UltSlot ? def.ultimate : slot == DodgeSlot ? def.dodge : null;
 
 	public float CooldownRatio(int slot)
 	{
 		SkillDef sd = SlotSkill(slot);
+		if (sd == null)
+		{
+			return 0f;
+		}
 		float cd = slot == 0 ? 0f : sd.cooldown;
 		return cd <= 0f ? 0f : Mathf.Clamp01(cooldowns[slot] / cd);
 	}
@@ -255,7 +266,7 @@ public class Fighter : IActor
 	// slot 0..3 = skills, 4 = esquiva, 5 = ultimate. Ocupado: esquiva cancela; perto do fim, entra na fila.
 	public bool TryUseSkill(int slot, Vector3 aim)
 	{
-		if (!IsAlive || slot < 0 || slot >= cooldowns.Length || IsStunned)
+		if (!IsAlive || slot < 0 || slot >= cooldowns.Length || IsStunned || SlotSkill(slot) == null)
 		{
 			return false;
 		}
@@ -309,6 +320,18 @@ public class Fighter : IActor
 		m_sd = sd;
 		m_slot = slot;
 		m_aim = aim;
+		m_dashLen = sd.dashDistance;
+		if (sd.dashStop > 0f && opponent != null)
+		{
+			// avanca ate ficar a dashStop do inimigo (nunca mais que dashDistance; parado se ja esta perto)
+			Vector3 to = opponent.Position - Position;
+			to.y = 0f;
+			m_dashLen = Mathf.Clamp(to.magnitude - sd.dashStop, 0f, sd.dashDistance);
+			if (to.sqrMagnitude > 0.01f)
+			{
+				aim = opponent.Position;
+			}
+		}
 		Vector3 dir = aim - Position;
 		dir.y = 0f;
 		if (dir.sqrMagnitude > 0.01f)
@@ -685,10 +708,11 @@ public class Fighter : IActor
 	{
 		SkillDef sd = m_sd;
 		m_stateTime += dt;
-		if (sd.dashDistance > 0f)
+		// avanco: durante o preparo, ou por dashTime segundos (avanco que acerta pelo caminho)
+		float dashT = sd.dashTime > 0f ? sd.dashTime : Mathf.Max(0.15f, sd.windup > 0f ? sd.windup : 0.2f);
+		if (m_dashLen > 0f && m_stateTime - dt < dashT)
 		{
-			float speed = sd.dashDistance / Mathf.Max(0.15f, sd.windup > 0f ? sd.windup : 0.2f);
-			TryMoveTo(Position + facing * speed * dt);
+			TryMoveTo(Position + facing * (m_dashLen / dashT) * dt);
 		}
 		float release = sd.windup > 0f ? sd.windup : 0.2f;
 		if (m_slot == DodgeSlot)

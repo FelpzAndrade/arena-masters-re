@@ -133,6 +133,78 @@ public class FighterDef
 		};
 	}
 
+	// Cavaleiro: heroi proprio (nao existe no jogo original), espadachim de alcance curto com a espada arcana.
+	// Corpo do KayKit Knight; golpes do Mixamo assados no esqueleto (Herois/Editor/CavaleiroLutaSetup).
+	// Skills da ficha de referencia (Docs/ficha_skills_referencia.md): B = esfera giratoria, A = explosao (ultimate).
+	// TODOS os numeros sao estimativa (a ficha so define o visual): atributos entre o Axie e o Spark.
+	public static FighterDef Cavaleiro()
+	{
+		Color azul = new Color(0.25f, 0.45f, 1f);
+		Color roxo = new Color(0.6f, 0.3f, 1f);
+		SkillDef Golpe(string anim, float dano, float windup, float recovery, float hitstop, float shake) => new SkillDef
+		{
+			name = "Espada Arcana", vfx = "slash", anim = anim, damageRatio = dano, cooldown = 0.25f, windup = windup, recovery = recovery,
+			range = 2.3f, angle = 130f, color = azul, hitstop = hitstop, shake = shake, beatenDuration = 0.25f, ultimateCharge = 250f,
+		};
+		SkillDef ataque4 = Golpe("Cavaleiro_Ataque4", 1.8f, 0.18f, 0.4f, 0.09f, 0.2f);   // 4o golpe: o mais forte, hit stop maior
+		ataque4.knockbackDistance = 1.5f;
+		ataque4.beatenDuration = 0f;
+		SkillDef ataque1 = Golpe("Cavaleiro_Ataque1", 0.9f, 0.3f, 0.2f, 0.05f, 0.08f);
+		ataque1.comboWindow = 0.8f;      // 0,8 s sem tocar volta para o 1o golpe
+		ataque1.combo = new[]
+		{
+			Golpe("Cavaleiro_Ataque2", 0.9f, 0.2f, 0.2f, 0.05f, 0.08f),
+			Golpe("Cavaleiro_Ataque3", 1.1f, 0.22f, 0.25f, 0.05f, 0.1f),
+			ataque4,
+		};
+		return new FighterDef
+		{
+			name = "Cavaleiro",
+			role = "Lutador",
+			color = new Color(0.45f, 0.4f, 1f),
+			hiddenParts = new[] { "1H_Sword_Offhand", "Rectangle_Shield", "Round_Shield", "Spike_Shield", "2H_Sword" },
+			weapon = "1H_Sword",
+			animIdle = "Cavaleiro_Parado",
+			animRun = "Cavaleiro_Correr",
+			animHit = "Hit_A",
+			animHitHeavy = "Hit_B",
+			animDeath = "Death_A",
+			animAirborne = "Hit_B",
+			moveSpeed = 7f,
+			applyStats = s =>
+			{
+				s.MaxHP.value = 76000f;
+				s.PhysicalDamage.value = 3200f;
+				s.MagicalDamage.value = 3200f;
+				s.PhysicalDefense.value = 0.15f;
+				s.MagicalDefense.value = 0.15f;
+				s.Weight.value = 10f;
+			},
+			passiveName = "(a definir)",
+			passiveDesc = "Passiva ainda em proposta",
+			skills = new[]
+			{
+				ataque1,
+				// B - Esfera Giratoria (6s): corte de entrada e esfera girando que avanca 4,5 m acertando pelo caminho, 4 x 90%
+				new SkillDef
+				{
+					name = "Esfera Giratoria", vfx = "esfera", anim = "Cavaleiro_Redemoinho", damageRatio = 0.9f, cooldown = 6f,
+					windup = 0.2f, hitCount = 4, hitInterval = 0.25f, recovery = 0.15f, range = 1.6f, angle = 360f,
+					dashDistance = 4.5f, dashTime = 0.95f, cancelable = false, color = azul, hitstop = 0.05f, shake = 0.12f,
+					beatenDuration = 0.2f, ultimateCharge = 600f,
+				},
+			},
+			dodge = new SkillDef { name = "Rolamento", vfx = "dust", anim = "Dodge_Forward", cooldown = 4f, windup = 0f, recovery = 0.3f, dashDistance = 4.5f, damageRatio = 0f },
+			// A - Explosao Arcana: avanca ate o inimigo, golpe no chao (1200%) e 2a onda de 5 explosoes (150% cada, na luta: BattleManager)
+			ultimate = new SkillDef
+			{
+				name = "Explosao Arcana", vfx = "explosao", anim = "Cavaleiro_GolpeChao", damageRatio = 12f, cooldown = 1f, windup = 0.9f, recovery = 0.6f,
+				range = 3.2f, angle = 360f, dashDistance = 6f, dashStop = 1.4f, airborneHeight = 1.5f,
+				superArmor = true, cancelable = false, color = roxo, hitstop = 0.12f, shake = 0.45f,
+			},
+		};
+	}
+
 	// Spark: atacante a distancia de raios (wiki: HP 72.000, ATK 3.200, DEF 5%, critico 7,5%, velocidade 7, peso 10)
 	public static FighterDef Spark()
 	{

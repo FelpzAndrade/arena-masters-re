@@ -192,6 +192,10 @@ public class BotBrain : IBrain
 		for (int i = self.def.skills.Length - 1; i >= 0; i--)
 		{
 			SkillDef sd = self.def.skills[i];
+			if (sd == null)
+			{
+				continue;   // lugar vazio
+			}
 			float reach = sd.areaAtTarget ? sd.castRange : sd.range + sd.dashDistance;
 			float chance = i == 0 ? 0.45f : 0.08f;
 			if (self.cooldowns[i] <= 0f && dist <= reach * 0.9f && Rand() < chance)

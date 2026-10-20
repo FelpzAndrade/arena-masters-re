@@ -21,6 +21,8 @@ public class SkillDef
 	public bool areaAtTarget;         // area centrada no alvo (magia a distancia)
 	public float castRange;           // alcance maximo para mirar a area
 	public float dashDistance;        // avanco durante a skill
+	public float dashTime;            // > 0: o avanco dura isso (pode passar do preparo e acertar pelo caminho); 0 = so no preparo
+	public float dashStop;            // > 0: avanca ate ficar a essa distancia do inimigo (no maximo dashDistance)
 	// controles de movimento aplicados no acerto (distancia d do buff MF: fMotionControlDistance)
 	public float knockbackDistance;   // Knockback: empurra para longe
 	public float airborneHeight;      // Airborne: joga para cima no lugar

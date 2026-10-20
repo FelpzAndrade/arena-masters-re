@@ -24,6 +24,7 @@ public static class PrototypeSetup
 		}
 		bm.effectPrefabs = fx.ToArray();
 		bm.bruxaModel = AssetDatabase.LoadAssetAtPath<GameObject>(MagePath);
+		bm.cavaleiroModel = AssetDatabase.LoadAssetAtPath<GameObject>(CavaleiroLutaSetup.Prefab);
 	}
 
 	[MenuItem("Arena Masters/Abrir luta 1x1 (prototipo)")]

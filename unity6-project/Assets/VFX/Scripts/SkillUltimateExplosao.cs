@@ -23,6 +23,7 @@ public class SkillUltimateExplosao : MonoBehaviour
 	public float escala = 1f;
 	public Transform mao;                // brilho de carga (opcional)
 	public bool impactoPeloRelogio;      // true = impacto em tempoImpacto sem esperar o OnImpacto (heroi sem esse evento)
+	public bool moverHeroi = true;       // false = quem chama vira e aproxima o heroi (na luta, o Fighter: SkillDef.dashStop)
 
 	public Action<Vector3> aoImpacto;    // posicao do impacto
 	public Action<Vector3> aoExplosao;   // posicao de cada explosao da 2a onda
@@ -45,7 +46,7 @@ public class SkillUltimateExplosao : MonoBehaviour
 		m_carga = m_tinta = m_raio = m_fumaca = false;
 		m_explodidas = 0;
 		Vector3 d = m_alvo - transform.position;
-		if (d.sqrMagnitude > 0.01f)
+		if (moverHeroi && d.sqrMagnitude > 0.01f)
 		{
 			transform.rotation = Quaternion.LookRotation(d);
 		}
@@ -86,7 +87,7 @@ public class SkillUltimateExplosao : MonoBehaviour
 		Vector3 d = m_alvo - transform.position;
 		d.y = 0f;
 		float falta = d.magnitude - distanciaAlvo * escala;
-		if (m_tImpacto < 0f && falta > 0.02f && m_t < tempoImpacto - 0.35f)
+		if (moverHeroi && m_tImpacto < 0f && falta > 0.02f && m_t < tempoImpacto - 0.35f)
 		{
 			float vel = Mathf.Max(3f, falta / Mathf.Max(0.1f, tempoImpacto - 0.35f - m_t));
 			transform.position += d.normalized * Mathf.Min(falta, vel * dt);

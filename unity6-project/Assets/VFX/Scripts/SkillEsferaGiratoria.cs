@@ -16,6 +16,7 @@ public class SkillEsferaGiratoria : MonoBehaviour
 	public float distancia = 4.5f;       // quanto o heroi avanca durante a esfera (na direcao da mira)
 	public Transform pontaDaLamina;      // opcional (componente Equipamento): o corte de entrada sai na altura da lamina
 	public float raioAcerto = 1.3f;      // raio da esfera (x escala): quem estiver dentro dela no caminho leva o acerto
+	public bool moverHeroi = true;       // false = quem chama faz o avanco (na luta, o Fighter: SkillDef.dashDistance/dashTime)
 
 	public Vector3 Centro => transform.position + Vector3.up * alturaCentro;
 	public float Raio => raioAcerto * escala;
@@ -78,7 +79,10 @@ public class SkillEsferaGiratoria : MonoBehaviour
 		}
 		if (EsferaNaTela)
 		{
-			transform.position += m_direcao * (distancia / duracao) * dt;
+			if (moverHeroi)
+			{
+				transform.position += m_direcao * (distancia / duracao) * dt;
+			}
 			// silhuetas translucidas do heroi no caminho (Vfx.Afterimage, o mesmo da esquiva): 3, sumindo em 0,3 s
 			while (m_fantasmas < 3 && m_tempo >= atraso + duracao * (0.2f + 0.25f * m_fantasmas))
 			{
