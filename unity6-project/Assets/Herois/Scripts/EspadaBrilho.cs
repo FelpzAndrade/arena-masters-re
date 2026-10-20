@@ -16,6 +16,7 @@ public class EspadaBrilho : MonoBehaviour
 	public float volta = 0.3f;
 	public bool ultimatePronta;
 	public GameObject avisoPronta;          // VFX_LaminaPronta (halo + faiscas fortes), ligado so com a ultimate pronta
+	[Range(0f, 1f)] public float carga01;   // passiva Lamina Carregada: com mais cargas o brilho parado fica mais forte (ate 1,8x)
 
 	private static readonly int Brilho = Shader.PropertyToID("_Brilho");
 	private MaterialPropertyBlock m_mpb;
@@ -35,7 +36,7 @@ public class EspadaBrilho : MonoBehaviour
 		{
 			return;
 		}
-		float pulso = 1f + variacao * Mathf.Sin(Time.time * Mathf.PI * 2f / ciclo);
+		float pulso = (1f + 0.8f * carga01) * (1f + variacao * Mathf.Sin(Time.time * Mathf.PI * 2f / ciclo));
 		float alvo = pulso;
 		float depois = Time.time - m_picoAte;
 		if (depois < 0f)

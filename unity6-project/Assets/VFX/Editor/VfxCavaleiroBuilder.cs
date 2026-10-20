@@ -136,7 +136,71 @@ public static class VfxCavaleiroBuilder
 		c.color = B.Fade(Color.white, 0.4f);
 		B.SavePrefab(go, Root + "/Resources/VFX_LaminaPronta.prefab");
 
+		CorteArcano();
+
 		AssetDatabase.SaveAssets();
-		Debug.Log("[VFX] Espada do Cavaleiro montada: M_BrilhoLamina, VFX_FaiscasLamina e VFX_LaminaPronta");
+		Debug.Log("[VFX] Espada do Cavaleiro montada: M_BrilhoLamina, VFX_FaiscasLamina, VFX_LaminaPronta e VFX_CorteArcano");
+	}
+
+	// Skill C (Corte Arcano): meia-lua azul-roxo que voa com o projetil (filha dele) e solta faiscas pelo caminho.
+	// Custo: 1 malha do arco (M_ArcoCorte, a mesma do corte de entrada) + no maximo 20 faiscas no mundo
+	static void CorteArcano()
+	{
+		Mesh arco = AssetDatabase.LoadAssetAtPath<Mesh>(Root + "/Meshes/M_ArcoCorte.asset");
+		Material baseCorte = AssetDatabase.LoadAssetAtPath<Material>(Root + "/Materials/M_CorteEsfera.mat");
+		if (arco == null || baseCorte == null)
+		{
+			Debug.LogError("[VFX] falta M_ArcoCorte ou M_CorteEsfera (Montar Machado Barbaro / Skill B)");
+			return;
+		}
+		Material m = new Material(baseCorte);
+		m.SetColor("_Color", new Color(0.55f, 0.35f, 2.6f, 1f));
+		m.SetColor("_CoreColor", new Color(1.4f, 1.3f, 3.2f, 1f));
+		m = B.SaveAsset(m, Root + "/Materials/M_CorteArcano.mat");
+
+		GameObject go = new GameObject("VFX_CorteArcano");
+		ParticleSystem ps = B.NewSystem(go.transform, "MeiaLua", m, 1);
+		ps.transform.localRotation = Quaternion.Euler(0f, 0f, 12f);   // quase deitada: legivel de cima
+		ParticleSystem.MainModule main = ps.main;
+		main.startLifetime = 10f;                    // dura o voo inteiro (o projetil apaga junto)
+		main.startSize = 2.1f;
+		main.simulationSpace = ParticleSystemSimulationSpace.Local;
+		main.useUnscaledTime = false;
+		B.Burst(ps, 0f, 1);
+		ParticleSystem.CustomDataModule custom = ps.customData;   // mesmo canal do corte: sem dissolver, varredura aberta
+		custom.enabled = true;
+		custom.SetMode(ParticleSystemCustomData.Custom1, ParticleSystemCustomDataMode.Vector);
+		custom.SetVectorComponentCount(ParticleSystemCustomData.Custom1, 2);
+		custom.SetVector(ParticleSystemCustomData.Custom1, 0, new ParticleSystem.MinMaxCurve(0f));
+		custom.SetVector(ParticleSystemCustomData.Custom1, 1, new ParticleSystem.MinMaxCurve(-0.15f));
+		ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
+		r.renderMode = ParticleSystemRenderMode.Mesh;
+		r.mesh = arco;
+		r.alignment = ParticleSystemRenderSpace.Local;
+		r.SetActiveVertexStreams(new System.Collections.Generic.List<ParticleSystemVertexStream>
+		{
+			ParticleSystemVertexStream.Position, ParticleSystemVertexStream.Color, ParticleSystemVertexStream.UV,
+			ParticleSystemVertexStream.Custom1XY, ParticleSystemVertexStream.StableRandomX,
+		});
+
+		Material faisca = AssetDatabase.LoadAssetAtPath<Material>(Root + "/Materials/M_FaiscaLamina.mat");
+		ParticleSystem f = B.NewSystem(go.transform, "Rastro", faisca, 20);
+		main = f.main;
+		main.loop = true;
+		main.useUnscaledTime = false;
+		main.simulationSpace = ParticleSystemSimulationSpace.World;   // ficam para tras no caminho
+		main.startLifetime = new ParticleSystem.MinMaxCurve(0.25f, 0.45f);
+		main.startSize = new ParticleSystem.MinMaxCurve(0.08f, 0.16f);
+		main.startColor = Color.white;
+		ParticleSystem.EmissionModule em = f.emission;
+		em.rateOverTime = 45f;
+		ParticleSystem.ShapeModule sh = f.shape;
+		sh.enabled = true;
+		sh.shapeType = ParticleSystemShapeType.Box;
+		sh.scale = new Vector3(1.6f, 0.2f, 0.2f);
+		ParticleSystem.SizeOverLifetimeModule s = f.sizeOverLifetime;
+		s.enabled = true;
+		s.size = new ParticleSystem.MinMaxCurve(1f, B.Curve(0f, 1f, 1f, 0f));
+		B.SavePrefab(go, Root + "/Resources/VFX_CorteArcano.prefab");
 	}
 }

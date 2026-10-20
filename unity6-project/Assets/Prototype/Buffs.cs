@@ -151,6 +151,13 @@ public static class BuffLibrary
 		return b;
 	}
 
+	// Cavaleiro, Corte Arcano: marca o alvo por 3 s (Esfera Giratoria e Explosao Arcana causam +30% nele)
+	public static readonly BuffDef MarcaArcana = new BuffDef
+	{
+		id = 3201, name = "Marca Arcana", type = BuffType.Debuff, duration = 3f, line = "marca_arcana",
+		color = new Color(0.7f, 0.4f, 1f), auraTexture = "magic_02",
+	};
+
 	public static readonly BuffDef Queimadura = new BuffDef
 	{
 		id = 2004, name = "Queimadura Arcana", type = BuffType.Debuff, duration = 3f, line = "queimadura",

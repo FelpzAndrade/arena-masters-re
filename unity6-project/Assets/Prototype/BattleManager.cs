@@ -503,6 +503,8 @@ public class BattleManager : MonoBehaviour
 				return;
 			case "esfera":
 				return;   // a esfera (SkillEsferaGiratoria) ja esta na tela desde o inicio da skill; cada acerto so da o dano
+			case "corte_arcano":
+				return;   // a meia-lua e o proprio projetil (SpawnProjectile)
 			case "explosao":
 				owner.Visual?.GetComponent<SkillUltimateExplosao>()?.Impacto();   // golpe no chao: massa escura, onda, 2a onda depois
 				return;
@@ -918,6 +920,7 @@ public class BattleManager : MonoBehaviour
 		if (e != null)
 		{
 			e.ultimatePronta = f.IsAlive && f.UltReady;
+			e.carga01 = f.cargas / 5f;
 		}
 	}
 
@@ -933,7 +936,15 @@ public class BattleManager : MonoBehaviour
 	{
 		GameObject go = new GameObject("projetil_" + sd.name);
 		go.transform.position = origin;
-		Vfx.ProjectileVisual(go, sd.color);
+		GameObject meiaLua = sd.vfx == "corte_arcano" ? Resources.Load<GameObject>("VFX_CorteArcano") : null;
+		if (meiaLua != null)
+		{
+			EfeitoCor.Criar(meiaLua, origin, Quaternion.LookRotation(dir), go.transform, Color.white, 1f, 10f);   // Corte Arcano do Cavaleiro
+		}
+		else
+		{
+			Vfx.ProjectileVisual(go, sd.color);
+		}
 		m_projectiles.Add(new Projectile { owner = owner, sd = sd, info = info, dir = dir.normalized, go = go });
 	}
 
@@ -1138,6 +1149,10 @@ public class BattleManager : MonoBehaviour
 			string hex = ColorUtility.ToHtmlStringRGB(b.def.color);
 			string stack = b.stack > 1 ? $" x{b.stack}" : string.Empty;
 			sb.Append($"<color=#{hex}>{(b.def.type == CS.BuffType.Debuff ? "v" : "^")} {b.def.name}{stack} {b.remaining:0.0}s</color>   ");
+		}
+		if (f.cargas > 0)
+		{
+			sb.Append($"<color=#A58CFF>Lamina Carregada {f.cargas}/5</color>");
 		}
 		return sb.ToString();
 	}

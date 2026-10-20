@@ -157,6 +157,17 @@ public class FighterDef
 			Golpe("Cavaleiro_Ataque3", 1.1f, 0.22f, 0.25f, 0.05f, 0.1f),
 			ataque4,
 		};
+		SkillDef esfera = new SkillDef
+		{
+			name = "Esfera Giratoria", vfx = "esfera", anim = "Cavaleiro_Redemoinho", damageRatio = 0.9f, cooldown = 6f,
+			windup = 0.2f, hitCount = 4, hitInterval = 0.25f, recovery = 0.15f, range = 1.6f, angle = 360f,
+			dashDistance = 4.5f, dashTime = 0.95f, cancelable = false, color = azul, hitstop = 0.05f, shake = 0.12f,
+			beatenDuration = 0.2f, ultimateCharge = 600f, bonusContraMarca = 0.3f,
+		};
+		// passiva Lamina Carregada: onda arcana em leque (150%, 4 m) que sai do 4o golpe com 5 cargas
+		SkillDef onda = new SkillDef { name = "Onda Arcana", damageRatio = 1.5f, range = 4f, angle = 120f, color = roxo, hitstop = 0.08f, shake = 0.22f, knockbackDistance = 1.2f, ultimateCharge = 0f };
+		CS.CSSkillInfo infoOnda = null;
+		System.Collections.Generic.HashSet<SkillDef> carregam = new System.Collections.Generic.HashSet<SkillDef>(ataque1.combo) { ataque1, esfera };
 		return new FighterDef
 		{
 			name = "Cavaleiro",
@@ -180,18 +191,40 @@ public class FighterDef
 				s.MagicalDefense.value = 0.15f;
 				s.Weight.value = 10f;
 			},
-			passiveName = "(a definir)",
-			passiveDesc = "Passiva ainda em proposta",
+			passiveName = "Lamina Carregada",
+			passiveDesc = "Cada acerto do combo ou da Esfera Giratoria da 1 carga (max. 5; a espada brilha mais). Com 5, o 4o golpe solta uma onda arcana em leque (150%, 4 m)",
+			passiveOnHit = (self, alvo, sd, crit) =>
+			{
+				if (sd == ataque4 && self.cargas >= 5)
+				{
+					self.cargas = 0;
+					Vector3 d = alvo.Position - self.Position;
+					d.y = 0f;
+					Vfx.Slash(self.Position, self.facing, roxo * 2.2f, onda.range);   // leque roxo grande
+					if (alvo.IsAlive && d.magnitude <= onda.range + 0.5f && Vector3.Angle(self.facing, d) <= onda.angle * 0.5f)
+					{
+						infoOnda ??= onda.BuildInfo(994);
+						self.ResolveHit(alvo, onda, infoOnda, d.sqrMagnitude > 0.01f ? d.normalized : self.facing);
+					}
+					return;
+				}
+				if (carregam.Contains(sd))
+				{
+					self.cargas = Mathf.Min(5, self.cargas + 1);
+				}
+			},
 			skills = new[]
 			{
 				ataque1,
 				// B - Esfera Giratoria (6s): corte de entrada e esfera girando que avanca 4,5 m acertando pelo caminho, 4 x 90%
+				esfera,
+				// C - Corte Arcano (8s): meia-lua que voa 9 m (280%) e deixa a Marca Arcana por 3 s
 				new SkillDef
 				{
-					name = "Esfera Giratoria", vfx = "esfera", anim = "Cavaleiro_Redemoinho", damageRatio = 0.9f, cooldown = 6f,
-					windup = 0.2f, hitCount = 4, hitInterval = 0.25f, recovery = 0.15f, range = 1.6f, angle = 360f,
-					dashDistance = 4.5f, dashTime = 0.95f, cancelable = false, color = azul, hitstop = 0.05f, shake = 0.12f,
-					beatenDuration = 0.2f, ultimateCharge = 600f,
+					name = "Corte Arcano", vfx = "corte_arcano", anim = "Cavaleiro_Ataque3", damageRatio = 2.8f, cooldown = 8f,
+					windup = 0.25f, recovery = 0.3f, range = 9f, projectileSpeed = 22f, projectileRadius = 0.9f,
+					color = Color.Lerp(azul, roxo, 0.5f), hitstop = 0.07f, shake = 0.15f, ultimateCharge = 500f,
+					procs = { new BuffProc { timing = ProcTimingType.Hit, rate = 100, buff = BuffLibrary.MarcaArcana } },
 				},
 			},
 			dodge = new SkillDef { name = "Rolamento", vfx = "dust", anim = "Dodge_Forward", cooldown = 4f, windup = 0f, recovery = 0.3f, dashDistance = 4.5f, damageRatio = 0f },
@@ -200,7 +233,7 @@ public class FighterDef
 			{
 				name = "Explosao Arcana", vfx = "explosao", anim = "Cavaleiro_GolpeChao", damageRatio = 12f, cooldown = 1f, windup = 0.9f, recovery = 0.6f,
 				range = 3.2f, angle = 360f, dashDistance = 6f, dashStop = 1.4f, airborneHeight = 1.5f,
-				superArmor = true, cancelable = false, color = roxo, hitstop = 0.12f, shake = 0.45f,
+				superArmor = true, cancelable = false, color = roxo, hitstop = 0.12f, shake = 0.45f, bonusContraMarca = 0.3f,
 			},
 		};
 	}

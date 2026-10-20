@@ -42,6 +42,7 @@ public class Fighter : IActor
 	public float maxHp;
 	public State state;
 	public int kills;
+	public int cargas;                     // cargas da passiva (Cavaleiro: Lamina Carregada, 0 a 5)
 	public Vector3 facing = Vector3.forward;
 	public bool invulnerable;
 	public float ultCharge;                // m_chargePoint do XUltimateSkillCharger
@@ -192,6 +193,7 @@ public class Fighter : IActor
 	public void Respawn()
 	{
 		ClearBuffs();
+		cargas = 0;
 		hp = maxHp;
 		state = State.Idle;
 		m_sd = null;
@@ -851,6 +853,10 @@ public class Fighter : IActor
 			return;
 		}
 		int damage = XCalculator.CalcSkillDamage(param, 1f, out float pure);
+		if (sd.bonusContraMarca > 0f && target.HasBuff(BuffLibrary.MarcaArcana))
+		{
+			damage = Mathf.RoundToInt(damage * (1f + sd.bonusContraMarca));
+		}
 		bool critical = XCalculator.CheckCritical(param);
 		if (critical)
 		{

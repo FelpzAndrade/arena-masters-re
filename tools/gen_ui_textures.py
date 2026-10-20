@@ -188,6 +188,14 @@ def icones():
 		linha(d, [(-0.7, 0.2), (0.2, 0.2)], L * 0.6)
 		linha(d, [(-0.5, 0.5), (0.0, 0.5)], L * 0.4)
 
+	@ic("corte_arcano")  # meia-lua voando (Corte Arcano do Cavaleiro) com rastro
+	def _(d):
+		poligono(d, [(0.15 + 0.7 * math.cos(math.radians(a)), 0.7 * math.sin(math.radians(a))) for a in range(-80, 81, 8)] +
+			[(0.35 + 0.45 * math.cos(math.radians(a)), 0.45 * math.sin(math.radians(a))) for a in range(80, -81, -8)])
+		linha(d, [(-0.75, 0.25), (-0.15, 0.25)], L * 0.5)
+		linha(d, [(-0.85, -0.05), (-0.2, -0.05)], L * 0.5)
+		linha(d, [(-0.7, -0.35), (-0.15, -0.35)], L * 0.5)
+
 	@ic("vazio")        # lugar sem skill: cadeado simples
 	def _(d):
 		arco(d, 0, 0.15, 0.3, 0, 180, L * 0.7)
