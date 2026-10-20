@@ -34,8 +34,6 @@ public class BattleManager : MonoBehaviour
 	private readonly List<Projectile> m_projectiles = new List<Projectile>();
 	private Fighter m_ultFocus;
 	private float m_ultTime;
-	private Image m_ultFill;
-	private Text m_ultText;
 
 	private IEnumerable<(Vector3 pos, Vector3 dir, Fighter owner)> LiveProjectiles()
 	{
@@ -45,11 +43,6 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 	private Vector3 m_camBase;
-	private GameObject m_indicator;
-	private MeshFilter m_indicatorMesh;
-	private MeshRenderer m_indicatorRenderer;
-	private GameObject m_rangeRing;
-	private SkillDef m_indicatorSkill;
 	public bool brainsPaused;              // capturas de teste: ninguem pensa sozinho (VfxCapture.PlaySkill)
 	private IBrain m_playerBrain;
 	private IBrain m_enemyBrain;
@@ -62,7 +55,7 @@ public class BattleManager : MonoBehaviour
 	private Text m_playerBuffs;
 	private Text m_enemyBuffs;
 	private Text m_status;
-	private Image[] m_cooldownFill;
+	private ControlesToque m_toque;
 
 	private void Awake()
 	{
@@ -572,91 +565,102 @@ public class BattleManager : MonoBehaviour
 		}
 	}
 
-	// ---------- indicador de mira (segurar K/L) ----------
+	// ---------- indicador de mira (segurar K/L/I/R ou o botao da skill) ----------
+	// Decal do URP so na camada "chao" (nao pinta os personagens). Formas brancas de Resources/Mira (tools/gen_ui_textures.py),
+	// pintadas na cor da skill uma vez por cor (pixels; Editor/ImportMira deixa as formas legiveis). Area: circulo no alvo + anel do alcance;
+	// golpe em linha ou avanco: faixa ate onde chega; cone: cone esticado para o angulo da skill.
+	private const uint CamadaChao = 1u << 1;
+	private UnityEngine.Rendering.Universal.DecalProjector m_mira, m_miraAnel;
+	private readonly Dictionary<string, Material> m_materiaisMira = new Dictionary<string, Material>();
 
 	private void BuildIndicator()
 	{
-		Material mat = Vfx.ParticleMaterial(Texture2D.whiteTexture, false);   // Sprites/Default fica rosa em malha 3D no URP
-		m_indicator = new GameObject("indicador");
-		m_indicatorMesh = m_indicator.AddComponent<MeshFilter>();
-		m_indicatorRenderer = m_indicator.AddComponent<MeshRenderer>();
-		m_indicatorRenderer.sharedMaterial = mat;
-		m_indicator.SetActive(false);
-		m_rangeRing = new GameObject("alcance");
-		LineRenderer ring = m_rangeRing.AddComponent<LineRenderer>();
-		ring.material = mat;
-		ring.loop = true;
-		ring.widthMultiplier = 0.06f;
-		ring.positionCount = 48;
-		m_rangeRing.SetActive(false);
+		m_mira = NovaMira("mira");
+		m_miraAnel = NovaMira("mira_alcance");
+	}
+
+	private UnityEngine.Rendering.Universal.DecalProjector NovaMira(string nome)
+	{
+		UnityEngine.Rendering.Universal.DecalProjector d = new GameObject(nome).AddComponent<UnityEngine.Rendering.Universal.DecalProjector>();
+		d.renderingLayerMask = CamadaChao;
+		d.drawDistance = 60f;
+		d.fadeFactor = 1f;
+		d.gameObject.SetActive(false);
+		return d;
+	}
+
+	private Material MaterialMira(string forma, Color cor)
+	{
+		string chave = forma + ColorUtility.ToHtmlStringRGBA(cor);
+		if (m_materiaisMira.TryGetValue(chave, out Material m) && m != null)
+		{
+			return m;
+		}
+		Texture2D branca = Resources.Load<Texture2D>("Mira/" + forma);
+		Color32[] px = branca.GetPixels32();
+		Color32 c = cor;
+		for (int i = 0; i < px.Length; i++)
+		{
+			px[i] = new Color32((byte)(px[i].r * c.r / 255), (byte)(px[i].g * c.g / 255), (byte)(px[i].b * c.b / 255), (byte)Mathf.Min(255, px[i].a * c.a / 255 * 2));   // x2: o miolo fraco ainda aparece no chao escuro
+		}
+		Texture2D pintada = new Texture2D(branca.width, branca.height, TextureFormat.RGBA32, true) { name = chave, wrapMode = TextureWrapMode.Clamp };
+		pintada.SetPixels32(px);
+		pintada.Apply(true, true);   // sobe para a placa de video e libera a copia na memoria
+		m = new Material(Shader.Find("Shader Graphs/Decal"));
+		m.SetTexture("Base_Map", pintada);
+		m.SetFloat("_DrawOrder", 10f);       // por cima dos decalques do mapa
+		m_materiaisMira[chave] = m;
+		return m;
 	}
 
 	private void UpdateIndicator()
 	{
 		PlayerBrain brain = m_playerBrain as PlayerBrain;
 		SkillDef sd = brain != null && player.IsAlive ? brain.AimingSkill : null;
-		m_indicator.SetActive(sd != null);
-		m_rangeRing.SetActive(sd != null && sd.areaAtTarget);
+		m_mira.gameObject.SetActive(sd != null);
+		m_miraAnel.gameObject.SetActive(sd != null && sd.areaAtTarget);
 		if (sd == null)
 		{
 			return;
 		}
-		Color c = sd.color;
-		c.a = 0.35f;
-		if (m_indicatorSkill != sd)
-		{
-			m_indicatorSkill = sd;
-			bool circle = sd.areaAtTarget || sd.angle >= 360f;
-			float length = sd.range + sd.dashDistance;
-			m_indicatorMesh.sharedMesh = circle ? SectorMesh(360f, sd.range) : SectorMesh(Mathf.Max(sd.angle, 12f), length);
-			m_indicatorRenderer.sharedMaterial.SetColor("_Tint", c);
-		}
-		Vector3 feet = player.Position + Vector3.down * (Arena.CenterHeight - 0.08f);
+		Color c = Color.Lerp(sd.color, Color.white, 0.35f);
+		c.a = 1f;
+		Vector3 pes = player.Position + Vector3.down * Arena.CenterHeight + Vector3.up * 0.5f;
 		Vector3 aim = brain.AimPoint - player.Position;
 		aim.y = 0f;
+		float giro = Quaternion.LookRotation(aim.sqrMagnitude > 0.01f ? aim.normalized : player.facing).eulerAngles.y;
 		if (sd.areaAtTarget)
 		{
-			Vector3 center = feet + Vector3.ClampMagnitude(aim, sd.castRange);
-			m_indicator.transform.position = center;
-			m_indicator.transform.rotation = Quaternion.identity;
-			LineRenderer ring = m_rangeRing.GetComponent<LineRenderer>();
-			ring.startColor = ring.endColor = c;
-			for (int i = 0; i < ring.positionCount; i++)
-			{
-				float a = i * Mathf.PI * 2f / ring.positionCount;
-				ring.SetPosition(i, feet + new Vector3(Mathf.Cos(a), 0f, Mathf.Sin(a)) * sd.castRange);
-			}
+			Posicionar(m_mira, "T_MiraCirculo", c, pes + Vector3.ClampMagnitude(aim, sd.castRange), 0f, new Vector2(sd.range * 2f, sd.range * 2f), Vector2.zero);
+			Posicionar(m_miraAnel, "T_MiraAnel", c, pes, 0f, new Vector2(sd.castRange * 2f, sd.castRange * 2f), Vector2.zero);
+		}
+		else if (sd.lineWidth > 0f || (sd.dashDistance > 0f && sd.angle >= 360f))
+		{
+			// golpe em linha (largura da linha) ou avanco que acerta pelo caminho (largura = diametro da area)
+			float largura = sd.lineWidth > 0f ? sd.lineWidth : sd.range * 2f, comprimento = sd.range + sd.dashDistance;
+			Posicionar(m_mira, "T_MiraFaixa", c, pes, giro, new Vector2(largura, comprimento), new Vector2(0f, comprimento * 0.5f));
+		}
+		else if (sd.angle >= 360f)
+		{
+			Posicionar(m_mira, "T_MiraCirculo", c, pes, 0f, new Vector2(sd.range * 2f, sd.range * 2f), Vector2.zero);
 		}
 		else
 		{
-			m_indicator.transform.position = feet;
-			m_indicator.transform.rotation = aim.sqrMagnitude > 0.01f ? Quaternion.LookRotation(aim.normalized) : Quaternion.LookRotation(player.facing);
+			// cone: a textura tem 120 graus; estica na largura para o angulo da skill (ponta no heroi)
+			float alcance = sd.range + sd.dashDistance;
+			float esticar = Mathf.Sin(Mathf.Min(sd.angle, 179f) * 0.5f * Mathf.Deg2Rad) / Mathf.Sin(60f * Mathf.Deg2Rad);
+			Posicionar(m_mira, "T_MiraCone", c, pes, giro, new Vector2(alcance * 2f * esticar, alcance), new Vector2(0f, alcance * 0.5f));
 		}
 	}
 
-	// setor circular no plano XZ apontando para +Z (360 = circulo)
-	private static Mesh SectorMesh(float angle, float radius)
+	// projeta para baixo (local +Z = chao, local +Y = frente do giro); tamanho (largura, comprimento), centro deslocado para a frente
+	private void Posicionar(UnityEngine.Rendering.Universal.DecalProjector d, string forma, Color cor, Vector3 pos, float giro, Vector2 tamanho, Vector2 deslocamento)
 	{
-		int segments = Mathf.Max(6, Mathf.CeilToInt(angle / 6f));
-		Vector3[] v = new Vector3[segments + 2];
-		int[] t = new int[segments * 3];
-		v[0] = Vector3.zero;
-		for (int i = 0; i <= segments; i++)
-		{
-			float a = (-angle * 0.5f + angle * i / segments) * Mathf.Deg2Rad;
-			v[i + 1] = new Vector3(Mathf.Sin(a), 0f, Mathf.Cos(a)) * radius;
-		}
-		for (int i = 0; i < segments; i++)
-		{
-			t[i * 3] = 0;
-			t[i * 3 + 1] = i + 1;
-			t[i * 3 + 2] = i + 2;
-		}
-		Mesh m = new Mesh { vertices = v, triangles = t };
-		m.RecalculateNormals();
-		return m;
+		d.material = MaterialMira(forma, cor);
+		d.transform.SetPositionAndRotation(pos, Quaternion.Euler(90f, giro, 0f));
+		d.size = new Vector3(tamanho.x, tamanho.y, 2f);
+		d.pivot = new Vector3(deslocamento.x, deslocamento.y, 0f);
 	}
-
 	private void Popup(Fighter who, string text, Color color)
 	{
 		bool isNumber = text.Length > 0 && char.IsDigit(text[0]);
@@ -711,9 +715,7 @@ public class BattleManager : MonoBehaviour
 	private void BuildUI()
 	{
 		Canvas canvas = new GameObject("UI").AddComponent<Canvas>();
-		canvas.renderMode = RenderMode.ScreenSpaceCamera;
-		canvas.worldCamera = cam;
-		canvas.planeDistance = 1f;
+		canvas.renderMode = RenderMode.ScreenSpaceOverlay;   // por cima do pos-processamento (botoes sem bloom nem vinheta)
 		CanvasScaler scaler = canvas.gameObject.AddComponent<CanvasScaler>();
 		scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
 		scaler.referenceResolution = new Vector2(1280f, 720f);
@@ -728,32 +730,22 @@ public class BattleManager : MonoBehaviour
 		m_score = Label(canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -28f), 30, TextAnchor.UpperCenter, new Vector2(400f, 44f));
 		m_status = Label(canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -70f), 18, TextAnchor.UpperCenter, new Vector2(700f, 30f));
 
-		m_cooldownFill = new Image[5];
-		string[] keys = { "J", "K", "L", "I", "Espaco" };
-		for (int i = 0; i < 5; i++)
+		// controles de toque (no PC os botoes tambem funcionam com o mouse e mostram a tecla de cada um)
+		m_toque = ControlesToque.Criar(canvas, !Application.isMobilePlatform);
+		foreach (int slot in new[] { 0, 1, 2, 3, Fighter.DodgeSlot, Fighter.UltSlot })
 		{
-			SkillDef slotSkill = player.SlotSkill(i);
-			string skillName = slotSkill != null ? slotSkill.name : "-";   // lugar vazio (heroi com menos skills)
-			RectTransform box = Rect("skill" + i, canvas.transform, new Vector2(0.5f, 0f), new Vector2(-256f + i * 128f, 30f), new Vector2(124f, 70f));
-			box.pivot = new Vector2(0.5f, 0f);
-			box.gameObject.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.6f);
-			Image fill = Rect("cd", box, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(124f, 70f)).gameObject.AddComponent<Image>();
-			fill.color = new Color(1f, 1f, 1f, 0.25f);
-			fill.type = Image.Type.Filled;
-			fill.fillMethod = Image.FillMethod.Vertical;
-			m_cooldownFill[i] = fill;
-			Text t = Label(box, new Vector2(0.5f, 0.5f), Vector2.zero, 14, TextAnchor.MiddleCenter, new Vector2(124f, 70f));
-			t.text = $"<b>{keys[i]}</b>\n{skillName}";
+			SkillDef sd = player.SlotSkill(slot);
+			string icone = sd == null ? "vazio" : slot == 0 ? "ataque" : slot == Fighter.DodgeSlot ? "dust" : sd.vfx;
+			Color cor = sd == null ? Color.gray : slot == 0 || slot == Fighter.DodgeSlot ? player.def.color : sd.color;
+			m_toque.Botao(slot)?.Configurar(cor, ControlesToque.Icone(icone), sd == null);
 		}
-		RectTransform ultBack = Rect("ult", canvas.transform, new Vector2(0.5f, 0f), new Vector2(0f, 112f), new Vector2(630f, 18f));
-		ultBack.gameObject.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.7f);
-		m_ultFill = Rect("fill", ultBack, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(624f, 12f)).gameObject.AddComponent<Image>();
-		m_ultFill.type = Image.Type.Filled;
-		m_ultFill.fillMethod = Image.FillMethod.Horizontal;
-		m_ultText = Label(ultBack, new Vector2(0.5f, 0.5f), new Vector2(0f, 18f), 16, TextAnchor.MiddleCenter, new Vector2(630f, 22f));
-		Text help = Label(canvas.transform, new Vector2(0f, 0f), new Vector2(20f, 110f), 14, TextAnchor.LowerLeft, new Vector2(520f, 60f));
-		help.rectTransform.pivot = new Vector2(0f, 0f);
-		help.text = $"WASD mover | mouse mira | J ou clique: combo | segure K/L/I/R para mirar, solte para usar\nEspaco: esquiva | R: ultimate | Passiva: {player.def.passiveName} - {player.def.passiveDesc}";
+		(m_playerBrain as PlayerBrain)?.Ligar(m_toque);
+		if (!Application.isMobilePlatform)
+		{
+			Text help = Label(canvas.transform, new Vector2(0f, 1f), new Vector2(30f, -130f), 13, TextAnchor.UpperLeft, new Vector2(520f, 40f));
+			help.rectTransform.pivot = new Vector2(0f, 1f);
+			help.text = "WASD ou joystick | mouse mira | J/clique combo | segure K/L/I/R para mirar | Espaco esquiva";
+		}
 	}
 
 	private Image Bar(Transform parent, Vector2 anchor, Vector2 pos, Color color, out Text text, string title)
@@ -807,15 +799,19 @@ public class BattleManager : MonoBehaviour
 		m_enemyBuffs.text = BuffText(enemy);
 		string s = !player.IsAlive ? "Voce foi derrotado - renascendo..." : !enemy.IsAlive ? "K.O.! A Bruxa renasce em instantes" : player.CurrentSkillName;
 		m_status.text = s;
-		for (int i = 0; i < m_cooldownFill.Length; i++)
+		foreach (int slot in new[] { 1, 2, 3, Fighter.DodgeSlot, Fighter.UltSlot })
 		{
-			m_cooldownFill[i].fillAmount = player.CooldownRatio(i);
+			m_toque.Botao(slot)?.Recarga(player.CooldownRatio(slot), player.cooldowns[slot]);
 		}
-		m_ultFill.fillAmount = player.UltPercent;
-		bool ready = player.UltReady;
-		float pulse = ready ? 0.75f + 0.25f * Mathf.Sin(Time.unscaledTime * 8f) : 1f;
-		m_ultFill.color = ready ? new Color(1f, 0.8f * pulse, 0.2f) : new Color(0.9f, 0.55f, 0.15f, 0.85f);
-		m_ultText.text = ready ? $"<b>R: {player.def.ultimate.name} PRONTA!</b>" : $"Ultimate {Mathf.FloorToInt(player.UltPercent * 100f)}%";
+		BotaoSkill ult = m_toque.Botao(Fighter.UltSlot);
+		if (ult != null)
+		{
+			ult.Carga(player.UltPercent, player.UltReady);
+			if (!player.UltReady)
+			{
+				ult.Recarga(1f - player.UltPercent, 0f);   // escurecida ate encher
+			}
+		}
 		if (player.ComboStep > 0 && player.SlotSkill(0).combo != null)
 		{
 			SkillDef[] combo = player.SlotSkill(0).combo;

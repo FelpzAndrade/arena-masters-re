@@ -8,12 +8,19 @@ public interface IBrain
 	void Think(Fighter self, float dt);
 }
 
-// Jogador: WASD move; mira com o mouse. J/clique = ataque basico (combo); K/L/I = segura para ver o indicador,
+// Jogador. PC: WASD move; mira com o mouse. J/clique = ataque basico (combo); K/L/I/R = segura para ver o indicador,
 // solta para usar na direcao do mouse; Espaco = esquiva (cancela a skill atual).
+// Celular (ControlesToque): joystick move (gamepad virtual do Input System; um controle de verdade tambem serve);
+// toque rapido num botao = usa mirando no inimigo; segurar = mira no chao, arrastar muda a direcao, soltar dispara.
 public class PlayerBrain : IBrain
 {
 	private readonly Camera m_cam;
 	private int m_holding = -1;
+	private ControlesToque m_toque;
+	private int m_toqueSlot = -1;           // botao segurado (mirando)
+	private Vector2 m_toqueDir;             // arrasto do dedo (tela, 0..1)
+	private readonly List<(int slot, bool mirou, Vector2 dir)> m_pedidos = new List<(int, bool, Vector2)>();
+	private bool m_modoToque;               // ultimo controle usado foi toque/joystick: vira para onde anda, sem mouse
 
 	public Vector3 AimPoint { get; private set; }
 	public SkillDef AimingSkill { get; private set; }
@@ -23,17 +30,60 @@ public class PlayerBrain : IBrain
 		m_cam = cam;
 	}
 
+	public void Ligar(ControlesToque toque)
+	{
+		m_toque = toque;
+		foreach (int slot in new[] { 0, 1, 2, 3, Fighter.DodgeSlot, Fighter.UltSlot })
+		{
+			BotaoSkill b = toque.Botao(slot);
+			if (b == null)
+			{
+				continue;
+			}
+			int s = slot;
+			b.aoTocar = () => { m_modoToque = true; m_pedidos.Add((s, false, Vector2.zero)); };
+			b.aoMirar = d => { m_modoToque = true; m_toqueSlot = s; m_toqueDir = d; };
+			b.aoSoltar = d => { m_toqueSlot = -1; m_pedidos.Add((s, true, d)); };
+			b.aoCancelar = () => m_toqueSlot = -1;
+		}
+	}
+
 	public void Think(Fighter self, float dt)
 	{
-		AimPoint = MousePoint(self);
-		Vector3 move = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
-		self.FaceTowards(AimPoint);
-		self.Move(move, dt, true);
+		Vector3 teclado = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+		Vector2 alavanca = Vector2.zero;
+		foreach (UnityEngine.InputSystem.Gamepad g in UnityEngine.InputSystem.Gamepad.all)
+		{
+			alavanca += g.leftStick.ReadValue();   // joystick da tela (gamepad virtual) ou controle de verdade
+		}
+		alavanca = Vector2.ClampMagnitude(alavanca, 1f);
+		if (alavanca.sqrMagnitude > 0.04f || Input.touchCount > 0)
+		{
+			m_modoToque = true;
+		}
+		else if (teclado.sqrMagnitude > 0f || Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
+		{
+			m_modoToque = false;
+		}
+		Vector3 move = teclado.sqrMagnitude > 0f ? teclado : Relativo(alavanca);
+		if (m_modoToque)
+		{
+			AimPoint = self.Position + self.facing * 3f;
+			self.Move(move, dt, false);   // vira para onde anda
+		}
+		else
+		{
+			AimPoint = MousePoint(self);
+			self.FaceTowards(AimPoint);
+			self.Move(move, dt, true);
+		}
 
-		if (Input.GetKeyDown(KeyCode.J) || Input.GetMouseButtonDown(0))
+		bool sobreBotao = UnityEngine.EventSystems.EventSystem.current != null && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+		if (Input.GetKeyDown(KeyCode.J) || (!m_modoToque && Input.GetMouseButtonDown(0) && !sobreBotao))
 		{
 			self.TryUseSkill(0, AimPoint);
 		}
+		TocarPedidos(self, move);
 		HoldToAim(self, KeyCode.K, 1);
 		HoldToAim(self, KeyCode.L, 2);
 		HoldToAim(self, KeyCode.I, 3);
@@ -44,6 +94,66 @@ public class PlayerBrain : IBrain
 			self.TryUseSkill(Fighter.DodgeSlot, dodgeAim);
 		}
 		AimingSkill = m_holding >= 0 ? self.SlotSkill(m_holding) : null;
+		if (m_toqueSlot >= 0)
+		{
+			AimingSkill = self.SlotSkill(m_toqueSlot);
+			AimPoint = PontoMirado(self, AimingSkill, m_toqueDir);
+		}
+	}
+
+	// botoes da tela: toque rapido mira no inimigo; soltar depois de mirar usa a direcao arrastada
+	private void TocarPedidos(Fighter self, Vector3 move)
+	{
+		foreach ((int slot, bool mirou, Vector2 dir) in m_pedidos)
+		{
+			SkillDef sd = self.SlotSkill(slot);
+			if (sd == null)
+			{
+				continue;
+			}
+			Vector3 alvo;
+			if (slot == Fighter.DodgeSlot)
+			{
+				alvo = self.Position + (move.sqrMagnitude > 0.01f ? move.normalized : self.facing);   // esquiva para onde anda
+			}
+			else
+			{
+				alvo = mirou ? PontoMirado(self, sd, dir) : MiraAutomatica(self, sd);
+			}
+			self.TryUseSkill(slot, alvo);
+		}
+		m_pedidos.Clear();
+	}
+
+	// arrasto do dedo (tela) -> ponto no chao: area a distancia vai ate castRange; golpes so usam a direcao
+	private Vector3 PontoMirado(Fighter self, SkillDef sd, Vector2 dir)
+	{
+		Vector3 d = Relativo(dir);
+		if (d.sqrMagnitude < 0.0001f)
+		{
+			d = self.facing * 0.5f;   // segurou sem arrastar: para a frente
+		}
+		float alcance = sd.areaAtTarget ? sd.castRange * Mathf.Clamp01(d.magnitude) : Mathf.Max(2f, sd.range + sd.dashDistance);
+		return self.Position + d.normalized * alcance;
+	}
+
+	// toque rapido: no inimigo se ele estiver ao alcance (com folga), senao para a frente
+	private static Vector3 MiraAutomatica(Fighter self, SkillDef sd)
+	{
+		Fighter alvo = self.opponent;
+		float alcance = (sd.areaAtTarget ? sd.castRange : sd.range + sd.dashDistance) + 6f;
+		if (alvo != null && alvo.IsAlive && Vector3.Distance(alvo.Position, self.Position) <= alcance)
+		{
+			return alvo.Position;
+		}
+		return self.Position + self.facing * Mathf.Max(2f, sd.range);
+	}
+
+	// direcao da tela (x direita, y cima) -> chao, girando pelo angulo da camera
+	private Vector3 Relativo(Vector2 tela)
+	{
+		float giro = m_cam != null ? m_cam.transform.eulerAngles.y : 0f;
+		return Quaternion.Euler(0f, giro, 0f) * new Vector3(tela.x, 0f, tela.y);
 	}
 
 	private void HoldToAim(Fighter self, KeyCode key, int slot)
