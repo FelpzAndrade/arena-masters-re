@@ -37,6 +37,8 @@ public static class AjSetup
 		}
 		idle.animationType = ModelImporterAnimationType.Human;
 		idle.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
+		idle.importCameras = false;   // o FBX do Mixamo traz uma camera ("bottom") que tapava a camera do jogo
+		idle.importLights = false;
 		idle.materialImportMode = ModelImporterMaterialImportMode.ImportViaMaterialDescription;
 		idle.materialSearch = ModelImporterMaterialSearch.Everywhere;
 		SetClips(idle, new[] { Def("Aj_Idle", 0, -1, true) });
