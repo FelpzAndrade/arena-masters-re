@@ -95,6 +95,80 @@ public static class ArenaVisual
 		Debug.Log($"[Mapa] variacao: {cache.Count} materiais");
 	}
 
+	// Etapa 3: props pequenos encostados nas paredes, na faixa de 0,6 m entre o fim do navmesh e a parede
+	// (fora da area andavel: nao atrapalham o movimento nem a colisao), longe do centro e das tochas
+	public static void Props(GameObject root, Vector3 center)
+	{
+		Transform walls = root.transform.Find("Paredes"), props = root.transform.Find("Props");
+		List<Vector3> busy = new List<Vector3>();
+		foreach (Transform p in props)
+		{
+			busy.Add(p.position);
+		}
+		string[] kinds = { "barrel_small", "candle_triple", "sword_shield", "keg", "box_large", "rubble_half", "chest", "barrel_large" };
+		System.Random rng = new System.Random(41);
+		int placed = 0;
+		foreach (Transform w in walls)
+		{
+			if (!w.name.StartsWith("wall") || rng.NextDouble() > 0.3)
+			{
+				continue;
+			}
+			Vector3 pos = w.position + w.forward * 0.45f + w.right * ((float)rng.NextDouble() - 0.5f) * 2.4f;
+			if (new Vector2(pos.x - center.x, pos.z - center.z).magnitude < 8f || busy.Exists(b => (b - pos).sqrMagnitude < 2.5f * 2.5f))
+			{
+				continue;
+			}
+			string kind = kinds[rng.Next(kinds.Length)];
+			GameObject prefab = Resources.Load<GameObject>("KayKitDungeon/" + kind);
+			if (prefab == null)
+			{
+				continue;
+			}
+			GameObject go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, props);
+			go.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, (float)rng.NextDouble() * 360f, 0f));
+			float sc = kind == "chest" || kind == "barrel_large" || kind == "box_large" ? 0.75f : 0.9f;   // os grandes encolhem para caber na faixa
+			go.transform.localScale = Vector3.one * sc;
+			go.name = kind;
+			busy.Add(pos);
+			placed++;
+		}
+		Debug.Log($"[Mapa] props novos: {placed}");
+	}
+
+	// Etapa 3: brasas em cada tocha, nevoa baixa perto das paredes de fora, poeira no ar (presa no LuzesBraseiros)
+	public static void Ambient(GameObject root, Vector3 center, List<Vector3> flames, LuzesBraseiros follow, string rootName)
+	{
+		VfxAmbienteBuilder.Build();
+		GameObject amb = new GameObject(rootName);
+		GameObject embers = Resources.Load<GameObject>("VFX_BrasasTocha");
+		GameObject fog = Resources.Load<GameObject>("VFX_NevoaBorda");
+		GameObject dust = Resources.Load<GameObject>("VFX_PoeiraAr");
+		foreach (Vector3 f in flames)
+		{
+			GameObject e = (GameObject)PrefabUtility.InstantiatePrefab(embers, amb.transform);
+			e.transform.position = f + Vector3.up * 0.15f;
+		}
+		System.Random rng = new System.Random(53);
+		List<Vector3> fogs = new List<Vector3>();
+		foreach (Transform w in root.transform.Find("Paredes"))
+		{
+			Vector3 p = w.position + w.forward * 1.6f;
+			float d = new Vector2(p.x - center.x, p.z - center.z).magnitude;
+			if (d < 12f || fogs.Exists(q => (q - p).sqrMagnitude < 7f * 7f) || rng.NextDouble() > 0.5)
+			{
+				continue;
+			}
+			GameObject g = (GameObject)PrefabUtility.InstantiatePrefab(fog, amb.transform);
+			g.transform.position = p;
+			fogs.Add(p);
+		}
+		GameObject motes = (GameObject)PrefabUtility.InstantiatePrefab(dust, follow.transform);
+		motes.transform.position = center;
+		follow.poeira = motes.transform;
+		Debug.Log($"[Mapa] ambiente: {flames.Count} brasas, {fogs.Count} nevoas, poeira no ar");
+	}
+
 	public static void Decals(Arena arena, Vector3 center, string rootName)
 	{
 		EnableDecalFeature();

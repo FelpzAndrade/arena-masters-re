@@ -20,6 +20,7 @@ public static class ArenaBake
 	private const string MapDir = "Assets/Map";
 	private const string LightRootName = "Iluminacao (bake)";
 	private const string DecalRootName = "Decalques";
+	private const string AmbientRootName = "Ambiente (particulas)";
 
 	// cores da paleta da referencia (paleta.png), em sRGB
 	private static readonly Color TorchColor = new Color(1f, 0.52f, 0.22f);       // fogo #9c441e clareado
@@ -41,7 +42,7 @@ public static class ArenaBake
 		Scene();
 		Directory.CreateDirectory(MapDir);
 
-		foreach (string n in new[] { DungeonDecor.RootName, LightRootName, DecalRootName, "DuelArena (navmesh original)" })
+		foreach (string n in new[] { DungeonDecor.RootName, LightRootName, DecalRootName, AmbientRootName, "DuelArena (navmesh original)" })
 		{
 			GameObject old = GameObject.Find(n);
 			if (old != null)
@@ -52,6 +53,8 @@ public static class ArenaBake
 
 		Arena arena = new Arena();
 		GameObject root = DungeonDecor.Build(arena, 3, 200);   // tochas a cada 6 m no mapa todo (luz de bake nao pesa no celular)
+		Vector3 fightCenter = arena.SpawnPoint(Vector3.zero) + Vector3.down * Arena.CenterHeight;   // meio entre os dois spawns
+		ArenaVisual.Props(root, fightCenter);
 		Material shared = SharedMaterial(root);
 		List<Vector3> flames = new List<Vector3>();
 		foreach (Renderer r in root.GetComponentsInChildren<Renderer>(true))
@@ -76,7 +79,6 @@ public static class ArenaBake
 		{
 			GameObjectUtility.SetStaticEditorFlags(t.gameObject, GameObjectUtility.GetStaticEditorFlags(t.gameObject) | StaticEditorFlags.BatchingStatic | StaticEditorFlags.ContributeGI);
 		}
-		Vector3 fightCenter = arena.SpawnPoint(Vector3.zero) + Vector3.down * Arena.CenterHeight;   // meio entre os dois spawns
 		ArenaVisual.Vary(root, fightCenter);
 		ArenaVisual.Decals(arena, fightCenter, DecalRootName);
 		// tochas do Build: viram luz de bake (a luz que pisca e a do LuzesBraseiros)
@@ -122,6 +124,7 @@ public static class ArenaBake
 		LuzesBraseiros flicker = lights.AddComponent<LuzesBraseiros>();
 		flicker.chamas = flames.ToArray();
 		flicker.maximo = 3;
+		ArenaVisual.Ambient(root, fightCenter, flames, flicker, AmbientRootName);
 
 		LightProbes(arena, lights.transform, b);
 

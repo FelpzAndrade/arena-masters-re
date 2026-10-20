@@ -11,6 +11,7 @@ public class LuzesBraseiros : MonoBehaviour
 	public float alcance = 6f;
 	public float intensidade = 1.6f;
 	public Color cor = new Color(1f, 0.55f, 0.25f);
+	public Transform poeira;                    // poeira no ar (VFX_PoeiraAr): acompanha o ponto que a camera olha
 
 	private static Vector3 s_focus;
 	private Light[] m_lights;
@@ -43,6 +44,10 @@ public class LuzesBraseiros : MonoBehaviour
 
 	private void LateUpdate()
 	{
+		if (poeira != null && s_focus != Vector3.zero)
+		{
+			poeira.position = s_focus;
+		}
 		if (chamas.Length == 0)
 		{
 			return;
