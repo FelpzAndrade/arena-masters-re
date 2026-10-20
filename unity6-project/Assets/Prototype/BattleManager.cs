@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 // Prototipo de luta 1x1 offline na DuelArena: jogador contra bot, cada um com um dos herois (Axie, Spark, Cavaleiro).
-// A escolha fica nos botoes do canto da tela (salva em PlayerPrefs; a luta recomeca com os herois novos).
+// No Play abre antes a tela de escolha (TelaEscolhaHeroi); o bot e sorteado entre os outros. Escolha salva em PlayerPrefs.
+// O botao "Herois" na luta volta para a escolha.
 // Regras de combate: codigo reconstruido do jogo (CharStatus + XCalculator). Resto: estrutura propria simples.
 public class BattleManager : MonoBehaviour
 {
@@ -57,9 +58,140 @@ public class BattleManager : MonoBehaviour
 	private Text m_status;
 	private ControlesToque m_toque;
 
+	public bool escolherHeroi = true;      // false = luta direto com a ultima escolha (testes)
+
 	private void Awake()
 	{
+		if (Application.isPlaying && escolherHeroi)
+		{
+			MostrarEscolha();
+			return;
+		}
 		Setup();
+	}
+
+	// ---------- escolha de heroi ----------
+
+	private void MostrarEscolha()
+	{
+		List<FichaHeroi> fichas = new List<FichaHeroi>();
+		foreach (string h in Herois)
+		{
+			fichas.Add(Ficha(Def(h)));
+		}
+		TelaEscolhaHeroi.Criar(fichas, Escolha("heroiJogador", "Axie"), escolhido =>
+		{
+			List<string> outros = new List<string>(Herois);
+			outros.Remove(escolhido);
+			PlayerPrefs.SetString("heroiJogador", escolhido);
+			PlayerPrefs.SetString("heroiInimigo", outros[Random.Range(0, outros.Count)]);   // bot sorteado entre os outros
+			PlayerPrefs.Save();
+			Setup();
+		});
+	}
+
+	// poder total (estimativa propria para comparar herois; o jogo original somava atributos com pesos do servidor)
+	public static int Poder(CS.CharStatus s) => Mathf.RoundToInt(s.MaxHP.Calc() * 0.1f + s.PhysicalDamage.Calc() * 3f + s.PhysicalDefense.Calc() * 8000f + s.Critical.Calc() * 6000f);
+
+	private static FichaHeroi Ficha(FighterDef d)
+	{
+		CS.CharStatus s = new CS.CharStatus();
+		d.applyStats(s);
+		FichaHeroi f = new FichaHeroi { nome = d.name, classe = d.role, cor = d.color, poder = Poder(s) };
+		f.atributos.Add(("Vida", $"{s.MaxHP.Calc():N0}".Replace(",", ".")));
+		f.atributos.Add(("Ataque", $"{s.PhysicalDamage.Calc():N0}".Replace(",", ".")));
+		f.atributos.Add(("Defesa", $"{s.PhysicalDefense.Calc() * 100f:0}%"));
+		f.atributos.Add(("Critico", $"{s.Critical.Calc() * 100f:0.#}%"));
+		f.atributos.Add(("Velocidade", $"{d.moveSpeed:0.#}"));
+		for (int i = 0; i < d.skills.Length; i++)
+		{
+			SkillDef sd = d.skills[i];
+			if (sd != null)
+			{
+				f.skills.Add((i == 0 ? "ataque" : sd.vfx, sd.color, (i == 0 ? "Ataque: " : "") + sd.name, Resumo(sd, i == 0)));
+			}
+		}
+		f.skills.Add(("dust", d.color, "Esquiva: " + d.dodge.name, $"recarga {d.dodge.cooldown:0.#} s, invulneravel"));
+		f.skills.Add((d.ultimate.vfx, d.ultimate.color, "Ultimate: " + d.ultimate.name, Resumo(d.ultimate, false)));
+		f.passiva = d.passiveName.StartsWith("(") ? "ainda em proposta" : $"{d.passiveName}: {d.passiveDesc}";
+		f.montarModelo = () => ModeloVitrine(d);
+		return f;
+	}
+
+	// resumo tirado dos numeros da skill (nao fica desatualizado quando a skill muda)
+	private static string Resumo(SkillDef sd, bool basico)
+	{
+		List<string> p = new List<string>();
+		if (sd.damageRatio > 0f)
+		{
+			int golpes = basico && sd.combo != null ? sd.combo.Length + 1 : sd.hitCount;
+			p.Add(golpes > 1 ? $"{golpes}x {sd.damageRatio * 100f:0}%" : $"{sd.damageRatio * 100f:0}%");
+		}
+		if (basico && sd.combo != null)
+		{
+			p.Add($"combo de {sd.combo.Length + 1}");
+		}
+		if (!basico && sd.cooldown > 1f)
+		{
+			p.Add($"recarga {sd.cooldown:0.#} s");
+		}
+		if (sd.projectileSpeed > 0f)
+		{
+			p.Add("projetil");
+		}
+		else if (sd.areaAtTarget)
+		{
+			p.Add($"area a distancia ({sd.castRange:0} m)");
+		}
+		else if (sd.lineWidth > 0f)
+		{
+			p.Add($"linha de {sd.range:0} m");
+		}
+		if (sd.dashDistance > 0f)
+		{
+			p.Add($"avanca {sd.dashDistance:0.#} m");
+		}
+		if (sd.knockbackDistance > 0f || sd.airborneHeight > 0f || sd.pullDistance > 0f)
+		{
+			p.Add(sd.pullDistance > 0f ? "puxa" : sd.airborneHeight > 0f ? "joga para cima" : "empurra");
+		}
+		if (sd.procs.Count > 0)
+		{
+			p.Add(sd.procs[0].buff.name.ToLower());
+		}
+		return string.Join(", ", p);
+	}
+
+	// modelo da vitrine: igual ao da luta (pecas escondidas) tocando a pose parada em laco
+	private static GameObject ModeloVitrine(FighterDef d)
+	{
+		if (d.model == null)
+		{
+			return null;
+		}
+		GameObject go = Object.Instantiate(d.model);
+		foreach (Transform t in go.GetComponentsInChildren<Transform>(true))
+		{
+			if (System.Array.IndexOf(d.hiddenParts, t.name) >= 0)
+			{
+				t.gameObject.SetActive(false);
+			}
+		}
+		Animation anim = go.GetComponent<Animation>();
+		AnimationClip parado = Resources.Load<AnimationClip>("Anim/" + d.animIdle);
+		if (anim != null)
+		{
+			if (parado != null && anim[d.animIdle] == null)
+			{
+				anim.AddClip(parado, d.animIdle);
+			}
+			if (anim[d.animIdle] != null)
+			{
+				anim[d.animIdle].wrapMode = WrapMode.Loop;
+				anim.Play(d.animIdle);
+			}
+		}
+		return go;
 	}
 
 	public void Setup()
@@ -187,33 +319,6 @@ public class BattleManager : MonoBehaviour
 		return d;
 	}
 
-	// escolha dos herois (provisoria, ate existir a tela de escolha): troca e recomeca a luta
-	private void OnGUI()
-	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
-		GUI.skin.button.fontSize = 13;
-		Linha(8f, "Voce:", "heroiJogador", player.def.name);
-		Linha(36f, "Bot:", "heroiInimigo", enemy.def.name);
-	}
-
-	private void Linha(float y, string rotulo, string chave, string atual)
-	{
-		GUI.Label(new Rect(8f, y + 4f, 44f, 24f), rotulo);
-		for (int i = 0; i < Herois.Length; i++)
-		{
-			bool marcado = Herois[i] == atual;
-			if (GUI.Toggle(new Rect(52f + i * 86f, y, 82f, 24f), marcado, Herois[i], GUI.skin.button) && !marcado)
-			{
-				PlayerPrefs.SetString(chave, Herois[i]);
-				PlayerPrefs.Save();
-				Recomecar();
-			}
-		}
-	}
-
 	private void Recomecar()
 	{
 		UnityEngine.SceneManagement.Scene cena = gameObject.scene;
@@ -230,6 +335,10 @@ public class BattleManager : MonoBehaviour
 
 	private void Update()
 	{
+		if (player == null)
+		{
+			return;   // ainda na tela de escolha
+		}
 		HitStop.Tick(Time.unscaledDeltaTime);
 		Step(Mathf.Min(Time.deltaTime, 0.05f));
 	}
@@ -740,6 +849,12 @@ public class BattleManager : MonoBehaviour
 			m_toque.Botao(slot)?.Configurar(cor, ControlesToque.Icone(icone), sd == null);
 		}
 		(m_playerBrain as PlayerBrain)?.Ligar(m_toque);
+		// voltar para a escolha de heroi
+		RectTransform voltar = Rect("Herois", canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -112f), new Vector2(120f, 36f));   // embaixo do placar
+		Image vi = voltar.gameObject.AddComponent<Image>();
+		vi.color = new Color(0f, 0f, 0f, 0.55f);
+		voltar.gameObject.AddComponent<Button>().onClick.AddListener(Recomecar);
+		Label(voltar, new Vector2(0.5f, 0.5f), Vector2.zero, 16, TextAnchor.MiddleCenter, new Vector2(120f, 40f)).text = "Herois";
 		if (!Application.isMobilePlatform)
 		{
 			Text help = Label(canvas.transform, new Vector2(0f, 1f), new Vector2(30f, -130f), 13, TextAnchor.UpperLeft, new Vector2(520f, 40f));
