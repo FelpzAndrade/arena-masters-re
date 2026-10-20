@@ -71,6 +71,7 @@ public class BattleManager : MonoBehaviour
 		CSLog.Init(new CSLogger());
 		Vfx.Clear();
 		Vfx.Register(effectPrefabs);
+		Vfx.Preload();
 		HitStop.Clear();
 		CameraShake.Clear();
 		// constantes reais do jogo (XGameConst..cctor no binario)

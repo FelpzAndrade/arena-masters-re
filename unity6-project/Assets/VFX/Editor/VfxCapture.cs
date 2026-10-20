@@ -59,7 +59,7 @@ public static class VfxCapture
 	// tempo real (sem pausar: as particulas andam em tempo nao escalado). O inimigo fica parado durante a captura.
 	// Fotos em captures/vfx_<nome>_*.png. ahead = quanto a camera olha para a frente do jogador; enemyAhead > 0 poe o inimigo
 	// parado nessa distancia, na frente (para ver o acerto), senao ele fica longe da camera.
-	public static string PlaySkill(int skill, string name, float ahead = 1.2f, float enemyAhead = 0f)
+	public static string PlaySkill(int skill, string name, float ahead = 1.2f, float enemyAhead = 0f, float spotX = 12.5f, float spotZ = -2.71f, float slow = 1f)
 	{
 		BattleManager bm = Object.FindFirstObjectByType<BattleManager>();
 		if (!EditorApplication.isPlaying || bm == null || bm.player == null)
@@ -70,7 +70,7 @@ public static class VfxCapture
 		p.invulnerable = e.invulnerable = true;
 		System.Reflection.FieldInfo goField = typeof(Fighter).GetField("go", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 		GameObject go = (GameObject)goField.GetValue(p), enemyGo = (GameObject)goField.GetValue(e);
-		Vector3 spot = new Vector3(12.5f, 1.31f, -2.71f);    // trecho aberto do DuelArena
+		Vector3 spot = new Vector3(spotX, 1.31f, spotZ);    // trecho aberto do DuelArena (padrao); corredor longo: (-17, -7)
 		string dir = "C:/Users/felip/arena-masters-re/captures";
 		Directory.CreateDirectory(dir);
 		float[] times = { 0.25f, 0.34f, 0.42f, 0.55f, 0.75f, 1f, 1.4f, 2f };
@@ -101,6 +101,10 @@ public static class VfxCapture
 				p.facing = Vector3.right;
 				go.transform.rotation = Quaternion.LookRotation(Vector3.right);
 				p.cooldowns[skill] = 0f;
+				if (skill == Fighter.UltSlot)
+				{
+					p.ultCharge = 10000f;   // barra cheia
+				}
 				if (!p.TryUseSkill(skill, spot + Vector3.right * 3f))
 				{
 					return;
@@ -126,7 +130,7 @@ public static class VfxCapture
 				Debug.Log("[VFX] captura ao vivo pronta: " + name);
 				return;
 			}
-			if (EditorApplication.timeSinceStartup - t0 < times[idx])
+			if (EditorApplication.timeSinceStartup - t0 < times[idx] * slow)   // slow > 1 espalha as fotos (ultimate tem camera lenta)
 			{
 				return;
 			}

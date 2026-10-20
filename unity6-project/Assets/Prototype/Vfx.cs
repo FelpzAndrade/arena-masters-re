@@ -48,7 +48,7 @@ public static class Vfx
 		return true;
 	}
 
-	private static void Spawn(GameObject prefab, Vector3 pos, Quaternion rot, float scale, float life)
+	private static void Spawn(GameObject prefab, Vector3 pos, Quaternion rot, float scale, float life, float delay = 0f)
 	{
 		GameObject go = Object.Instantiate(prefab, pos, rot);
 		go.transform.localScale = Vector3.one * scale;
@@ -57,7 +57,15 @@ public static class Vfx
 		{
 			ParticleSystem.MainModule main = ps.main;
 			main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+			if (delay > 0f)
+			{
+				// atraso por instancia (onda que percorre uma linha): reinicia com startDelay
+				ps.Stop(false, ParticleSystemStopBehavior.StopEmittingAndClear);
+				main.startDelay = main.startDelay.constant + delay;
+				ps.Play(false);
+			}
 		}
+		life += delay;
 		if (!Application.isPlaying)
 		{
 			foreach (ParticleSystem ps in systems)
@@ -69,7 +77,7 @@ public static class Vfx
 	}
 
 	// efeitos proprios (Particle System + shader ArenaMasters/VFX), prefabs em Assets/VFX/Resources
-	private static void Own(string name, Vector3 pos, Quaternion rot, float scale, float life)
+	private static void Own(string name, Vector3 pos, Quaternion rot, float scale, float life, float delay = 0f)
 	{
 		if (!s_own.TryGetValue(name, out GameObject prefab))
 		{
@@ -81,10 +89,28 @@ public static class Vfx
 			Debug.LogWarning("[VFX] prefab nao encontrado: " + name + " (menu Arena Masters/VFX/Montar Machado Barbaro)");
 			return;
 		}
-		Spawn(prefab, pos, rot, scale, life);
+		Spawn(prefab, pos, rot, scale, life, delay);
 	}
 
 	private static readonly Dictionary<string, GameObject> s_own = new Dictionary<string, GameObject>();
+
+	// carrega os efeitos proprios no inicio da luta: as particulas andam em tempo nao escalado, entao um travamento
+	// na primeira vez que o efeito aparece (carregar prefab, criar material) faria a animacao pular esse tempo
+	public static void Preload()
+	{
+		foreach (string name in new[] { "VFX_MachadoBarbaro", "VFX_MachadoImpacto", "VFX_CornetaGuerra", "VFX_EscudoCorneta", "VFX_GolpeTerra", "VFX_ForcaTerra", "VFX_BufaloCorrida", "VFX_BufaloImpacto", "VFX_DivisorTrecho" })
+		{
+			if (!s_own.ContainsKey(name))
+			{
+				s_own[name] = Resources.Load<GameObject>(name);
+			}
+		}
+		if (s_pillar == null)
+		{
+			s_pillar = Resources.Load<Mesh>("M_PilarPedra");
+			s_pillarMat = Arena.MakeMaterial(new Color(0.45f, 0.38f, 0.31f));
+		}
+	}
 
 	// Machado Barbaro: corte em arco na frente; roll inclina o arco (180 = golpe espelhado, da direita pra esquerda)
 	public static void AxeSlash(Vector3 pos, Vector3 facing, float range, float roll)
@@ -124,7 +150,11 @@ public static class Vfx
 
 	private static GameObject OwnAttached(Transform owner, string name, float life)
 	{
-		GameObject prefab = Resources.Load<GameObject>(name);
+		if (!s_own.TryGetValue(name, out GameObject prefab))
+		{
+			prefab = Resources.Load<GameObject>(name);
+			s_own[name] = prefab;
+		}
 		if (prefab == null)
 		{
 			Debug.LogWarning("[VFX] prefab nao encontrado: " + name);
@@ -154,6 +184,8 @@ public static class Vfx
 		s_live.Clear();
 		s_materials.Clear();
 		s_rocks.Clear();
+		s_pillar = null;
+		s_pillarMat = null;
 		s_own.Clear();
 	}
 
@@ -281,41 +313,69 @@ public static class Vfx
 		Grow(ps, 1.1f, 0.4f);   // encolhe: suga para o centro
 	}
 
+	// Divisor de Terra: a onda corre pela linha (um trecho a cada 1,6 m, 28 m/s) e levanta as pedras nos mesmos
+	// pontos dos obstaculos do Fighter (Arena.blockers: d = 2, 3,6 ... ate o alcance)
 	public static void TerraSplitter(Vector3 groundPos, Vector3 facing, Color color, float range)
 	{
-		for (float d = 1.2f; d <= range; d += 1.6f)
+		const float waveSpeed = 28f;
+		Quaternion rot = Quaternion.LookRotation(facing);
+		Own("VFX_DivisorTrecho", groundPos + facing * 0.9f, rot, 1.4f, 1.7f);   // onde o machado bate: trecho maior
+		for (float d = 2f; d <= range; d += 1.6f)
 		{
 			Vector3 p = groundPos + facing * d;
-			Cfx("CFXR2 Ground Hit", p, 0.7f, 1.5f);
-			Rock(p, 4f);
+			Own("VFX_DivisorTrecho", p, rot, 1f, 1.7f, d / waveSpeed);
+			Rock(p, 4f, d / waveSpeed);
 		}
-		Cfx("CFXR _BOOM_", groundPos + facing * 2f + Vector3.up * 1.6f, 0.9f, 1.2f);
 	}
 
 	// pedra que sobe do chao e afunda no fim (visual do obstaculo do Arena.blockers)
-	private static readonly List<(Transform t, float life, float total, float height, float groundY)> s_rocks = new List<(Transform, float, float, float, float)>();
-
-	private static void Rock(Vector3 groundPos, float life)
+	private class RockAnim
 	{
-		GameObject rock = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		Object.DestroyImmediate(rock.GetComponent<Collider>());
-		rock.name = "pedra";
-		float h = Random.Range(1.1f, 1.6f);
-		rock.transform.position = groundPos + Vector3.down * h;
-		rock.transform.rotation = Quaternion.Euler(Random.Range(-15f, 15f), Random.Range(0f, 360f), Random.Range(-15f, 15f));
-		rock.transform.localScale = new Vector3(Random.Range(0.9f, 1.3f), h, Random.Range(0.9f, 1.3f));
-		rock.GetComponent<Renderer>().material = Arena.MakeMaterial(new Color(0.42f, 0.36f, 0.3f));
-		s_rocks.Add((rock.transform, life, life, h, groundPos.y));
+		public Transform t;
+		public float age, delay, total, height, groundY, pivot;   // pivot: base ate o pivo (0 na malha, meia altura no cubo)
 	}
 
-	// sobe rapido (0,15s) e afunda nos ultimos 0,4s
+	private static readonly List<RockAnim> s_rocks = new List<RockAnim>();
+	private static Mesh s_pillar;
+	private static Material s_pillarMat;
+
+	private static void Rock(Vector3 groundPos, float life, float delay)
+	{
+		if (s_pillar == null)
+		{
+			s_pillar = Resources.Load<Mesh>("M_PilarPedra");   // pedra pontuda (menu Arena Masters/VFX/Montar Divisor de Terra)
+			s_pillarMat = Arena.MakeMaterial(new Color(0.45f, 0.38f, 0.31f));
+		}
+		GameObject rock;
+		if (s_pillar != null)
+		{
+			rock = new GameObject("pedra");
+			rock.AddComponent<MeshFilter>().sharedMesh = s_pillar;
+			rock.AddComponent<MeshRenderer>().sharedMaterial = s_pillarMat;
+		}
+		else
+		{
+			rock = GameObject.CreatePrimitive(PrimitiveType.Cube);
+			Object.DestroyImmediate(rock.GetComponent<Collider>());
+			rock.name = "pedra";
+		}
+		float h = Random.Range(1.3f, 1.9f);
+		rock.transform.position = groundPos + Vector3.down * (h + 0.2f);
+		rock.transform.rotation = Quaternion.Euler(Random.Range(-12f, 12f), Random.Range(0f, 360f), Random.Range(-12f, 12f));
+		float w = Random.Range(1.2f, 1.6f);
+		rock.transform.localScale = new Vector3(w, h, w * Random.Range(0.85f, 1.15f));
+		s_rocks.Add(new RockAnim { t = rock.transform, age = 0f, delay = delay, total = life, height = h, groundY = groundPos.y, pivot = s_pillar != null ? 0f : h * 0.5f });
+	}
+
+	// espera o atraso, salta do chao em 0,12 s passando um pouco da altura, assenta, e afunda nos ultimos 0,4 s
 	private static void UpdateRocks(float dt)
 	{
 		for (int i = s_rocks.Count - 1; i >= 0; i--)
 		{
-			(Transform t, float life, float total, float height, float groundY) r = s_rocks[i];
-			r.life -= dt;
-			if (r.t == null || r.life <= 0f)
+			RockAnim r = s_rocks[i];
+			r.age += dt;
+			float t = r.age - r.delay;
+			if (r.t == null || t >= r.total)
 			{
 				if (r.t != null)
 				{
@@ -331,10 +391,15 @@ public static class Vfx
 				s_rocks.RemoveAt(i);
 				continue;
 			}
-			float up = Mathf.Clamp01((r.total - r.life) / 0.15f) * Mathf.Clamp01(r.life / 0.4f);
+			float up = 0f;
+			if (t > 0f)
+			{
+				up = t < 0.12f ? t / 0.12f * 1.08f : Mathf.Lerp(1.08f, 1f, (t - 0.12f) / 0.1f);
+				up *= Mathf.Clamp01((r.total - t) / 0.4f);
+			}
 			Vector3 p = r.t.position;
-			r.t.position = new Vector3(p.x, r.groundY + up * r.height - r.height * 0.5f, p.z);
-			s_rocks[i] = r;
+			// base 0,2 m enterrada (pedra inclinada nao mostra o fundo); some toda embaixo do chao antes de subir
+			r.t.position = new Vector3(p.x, r.groundY - 0.2f - (1f - up) * (r.height + 0.2f) + r.pivot, p.z);
 		}
 	}
 
