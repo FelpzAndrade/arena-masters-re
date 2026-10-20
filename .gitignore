@@ -10,6 +10,10 @@
 !/tools/*.sh
 !/tools/*.ps1
 !/tools/ghidra_scripts/
+!/tools/blender/
+/tools/blender/*
+!/tools/blender/abrir_axie.py
+!/tools/blender/axie.blend
 
 !/decomp/
 /decomp/*
@@ -26,6 +30,8 @@
 /unity6-project/Assets/*
 !/unity6-project/Assets/Prototype/
 !/unity6-project/Assets/Prototype.meta
+!/unity6-project/Assets/VFX/
+!/unity6-project/Assets/VFX.meta
 !/unity6-project/Assets/Editor/
 !/unity6-project/Assets/Editor.meta
 !/unity6-project/Assets/ArenaMastersViewer/

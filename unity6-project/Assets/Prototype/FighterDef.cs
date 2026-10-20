@@ -76,19 +76,19 @@ public class FighterDef
 				// Machado do Guerreiro Barbaro: golpes rapidos, 110% cada
 				new SkillDef
 				{
-					name = "Machado Barbaro", vfx = "slash", anim = "1H_Melee_Attack_Slice_Diagonal", damageRatio = 1.1f, cooldown = 0.25f, windup = 0.15f, recovery = 0.15f, ultimateCharge = 250f,
-					range = 2.4f, angle = 120f, color = orange, hitstop = 0.05f, beatenDuration = 0.25f,
+					name = "Machado Barbaro", vfx = "axeslash", vfxRoll = 25f, anim = "1H_Melee_Attack_Slice_Diagonal", damageRatio = 1.1f, cooldown = 0.25f, windup = 0.15f, recovery = 0.15f, ultimateCharge = 250f,
+					range = 2.4f, angle = 120f, color = orange, hitstop = 0.05f, shake = 0.1f, beatenDuration = 0.25f,
 					combo = new[]
 					{
 						new SkillDef
 						{
-							name = "Machado Barbaro", vfx = "slash", anim = "1H_Melee_Attack_Slice_Horizontal", damageRatio = 1.1f, cooldown = 0.25f, windup = 0.15f, recovery = 0.15f, ultimateCharge = 250f,
-							range = 2.4f, angle = 120f, color = orange, hitstop = 0.05f, beatenDuration = 0.25f,
+							name = "Machado Barbaro", vfx = "axeslash", vfxRoll = 180f, anim = "1H_Melee_Attack_Slice_Horizontal", damageRatio = 1.1f, cooldown = 0.25f, windup = 0.15f, recovery = 0.15f, ultimateCharge = 250f,
+							range = 2.4f, angle = 120f, color = orange, hitstop = 0.05f, shake = 0.1f, beatenDuration = 0.25f,
 						},
 						new SkillDef
 						{
-							name = "Machado Barbaro", vfx = "slash", anim = "2H_Melee_Attack_Slice", damageRatio = 1.1f, cooldown = 0.45f, windup = 0.22f, recovery = 0.3f, ultimateCharge = 250f,
-							range = 2.6f, angle = 140f, knockbackDistance = 1.5f, color = new Color(1f, 0.4f, 0.1f), hitstop = 0.09f, shake = 0.15f,
+							name = "Machado Barbaro", vfx = "axeslash", vfxRoll = -10f, anim = "2H_Melee_Attack_Slice", damageRatio = 1.1f, cooldown = 0.45f, windup = 0.22f, recovery = 0.3f, ultimateCharge = 250f,
+							range = 2.6f, angle = 140f, knockbackDistance = 1.5f, color = new Color(1f, 0.4f, 0.1f), hitstop = 0.05f, shake = 0.18f,
 						},
 					},
 				},
@@ -106,7 +106,7 @@ public class FighterDef
 				// B - Investida do Bufalo (8s): corre ate o inimigo e da uma cabecada, inconsciente 1s, 300%
 				new SkillDef
 				{
-					name = "Investida do Bufalo", vfx = "slash", anim = "Running_B", damageRatio = 3f, cooldown = 8f, windup = 0.35f, recovery = 0.35f,
+					name = "Investida do Bufalo", vfx = "slash", anim = "Bufalo_Cabecada", damageRatio = 3f, cooldown = 8f, windup = 0.35f, recovery = 0.35f,
 					range = 2.2f, angle = 120f, dashDistance = 6f, color = new Color(1f, 0.35f, 0.15f), hitstop = 0.12f, shake = 0.3f, cancelable = false,
 					procs = { new BuffProc { timing = ProcTimingType.Hit, rate = 100, buff = BuffLibrary.Inconsciente(1f) } },
 				},

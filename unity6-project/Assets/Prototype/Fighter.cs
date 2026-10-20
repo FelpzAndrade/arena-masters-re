@@ -26,7 +26,7 @@ public class Fighter : IActor
 	public System.Action<Fighter, string, Color> onPopup;
 	public System.Action<Fighter, SkillDef, Vector3> onSkillFx;
 	public System.Action<Fighter, SkillDef, Vector3> onSkillStart;
-	public System.Action<Fighter, bool> onHitFx;
+	public System.Action<Fighter, bool, SkillDef> onHitFx;
 	public System.Action<Fighter> onDeathFx;
 	public System.Action<Fighter, ActiveBuff> onBuffAdded;
 	public System.Action<Fighter, ActiveBuff> onBuffRemoved;
@@ -76,7 +76,7 @@ public class Fighter : IActor
 	private float m_mcLift0;
 	private float m_mcVSpeed;
 	private float m_lift;                  // altura do modelo (DOTween no Y local do mesh no original)
-	private float m_flash;
+	private readonly HitFlash m_hitFlash;
 	private int m_hitsDone;
 	private Transform m_visual;
 	private TrailRenderer m_trail;
@@ -94,6 +94,7 @@ public class Fighter : IActor
 		{ "2H_Melee_Attack_Slice", 0.385f }, { "2H_Melee_Attack_Stab", 0.387f }, { "2H_Melee_Attack_Chop", 0.721f },
 		{ "2H_Melee_Attack_Spinning", 0.256f }, { "Jump_Full_Short", 0.85f }, { "Spellcast_Shoot", 0.3f },
 		{ "Spellcasting", 0.45f }, { "Spellcast_Raise", 0.9f },
+		{ "Bufalo_Cabecada", 0.4f },   // feita no Blender: cabecada no quadro 12 de 27 (30 fps)
 	};
 	private bool m_ultHitCharge;           // EnableHitCharge: so o primeiro acerto de cada skill carrega
 
@@ -142,6 +143,7 @@ public class Fighter : IActor
 			}
 			m_renderers = visual.GetComponentsInChildren<Renderer>();
 			m_anim = visual.GetComponent<Animation>();
+			AddExtraClips(def);
 			m_visual = visual.transform;
 			m_trail = CreateWeaponTrail(visual, def.weapon, def.color);
 		}
@@ -158,6 +160,8 @@ public class Fighter : IActor
 		{
 			m_baseColors[i] = m_renderers[i].material.color;
 		}
+		m_hitFlash = go.AddComponent<HitFlash>();
+		m_hitFlash.Init(m_renderers);
 		Respawn();
 	}
 
@@ -385,12 +389,15 @@ public class Fighter : IActor
 		m_comboTimer = Mathf.Max(0f, m_comboTimer - dt);
 		passiveTimer = Mathf.Max(0f, passiveTimer - dt);
 		m_queuedTtl -= dt;
-		m_flash = Mathf.Max(0f, m_flash - dt);
+		if (!Application.isPlaying)
+		{
+			m_hitFlash.Tick(dt);
+		}
 		UpdateBuffs(dt);
 		for (int i = 0; i < m_renderers.Length; i++)
 		{
 			Color baseColor = m_baseColors[i];
-			m_renderers[i].material.color = m_flash > 0f ? Color.Lerp(baseColor, Color.red, 0.6f) : (IsDeathDoor() ? Color.Lerp(baseColor, new Color(0.5f, 0.1f, 0.1f), 0.35f) : baseColor);
+			m_renderers[i].material.color = IsDeathDoor() ? Color.Lerp(baseColor, new Color(0.5f, 0.1f, 0.1f), 0.35f) : baseColor;
 		}
 
 		m_punch = Mathf.Max(0f, m_punch - dt * 6f);
@@ -497,6 +504,36 @@ public class Fighter : IActor
 			return def.animBackwards;
 		}
 		return angle > 0f ? def.animStrafeRight : def.animStrafeLeft;
+	}
+
+	// animacoes feitas no Blender (Resources/Anim, menu Arena Masters/Animacoes/Converter do Blender) que o modelo nao tem
+	private void AddExtraClips(FighterDef def)
+	{
+		if (m_anim == null)
+		{
+			return;
+		}
+		List<SkillDef> all = new List<SkillDef>(def.skills) { def.dodge, def.ultimate };
+		for (int i = 0; i < all.Count; i++)
+		{
+			SkillDef sd = all[i];
+			if (sd == null)
+			{
+				continue;
+			}
+			if (sd.combo != null)
+			{
+				all.AddRange(sd.combo);
+			}
+			if (!string.IsNullOrEmpty(sd.anim) && m_anim[sd.anim] == null)
+			{
+				AnimationClip clip = Resources.Load<AnimationClip>("Anim/" + sd.anim);
+				if (clip != null)
+				{
+					m_anim.AddClip(clip, sd.anim);
+				}
+			}
+		}
 	}
 
 	// toca a animacao da skill acelerada para o impacto do clipe cair exatamente no fim do windup
@@ -781,10 +818,10 @@ public class Fighter : IActor
 	{
 		damage = AbsorbWithShield(damage);
 		hp -= damage;
-		m_flash = 0.12f;
+		m_hitFlash.Play();
 		m_punch = critical ? 1.6f : 1f;
 		m_heavyHit = critical || damage > maxHp * 0.06f;
-		onHitFx?.Invoke(this, critical);
+		onHitFx?.Invoke(this, critical, sd);
 		onPopup?.Invoke(this, critical ? damage + "!" : damage.ToString(), critical ? new Color(1f, 0.85f, 0.1f) : Color.white);
 		if (hp <= 0f)
 		{

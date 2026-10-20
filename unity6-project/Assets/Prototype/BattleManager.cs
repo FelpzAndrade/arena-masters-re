@@ -42,8 +42,6 @@ public class BattleManager : MonoBehaviour
 			yield return (p.go.transform.position, p.dir, p.owner);
 		}
 	}
-	private float m_hitstop;
-	private float m_shake;
 	private Vector3 m_camBase;
 	private GameObject m_indicator;
 	private MeshFilter m_indicatorMesh;
@@ -74,6 +72,8 @@ public class BattleManager : MonoBehaviour
 		CSLog.Init(new CSLogger());
 		Vfx.Clear();
 		Vfx.Register(effectPrefabs);
+		HitStop.Clear();
+		CameraShake.Clear();
 		// constantes reais do jogo (XGameConst..cctor no binario)
 		XGameConst.AIRBORNE_SPEED = 14f;
 		XGameConst.THROW_VERTICAL_SPEED = 3.5f;
@@ -110,7 +110,15 @@ public class BattleManager : MonoBehaviour
 			f.onPopup = Popup;
 			f.onSkillFx = SkillFx;
 			f.onSkillStart = SkillStartFx;
-			f.onHitFx = (who, crit) => Vfx.Hit(who.Position + Vector3.up * 0.2f, who.opponent.def.color, crit, who.opponent.def.skills[0].projectileSpeed > 0f);
+			f.onHitFx = (who, crit, sd) =>
+			{
+				if (sd != null && sd.vfx == "axeslash")
+				{
+					Vfx.AxeImpact(who.Position + Vector3.up * 0.2f);
+					return;
+				}
+				Vfx.Hit(who.Position + Vector3.up * 0.2f, who.opponent.def.color, crit, who.opponent.def.skills[0].projectileSpeed > 0f);
+			};
 			f.onDeathFx = who => Vfx.Death(who.Position);
 			f.onBuffAdded = (who, b) => b.aura = Vfx.Aura(who.go.transform, b.def.auraTexture, b.def.color, b.def.control == CS.MotionControlType.Stun);
 			f.onBuffRemoved = (who, b) => Vfx.DestroyAura(b.aura);
@@ -119,14 +127,14 @@ public class BattleManager : MonoBehaviour
 			{
 				m_ultFocus = who;
 				m_ultTime = 0.9f;
-				m_hitstop = Mathf.Max(m_hitstop, 0.35f);   // camera lenta na ativacao
-				m_shake = Mathf.Max(m_shake, 0.2f);
+				HitStop.Request(0.35f);   // camera lenta na ativacao
+				CameraShake.Add(0.2f);
 				Popup(who, sd.name.ToUpper() + "!", sd.color);
 			};
 			f.onImpact = (sd, crit) =>
 			{
-				m_hitstop = Mathf.Max(m_hitstop, sd.hitstop * (crit ? 1.8f : 1f));
-				m_shake = Mathf.Max(m_shake, sd.shake + (crit ? 0.15f : 0f));
+				HitStop.Request(sd.hitstop * (crit ? 1.8f : 1f));
+				CameraShake.Add(sd.shake + (crit ? 0.15f : 0f));
 			};
 		}
 		cam = new GameObject("Camera").AddComponent<Camera>();
@@ -147,25 +155,21 @@ public class BattleManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (m_hitstop > 0f)
-		{
-			m_hitstop -= Time.unscaledDeltaTime;
-			Time.timeScale = m_hitstop > 0f ? 0.03f : 1f;
-		}
+		HitStop.Tick(Time.unscaledDeltaTime);
 		Step(Mathf.Min(Time.deltaTime, 0.05f));
 	}
 
 	private void OnDisable()
 	{
-		Time.timeScale = 1f;
+		HitStop.Clear();
 	}
 
 	public void Step(float dt)
 	{
-		if (!Application.isPlaying && m_hitstop > 0f)
+		if (!Application.isPlaying && HitStop.Active)
 		{
-			m_hitstop -= dt;
-			dt *= 0.03f;
+			HitStop.Tick(dt);
+			dt *= HitStop.FrozenScale;
 		}
 		if (player.IsAlive)
 		{
@@ -213,9 +217,7 @@ public class BattleManager : MonoBehaviour
 			}
 		}
 		m_camBase = Vector3.Lerp(m_camBase == Vector3.zero ? want : m_camBase, want, Mathf.Clamp01(dt * 5f));
-		m_shake = Mathf.Max(0f, m_shake - RealDt(dt) * 1.6f);
-		Vector3 jitter = m_shake > 0f ? Random.insideUnitSphere * m_shake * 0.35f : Vector3.zero;
-		cam.transform.position = m_camBase + jitter;
+		cam.transform.position = m_camBase + CameraShake.Offset(RealDt(dt));
 		cam.transform.rotation = Quaternion.LookRotation(focus - want);
 		DungeonDecor.UpdateOcclusion(focus, cam.transform.position);
 	}
@@ -227,6 +229,9 @@ public class BattleManager : MonoBehaviour
 		Vector3 ground = center + Vector3.down * Arena.CenterHeight;
 		switch (sd.vfx)
 		{
+			case "axeslash":
+				Vfx.AxeSlash(owner.Position, owner.facing, sd.range, sd.vfxRoll);
+				return;
 			case "slash":
 				Vfx.Slash(owner.Position, owner.facing, sd.color, sd.range);
 				return;

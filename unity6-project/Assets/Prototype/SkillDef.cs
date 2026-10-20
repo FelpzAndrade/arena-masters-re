@@ -8,7 +8,8 @@ public class SkillDef
 {
 	public string name;
 	public System.Collections.Generic.List<BuffProc> procs = new System.Collections.Generic.List<BuffProc>();
-	public string vfx;                // efeito: slash, spin, slam, beam, burst, magicspin, dust, teleport
+	public string vfx;                // efeito: slash, axeslash, spin, slam, beam, burst, magicspin, dust, teleport
+	public float vfxRoll;             // inclinacao do arco do corte em graus (180 = golpe espelhado)
 	public string anim;               // clipe KayKit tocado durante a skill (ajustado ao tempo windup+recovery)
 	public SkillDamageTypes damageType = (SkillDamageTypes)1;
 	public float damageRatio = 1f;

@@ -44,7 +44,13 @@ public static class Vfx
 		{
 			return false;
 		}
-		GameObject go = Object.Instantiate(prefab, pos, Quaternion.Euler(0f, yaw, 0f));
+		Spawn(prefab, pos, Quaternion.Euler(0f, yaw, 0f), scale, life);
+		return true;
+	}
+
+	private static void Spawn(GameObject prefab, Vector3 pos, Quaternion rot, float scale, float life)
+	{
+		GameObject go = Object.Instantiate(prefab, pos, rot);
 		go.transform.localScale = Vector3.one * scale;
 		ParticleSystem[] systems = go.GetComponentsInChildren<ParticleSystem>();
 		foreach (ParticleSystem ps in systems)
@@ -60,7 +66,35 @@ public static class Vfx
 			}
 		}
 		s_live.Add(new Live { prefab = go, systems = systems, life = life, total = life });
-		return true;
+	}
+
+	// efeitos proprios (Particle System + shader ArenaMasters/VFX), prefabs em Assets/VFX/Resources
+	private static void Own(string name, Vector3 pos, Quaternion rot, float scale, float life)
+	{
+		if (!s_own.TryGetValue(name, out GameObject prefab))
+		{
+			prefab = Resources.Load<GameObject>(name);
+			s_own[name] = prefab;
+		}
+		if (prefab == null)
+		{
+			Debug.LogWarning("[VFX] prefab nao encontrado: " + name + " (menu Arena Masters/VFX/Montar Machado Barbaro)");
+			return;
+		}
+		Spawn(prefab, pos, rot, scale, life);
+	}
+
+	private static readonly Dictionary<string, GameObject> s_own = new Dictionary<string, GameObject>();
+
+	// Machado Barbaro: corte em arco na frente; roll inclina o arco (180 = golpe espelhado, da direita pra esquerda)
+	public static void AxeSlash(Vector3 pos, Vector3 facing, float range, float roll)
+	{
+		Own("VFX_MachadoBarbaro", pos, Quaternion.LookRotation(facing) * Quaternion.Euler(0f, 0f, roll), range / 2.4f, 1.1f);
+	}
+
+	public static void AxeImpact(Vector3 pos)
+	{
+		Own("VFX_MachadoImpacto", pos, Quaternion.identity, 1f, 0.5f);
 	}
 
 	public static void Clear()
@@ -68,6 +102,7 @@ public static class Vfx
 		s_live.Clear();
 		s_materials.Clear();
 		s_rocks.Clear();
+		s_own.Clear();
 	}
 
 	// ---------- efeitos de skill ----------
