@@ -5,6 +5,9 @@
 #   T_Spark.png      faisca: miolo branco + halo + cruz fina. RGB branco, A = brilho.
 #   T_Ring.png       anel de onda de choque (RGB = borda quente, A = anel).
 #   T_Hex.png        grade de hexagonos da cupula de escudo (RGB = linhas, A = linhas + fundo fraco).
+#   T_Crack.png      rachaduras saindo do centro (RGB = miolo de lava, A = rachadura + cratera). Clamp.
+#   T_Rocks.png      folha 2x2 de pedrinhas (RGB = luz das facetas, A = formato).
+#   T_Puff.png       nuvem de poeira (RGB = mais claro em cima, A = densidade).
 # Uso: tools/venv/Scripts/python.exe -I tools/gen_vfx_textures.py [pasta_de_saida]
 import sys
 from pathlib import Path
@@ -119,6 +122,88 @@ def make_hex(size=256, nx=4, ny=2):
 	return line, np.clip(line * 0.85 + 0.1, 0.0, 1.0)
 
 
+def make_crack(size=512, branches=9, rng=None):
+	# rachaduras saindo do centro (onde o machado bate): RGB = miolo quente (lava), A = rachadura + cratera escura.
+	# Desenha em 2x e reduz (borda suave).
+	from PIL import ImageDraw, ImageFilter
+	big = size * 2
+	c = big / 2.0
+	line_img = Image.new("L", (big, big), 0)
+	core_img = Image.new("L", (big, big), 0)
+	dl, dc = ImageDraw.Draw(line_img), ImageDraw.Draw(core_img)
+
+	def crack(x, y, ang, length, width, depth):
+		steps = max(3, int(length / 40))
+		for _ in range(steps):
+			ang += rng.normal(0.0, 0.12) + (rng.choice([-1, 1]) * 0.5 if rng.random() < 0.12 else 0.0)
+			seg = length / steps
+			nx, ny = x + np.cos(ang) * seg, y + np.sin(ang) * seg
+			w = max(1.0, width)
+			dl.line([(x, y), (nx, ny)], fill=255, width=int(w))
+			dc.line([(x, y), (nx, ny)], fill=255, width=max(1, int(w * 0.45)))
+			if depth > 0 and rng.random() < 0.3:
+				crack(nx, ny, ang + rng.choice([-1, 1]) * rng.uniform(0.5, 1.0), length * 0.4, width * 0.6, depth - 1)
+			x, y = nx, ny
+			width *= 0.9
+
+	for k in range(branches):
+		ang = k * 2 * np.pi / branches + rng.uniform(-0.25, 0.25)
+		crack(c, c, ang, big * rng.uniform(0.3, 0.46), big * 0.026, 1)
+	line = np.asarray(line_img.filter(ImageFilter.GaussianBlur(1.5)).resize((size, size), Image.LANCZOS)) / 255.0
+	core = np.asarray(core_img.filter(ImageFilter.GaussianBlur(1.0)).resize((size, size), Image.LANCZOS)) / 255.0
+	y, x = np.mgrid[0:size, 0:size]
+	r = np.sqrt((x - size / 2) ** 2 + (y - size / 2) ** 2) / (size / 2)
+	crater = 1.0 - smoothstep(0.05, 0.22, r)
+	fade = 1.0 - smoothstep(0.75, 0.98, r)             # pontas somem antes da borda (Clamp)
+	alpha = np.clip(np.maximum(line, crater * 0.9) * fade, 0.0, 1.0)
+	hot = np.clip(core * (1.0 - smoothstep(0.1, 0.9, r) * 0.6) + crater * 0.8, 0.0, 1.0) * fade
+	return hot, alpha
+
+
+def make_rocks(size=256, rng=None):
+	# folha 2x2 com 4 pedrinhas: RGB = luz das facetas (luz vindo de cima-esquerda), A = formato. Desenha em 4x.
+	from PIL import ImageDraw
+	cell = size // 2
+	s = 4
+	shade_img = Image.new("L", (size * s, size * s), 0)
+	alpha_img = Image.new("L", (size * s, size * s), 0)
+	ds, da = ImageDraw.Draw(shade_img), ImageDraw.Draw(alpha_img)
+	light = np.array([-0.6, -0.8])
+	for k in range(4):
+		ox, oy = (k % 2) * cell * s, (k // 2) * cell * s
+		cx, cy = ox + cell * s / 2, oy + cell * s / 2
+		n = int(rng.integers(6, 9))
+		angs = np.sort(rng.uniform(0, 2 * np.pi, n))
+		rad = cell * s * rng.uniform(0.3, 0.4, n)
+		pts = [(cx + np.cos(a) * r, cy + np.sin(a) * r) for a, r in zip(angs, rad)]
+		da.polygon(pts, fill=255)
+		top = (cx - 0.07 * cell * s, cy - 0.07 * cell * s)
+		for i in range(n):
+			p0, p1 = pts[i], pts[(i + 1) % n]
+			mid = np.array([(p0[0] + p1[0]) / 2 - top[0], (p0[1] + p1[1]) / 2 - top[1]])
+			mid /= np.linalg.norm(mid) + 1e-6
+			lum = 0.62 + 0.36 * float(np.dot(mid, light))
+			ds.polygon([top, p0, p1], fill=int(np.clip(lum, 0.1, 1.0) * 255))
+	shade = np.asarray(shade_img.resize((size, size), Image.LANCZOS)) / 255.0
+	alpha = np.asarray(alpha_img.resize((size, size), Image.LANCZOS)) / 255.0
+	return shade, alpha
+
+
+def make_puff(size=128, rng=None):
+	# nuvem de poeira: bolhas macias + ruido; RGB = mais claro em cima, A = densidade
+	y, x = np.mgrid[0:size, 0:size] / (size - 1.0)
+	a = np.zeros((size, size))
+	for _ in range(7):
+		cx, cy = rng.uniform(0.35, 0.65), rng.uniform(0.4, 0.62)
+		rr = rng.uniform(0.12, 0.22)
+		a = np.maximum(a, np.exp(-((x - cx) ** 2 + (y - cy) ** 2) / (2 * rr * rr)))
+	n = periodic_noise(size, 8, rng) * 0.6 + periodic_noise(size, 16, rng) * 0.4
+	r = np.sqrt((x - 0.5) ** 2 + (y - 0.5) ** 2)
+	a = np.clip(a * (0.65 + 0.5 * n) - 0.1, 0.0, 1.0) * (1.0 - smoothstep(0.38, 0.5, r))
+	shade = np.clip(1.0 - y * 0.7 + (n - 0.5) * 0.3, 0.0, 1.0)
+	return shade, a
+
+
 def save(path, rgb, alpha):
 	rgb = np.clip(rgb, 0.0, 1.0)
 	img = np.dstack([rgb, rgb, rgb, np.clip(alpha, 0.0, 1.0)])
@@ -138,6 +223,14 @@ def main():
 	save(OUT / "T_Ring.png", core, ring)
 	line, hexa = make_hex()
 	save(OUT / "T_Hex.png", line, hexa)
+	# texturas do Golpe da Terra: sorteio proprio (nao muda as de cima)
+	rng = np.random.default_rng(11)
+	hot, crack = make_crack(rng=rng)
+	save(OUT / "T_Crack.png", hot, crack)
+	shade, rocks = make_rocks(rng=rng)
+	save(OUT / "T_Rocks.png", shade, rocks)
+	shade, puff = make_puff(rng=rng)
+	save(OUT / "T_Puff.png", shade, puff)
 
 
 if __name__ == "__main__":

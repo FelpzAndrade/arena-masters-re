@@ -98,6 +98,13 @@ public static class Vfx
 		Own("VFX_CornetaGuerra", groundPos, Quaternion.identity, 1f, 1.3f);
 	}
 
+	// Golpe da Terra: rachadura, poeira e pedras onde o machado bate (~1,1 m na frente para alcance 3 m)
+	public static void EarthSlam(Vector3 groundPos, Vector3 facing, float range)
+	{
+		float k = range / 3f;
+		Own("VFX_GolpeTerra", groundPos + facing * (1.1f * k), Quaternion.LookRotation(facing), k, 1.9f);
+	}
+
 	// aura de efeito proprio presa no lutador enquanto o buff durar (removida em DestroyAura)
 	public static GameObject OwnAura(Transform owner, string name)
 	{

@@ -118,7 +118,7 @@ public static class VfxCornetaBuilder
 		return mesh;
 	}
 
-	private static void SetClamp(Texture2D tex)
+	internal static void SetClamp(Texture2D tex)
 	{
 		TextureImporter imp = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(tex));
 		if (imp.wrapMode != TextureWrapMode.Clamp)
@@ -128,7 +128,7 @@ public static class VfxCornetaBuilder
 		}
 	}
 
-	private static void DissolveStreams(ParticleSystem ps, AnimationCurve dissolve)
+	internal static void DissolveStreams(ParticleSystem ps, AnimationCurve dissolve)
 	{
 		ParticleSystem.CustomDataModule custom = ps.customData;
 		custom.enabled = true;

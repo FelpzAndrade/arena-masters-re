@@ -98,7 +98,7 @@ public static class BuffLibrary
 	public static readonly BuffDef ForcaDaTerra = new BuffDef
 	{
 		id = 3001, name = "Forca da Terra", type = BuffType.Buff, duration = 3f, line = "forca_terra", maxStack = 2,
-		color = new Color(0.85f, 0.6f, 0.3f), auraTexture = "dirt_02",
+		color = new Color(0.85f, 0.6f, 0.3f), auraTexture = "dirt_02", auraPrefab = "VFX_ForcaTerra",
 	}.WithStats(s => { s.PhysicalDefense.value = 0.05f; s.MagicalDefense.value = 0.05f; s.MovingSpeed.ratio = 0.1f; });
 
 	public static readonly BuffDef LentidaoCurta = new BuffDef

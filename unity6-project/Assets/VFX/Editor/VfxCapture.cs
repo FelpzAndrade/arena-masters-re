@@ -55,6 +55,94 @@ public static class VfxCapture
 		Debug.Log($"[VFX] captura: {shot} fotos");
 	}
 
+	// No Play (pelo MCP): poe o jogador num lugar aberto perto do inimigo, usa a skill e fotografa a sequencia em
+	// tempo real (sem pausar: as particulas andam em tempo nao escalado). O inimigo fica parado durante a captura.
+	// Fotos em captures/vfx_<nome>_*.png.
+	public static string PlaySkill(int skill, string name)
+	{
+		BattleManager bm = Object.FindFirstObjectByType<BattleManager>();
+		if (!EditorApplication.isPlaying || bm == null || bm.player == null)
+		{
+			return "precisa estar no Play com a luta aberta";
+		}
+		Fighter p = bm.player, e = bm.enemy;
+		p.invulnerable = e.invulnerable = true;
+		System.Reflection.FieldInfo goField = typeof(Fighter).GetField("go", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+		GameObject go = (GameObject)goField.GetValue(p), enemyGo = (GameObject)goField.GetValue(e);
+		Vector3 spot = new Vector3(12.5f, 1.31f, -2.71f);    // trecho aberto do DuelArena
+		string dir = "C:/Users/felip/arena-masters-re/captures";
+		Directory.CreateDirectory(dir);
+		float[] times = { 0.25f, 0.34f, 0.42f, 0.55f, 0.75f, 1f, 1.4f, 2f };
+		int idx = -1;
+		double t0 = 0;
+		Camera cam = null;
+		RenderTexture rt = null;
+		EditorApplication.CallbackFunction cb = null;
+		cb = () =>
+		{
+			if (!EditorApplication.isPlaying)
+			{
+				EditorApplication.update -= cb;
+				return;
+			}
+			enemyGo.transform.position = spot + new Vector3(0f, 0f, 7f);   // longe da camera
+			for (int i = 0; i < e.cooldowns.Length; i++)
+			{
+				e.cooldowns[i] = 99f;
+			}
+			if (idx < 0)
+			{
+				if (!p.CanAct)
+				{
+					return;
+				}
+				go.transform.position = spot;
+				p.facing = Vector3.right;
+				go.transform.rotation = Quaternion.LookRotation(Vector3.right);
+				p.cooldowns[skill] = 0f;
+				if (!p.TryUseSkill(skill, spot + Vector3.right * 3f))
+				{
+					return;
+				}
+				Vector3 c = p.Position + Vector3.right * 1.2f + Vector3.down * 0.7f;
+				cam = new GameObject("CapturaVfx").AddComponent<Camera>();
+				cam.CopyFrom(bm.cam);
+				UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cam).renderPostProcessing = true;
+				cam.enabled = false;
+				cam.transform.position = c + new Vector3(1.2f, 3.6f, -4.2f);
+				cam.transform.LookAt(c);
+				rt = new RenderTexture(960, 540, 24, RenderTextureFormat.ARGB32);
+				cam.targetTexture = rt;
+				t0 = EditorApplication.timeSinceStartup;
+				idx = 0;
+				return;
+			}
+			if (idx >= times.Length)
+			{
+				EditorApplication.update -= cb;
+				Object.DestroyImmediate(cam.gameObject);
+				rt.Release();
+				Debug.Log("[VFX] captura ao vivo pronta: " + name);
+				return;
+			}
+			if (EditorApplication.timeSinceStartup - t0 < times[idx])
+			{
+				return;
+			}
+			cam.Render();
+			RenderTexture.active = rt;
+			Texture2D tex = new Texture2D(960, 540, TextureFormat.RGB24, false);
+			tex.ReadPixels(new Rect(0, 0, 960, 540), 0, 0);
+			tex.Apply();
+			RenderTexture.active = null;
+			File.WriteAllBytes($"{dir}/vfx_{name}_{idx}.png", tex.EncodeToPNG());
+			Object.DestroyImmediate(tex);
+			idx++;
+		};
+		EditorApplication.update += cb;
+		return "agendado";
+	}
+
 	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
 	public static void ReimportCfxr()
 	{

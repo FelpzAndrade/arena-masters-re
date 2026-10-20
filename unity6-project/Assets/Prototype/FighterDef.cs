@@ -95,7 +95,7 @@ public class FighterDef
 				// A - Golpe da Terra (3s): 400%, Forca da Terra (DEF +5% e velocidade, acumula 2x, 3s), deixa o inimigo lento
 				new SkillDef
 				{
-					name = "Golpe da Terra", vfx = "slam", anim = "2H_Melee_Attack_Chop", damageRatio = 4f, cooldown = 3f, windup = 0.35f, recovery = 0.3f,
+					name = "Golpe da Terra", vfx = "earthslam", anim = "Golpe_Terra", damageRatio = 4f, cooldown = 3f, windup = 0.35f, recovery = 0.3f,
 					range = 3f, angle = 120f, color = earth, hitstop = 0.1f, shake = 0.3f,
 					procs =
 					{

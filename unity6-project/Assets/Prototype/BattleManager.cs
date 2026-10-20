@@ -232,6 +232,9 @@ public class BattleManager : MonoBehaviour
 				Vfx.WarHorn(owner.Position + Vector3.down * Arena.CenterHeight);
 				CameraShake.Add(0.12f);
 				return;
+			case "earthslam":
+				Vfx.EarthSlam(owner.Position + Vector3.down * Arena.CenterHeight, owner.facing, sd.range);
+				return;
 			case "axeslash":
 				Vfx.AxeSlash(owner.Position, owner.facing, sd.range, sd.vfxRoll);
 				return;
@@ -305,7 +308,7 @@ public class BattleManager : MonoBehaviour
 	private void SkillStartFx(Fighter owner, SkillDef sd, Vector3 center)
 	{
 		Vector3 ground = center + Vector3.down * (Arena.CenterHeight - 0.02f);
-		if (sd.vfx == "burst" || sd.vfx == "slam" || sd.vfx == "magicspin" || sd.vfx == "spin")
+		if (sd.vfx == "burst" || sd.vfx == "slam" || sd.vfx == "earthslam" || sd.vfx == "magicspin" || sd.vfx == "spin")
 		{
 			Vfx.Telegraph(ground, sd.color, sd.range, Mathf.Max(0.2f, sd.windup), sd.vfx == "burst" || sd.vfx == "magicspin");
 		}
