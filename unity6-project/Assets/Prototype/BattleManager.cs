@@ -51,7 +51,6 @@ public class BattleManager : MonoBehaviour
 	private IBrain m_playerBrain;
 	private IBrain m_enemyBrain;
 	private readonly List<(GameObject go, float life, float total)> m_fx = new List<(GameObject, float, float)>();
-	private readonly List<(TextMesh text, float life)> m_popups = new List<(TextMesh, float)>();
 	private Image m_playerHp;
 	private Image m_enemyHp;
 	private Text m_playerHpText;
@@ -85,6 +84,8 @@ public class BattleManager : MonoBehaviour
 		{
 			font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
 		}
+		DamageNumber.Clear();
+		DamageNumber.font = font;
 
 		arena = new Arena();
 		// cena da luta: o cenario ja vem salvo com lightmap, luzes e probes (Arena Masters/Mapa/Salvar arena e fazer bake).
@@ -373,32 +374,7 @@ public class BattleManager : MonoBehaviour
 	// bloom (magias, tochas, criticos brilham), cor mais quente/contrastada e vinheta
 	private void SetupPostProcessing()
 	{
-		cam.allowHDR = true;
-		UnityEngine.Rendering.Universal.UniversalAdditionalCameraData data = UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cam);
-		data.renderPostProcessing = true;
-		data.antialiasing = UnityEngine.Rendering.Universal.AntialiasingMode.FastApproximateAntialiasing;
-		UnityEngine.Rendering.VolumeProfile profile = ScriptableObject.CreateInstance<UnityEngine.Rendering.VolumeProfile>();
-		UnityEngine.Rendering.Universal.Bloom bloom = profile.Add<UnityEngine.Rendering.Universal.Bloom>(true);
-		bloom.intensity.Override(1.1f);
-		bloom.threshold.Override(0.9f);
-		bloom.scatter.Override(0.7f);
-		UnityEngine.Rendering.Universal.Tonemapping tonemapping = profile.Add<UnityEngine.Rendering.Universal.Tonemapping>(true);
-		// Neutral, nao ACES: o ACES esmaga o escuro (a masmorra virava preto) e satura o laranja; medido contra a referencia
-		// do jogo (folha_referencia.jpg: brilho medio ~0,23, escuro ~0,09 marrom), com estes valores a tela fica em ~0,20 / 0,075
-		tonemapping.mode.Override(UnityEngine.Rendering.Universal.TonemappingMode.Neutral);
-		UnityEngine.Rendering.Universal.ColorAdjustments color = profile.Add<UnityEngine.Rendering.Universal.ColorAdjustments>(true);
-		color.postExposure.Override(1.4f);
-		color.contrast.Override(-8f);
-		color.saturation.Override(6f);
-		UnityEngine.Rendering.Universal.WhiteBalance white = profile.Add<UnityEngine.Rendering.Universal.WhiteBalance>(true);
-		white.temperature.Override(5f);   // ambiente puxado pro quente: herois e efeitos frios saltam do fundo
-		UnityEngine.Rendering.Universal.Vignette vignette = profile.Add<UnityEngine.Rendering.Universal.Vignette>(true);
-		vignette.intensity.Override(0.4f);
-		vignette.smoothness.Override(0.45f);
-		UnityEngine.Rendering.Volume volume = new GameObject("PosProcessamento").AddComponent<UnityEngine.Rendering.Volume>();
-		volume.isGlobal = true;
-		volume.priority = 1f;
-		volume.sharedProfile = profile;
+		PosProcessamentoArena.Aplicar(cam);
 	}
 
 	// ---------- projeteis (podem ser esquivados) ----------
@@ -566,18 +542,9 @@ public class BattleManager : MonoBehaviour
 
 	private void Popup(Fighter who, string text, Color color)
 	{
-		TextMesh tm = new GameObject("dano").AddComponent<TextMesh>();
-		tm.font = font;
-		tm.GetComponent<MeshRenderer>().sharedMaterial = font.material;
-		tm.text = text;
-		tm.color = color;
-		tm.fontSize = 64;
-		tm.characterSize = 0.06f;
-		tm.anchor = TextAnchor.MiddleCenter;
-		tm.fontStyle = FontStyle.Bold;
 		bool isNumber = text.Length > 0 && char.IsDigit(text[0]);
-		tm.transform.position = who.Position + Vector3.up * (isNumber ? 1.6f : 2.3f) + new Vector3(Random.Range(-0.4f, 0.4f), 0f, 0f);
-		m_popups.Add((tm, 0.9f));
+		Vector3 pos = who.Position + Vector3.up * (isNumber ? 1.6f : 2.3f) + new Vector3(Random.Range(-0.4f, 0.4f), 0f, 0f);
+		DamageNumber.Show(pos, text, color, DamageNumber.Estilo.Simples);   // estilo da luta mantido (o novo fica para a etapa de UI)
 	}
 
 	private void UpdateFx(float dt)
@@ -595,23 +562,7 @@ public class BattleManager : MonoBehaviour
 			go.transform.localScale = Vector3.Scale(go.transform.localScale, new Vector3(1f, 1f, 1f)) * (1f + dt * 0.8f);
 			m_fx[i] = (go, life, total);
 		}
-		for (int i = m_popups.Count - 1; i >= 0; i--)
-		{
-			(TextMesh tm, float life) = m_popups[i];
-			life -= dt;
-			if (life <= 0f)
-			{
-				DestroyAny(tm.gameObject);
-				m_popups.RemoveAt(i);
-				continue;
-			}
-			tm.transform.position += Vector3.up * dt * 1.5f;
-			tm.transform.rotation = cam.transform.rotation;
-			Color c = tm.color;
-			c.a = Mathf.Clamp01(life / 0.4f);
-			tm.color = c;
-			m_popups[i] = (tm, life);
-		}
+		DamageNumber.Tick(cam);
 	}
 
 	private static string BuffText(Fighter f)

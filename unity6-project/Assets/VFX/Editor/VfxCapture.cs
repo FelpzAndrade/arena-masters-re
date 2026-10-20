@@ -196,6 +196,44 @@ public static class VfxCapture
 		return $"media={avg:0.000} p10={lum[lum.Count / 10]:0.000} p50={lum[lum.Count / 2]:0.000} p90={lum[lum.Count * 9 / 10]:0.000}";
 	}
 
+	// Cena VFX_Test no Play: dispara uma acao do Aj ("skillB" ou "combo") e fotografa pela camera principal nos tempos
+	// pedidos (segundos reais depois de apertar). Fotos em Captures/<nome>_<i>.png. times vazio = so uma foto agora.
+	public static string TesteShot(string name, string acao, float[] times)
+	{
+		AjTeste aj = Object.FindAnyObjectByType<AjTeste>();
+		Camera cam = Camera.main;
+		if (!EditorApplication.isPlaying || aj == null || cam == null)
+		{
+			return "precisa estar no Play com a cena VFX_Test";
+		}
+		Directory.CreateDirectory("Captures");
+		void Shot(string file)
+		{
+			RenderTexture rt = new RenderTexture(960, 540, 24);
+			RenderTexture old = cam.targetTexture;
+			cam.targetTexture = rt;
+			cam.Render();
+			cam.targetTexture = old;
+			RenderTexture.active = rt;
+			Texture2D tex = new Texture2D(960, 540, TextureFormat.RGB24, false);
+			tex.ReadPixels(new Rect(0, 0, 960, 540), 0, 0);
+			tex.Apply();
+			RenderTexture.active = null;
+			rt.Release();
+			File.WriteAllBytes($"Captures/{file}.png", tex.EncodeToPNG());
+			Object.DestroyImmediate(tex);
+		}
+		if (times == null || times.Length == 0)
+		{
+			Shot(name);
+			return "ok";
+		}
+		aj.Resetar();   // sempre do mesmo lugar, para comparar fotos
+		System.Action disparo = acao == "skillB" ? aj.SkillB : acao == "combo" ? aj.Atacar : (System.Action)null;
+		CapturaSequencia.Iniciar(name, times, disparo);   // dispara e fotografa de dentro do jogo, no tempo exato
+		return "agendado";
+	}
+
 	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
 	public static void ReimportCfxr()
 	{
