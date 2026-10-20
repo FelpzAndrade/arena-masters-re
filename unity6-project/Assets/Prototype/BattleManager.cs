@@ -385,6 +385,7 @@ public class BattleManager : MonoBehaviour
 		UpdateIndicator();
 		UpdateFx(dt);
 		Agendados();
+		Reliquias(dt);
 		FimDaLuta();
 		EspadaPronta(player);
 		EspadaPronta(enemy);
@@ -661,6 +662,175 @@ public class BattleManager : MonoBehaviour
 				a();
 			}
 		}
+	}
+
+	// ---------- reliquias (3 vagas da equipe; botoes no centro-baixo, teclas 1 2 3) ----------
+
+	private class Zona
+	{
+		public ReliquiaDef def;
+		public int nivel;
+		public Vector3 pos;
+		public float fim, proximo;
+		public BuffDef buff;
+		public GameObject fx;
+	}
+
+	private ReliquiaDef[] m_reliquias = new ReliquiaDef[0];
+	private float[] m_recargaRel = new float[0];
+	private BotaoSkill[] m_botoesRel = new BotaoSkill[0];
+	private readonly List<Zona> m_zonas = new List<Zona>();
+	private static int s_idBuffReliquia = 5000;
+	private CS.CSSkillInfo m_infoTotem;
+
+	private void PrepararReliquias()
+	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
+		List<ReliquiaDef> lista = new List<ReliquiaDef>();
+		foreach (string id in Progresso.Atual.reliquiasEquipadas)
+		{
+			if (!string.IsNullOrEmpty(id) && Progresso.Reliquias.TryGetValue(id, out ReliquiaDef r))
+			{
+				lista.Add(r);
+			}
+		}
+		m_reliquias = lista.ToArray();
+		m_recargaRel = new float[m_reliquias.Length];
+		m_botoesRel = m_toque.CriarReliquias(m_reliquias.Length, !Application.isMobilePlatform);
+		for (int i = 0; i < m_reliquias.Length; i++)
+		{
+			int k = i;
+			m_botoesRel[i].Configurar(m_reliquias[i].cor * 0.5f, ControlesToque.Icone(m_reliquias[i].icone), false);
+			m_botoesRel[i].aoTocar = () => UsarReliquia(k);
+		}
+	}
+
+	private void Reliquias(float dt)
+	{
+		for (int i = 0; i < m_recargaRel.Length; i++)
+		{
+			m_recargaRel[i] = Mathf.Max(0f, m_recargaRel[i] - dt);
+			m_botoesRel[i].Recarga(m_recargaRel[i] / m_reliquias[i].recarga, m_recargaRel[i]);
+			if (Application.isPlaying && playerControlled && Input.GetKeyDown(KeyCode.Alpha1 + i))
+			{
+				UsarReliquia(i);
+			}
+		}
+		float agora = Time.time;
+		for (int z = m_zonas.Count - 1; z >= 0; z--)
+		{
+			Zona zona = m_zonas[z];
+			bool acabou = agora >= zona.fim;
+			if (zona.def.tipo == TipoReliquia.Estandarte || zona.def.tipo == TipoReliquia.Pilar)
+			{
+				// dentro da area ganha o buff (estandarte, no jogador) ou a lentidao (pilar, no inimigo); fora perde
+				Fighter alvo = zona.def.tipo == TipoReliquia.Estandarte ? player : enemy;
+				Vector3 d = alvo.Position + Vector3.down * Arena.CenterHeight - zona.pos;
+				d.y = 0f;
+				bool dentro = !acabou && alvo.IsAlive && d.magnitude <= zona.def.raio;
+				if (dentro && !alvo.HasBuff(zona.buff))
+				{
+					zona.buff.duration = zona.fim - agora;
+					alvo.AddBuff(zona.buff, player);
+				}
+				else if (!dentro && alvo.HasBuff(zona.buff))
+				{
+					alvo.RemoverBuff(zona.buff);
+				}
+			}
+			else if (zona.def.tipo == TipoReliquia.Totem && !acabou && agora >= zona.proximo)
+			{
+				zona.proximo = agora + 1f;   // um tiro por segundo no inimigo ao alcance
+				Vector3 boca = zona.pos + Vector3.up * (Arena.CenterHeight + 0.6f);
+				Vector3 para = enemy.Position - boca;
+				para.y = 0f;
+				if (enemy.IsAlive && para.magnitude <= zona.def.raio)
+				{
+					SkillDef tiro = new SkillDef { name = zona.def.nome, damageRatio = zona.def.Valor(zona.nivel), projectileSpeed = 16f, projectileRadius = 0.5f, ultimateCharge = 0f, color = zona.def.cor * 0.6f, hitstop = 0.02f };
+					m_infoTotem ??= tiro.BuildInfo(993);
+					m_infoTotem.damageRatio = tiro.damageRatio;
+					Vfx.Muzzle(boca, tiro.color);
+					SpawnProjectile(player, tiro, m_infoTotem, boca, para);
+				}
+			}
+			if (acabou)
+			{
+				m_zonas.RemoveAt(z);
+			}
+		}
+	}
+
+	private void UsarReliquia(int i)
+	{
+		if (i >= m_reliquias.Length || m_recargaRel[i] > 0f || !player.IsAlive || m_fim)
+		{
+			return;
+		}
+		ReliquiaDef r = m_reliquias[i];
+		int nivel = Progresso.NivelReliquia(r.id);
+		m_recargaRel[i] = r.recarga;
+		Vector3 pes = player.Position + Vector3.down * Arena.CenterHeight;
+		Popup(player, r.nome, r.cor * 0.6f);
+		switch (r.tipo)
+		{
+			case TipoReliquia.Calice:
+				player.Curar(r.Valor(nivel));
+				Efeito("VFX_ReliquiaCura", pes, player.Visual, 1.6f);
+				break;
+			case TipoReliquia.Egide:
+				player.AddBuff(new BuffDef
+				{
+					id = s_idBuffReliquia++, name = "Egide", type = CS.BuffType.Buff, duration = r.Duracao(nivel), line = "reliquia_egide",
+					shieldPerMaxHp = r.Valor(nivel), color = r.cor * 0.6f, auraPrefab = "VFX_ReliquiaEgide",
+				}.WithStats(s => { s.PhysicalDefense.value = r.Valor2(nivel); s.MagicalDefense.value = r.Valor2(nivel); }), player);
+				break;
+			case TipoReliquia.Estandarte:
+				CriarZona(r, nivel, pes, new BuffDef
+				{
+					id = s_idBuffReliquia++, name = "Furia do Estandarte", type = CS.BuffType.Buff, line = "reliquia_estandarte", color = r.cor * 0.6f,
+				}.WithStats(s => { s.PhysicalDamageAmp.value = r.Valor(nivel); s.MagicalDamageAmp.value = r.Valor(nivel); }), "VFX_ReliquiaEstandarte");
+				break;
+			case TipoReliquia.Pilar:
+				CriarZona(r, nivel, pes, new BuffDef
+				{
+					id = s_idBuffReliquia++, name = "Congelado", type = CS.BuffType.Debuff, line = "lentidao", rank = 3,
+					control = CS.MotionControlType.Slow, slowRatio = r.Valor(nivel), color = r.cor * 0.6f, auraTexture = "twirl_03",
+				}, "VFX_ReliquiaPilar");
+				break;
+			case TipoReliquia.Vento:
+				player.RemoverLentidoes();
+				float v = r.Valor(nivel), d = r.Duracao(nivel);
+				// velocidade caindo aos poucos: 3 partes que acabam em tempos diferentes (somam v no inicio)
+				(float parte, float tempo, string aura)[] partes = { (0.5f, d, "VFX_ReliquiaVento"), (0.3f, d * 0.66f, null), (0.2f, d * 0.33f, null) };
+				for (int p = 0; p < partes.Length; p++)
+				{
+					float parte = partes[p].parte;
+					player.AddBuff(new BuffDef
+					{
+						id = s_idBuffReliquia++, name = p == 0 ? "Vento Fugaz" : "", type = CS.BuffType.Buff, duration = partes[p].tempo, line = "reliquia_vento" + p,
+						color = r.cor * 0.6f, auraPrefab = partes[p].aura, auraTexture = partes[p].aura == null ? null : "trace_02",
+					}.WithStats(s => s.MovingSpeed.ratio = v * parte), player);
+				}
+				break;
+			case TipoReliquia.Totem:
+				CriarZona(r, nivel, pes + player.facing * 1.2f, null, "VFX_ReliquiaTotem");
+				break;
+		}
+	}
+
+	private void CriarZona(ReliquiaDef r, int nivel, Vector3 pos, BuffDef buff, string fx)
+	{
+		float d = r.Duracao(nivel);
+		m_zonas.Add(new Zona { def = r, nivel = nivel, pos = pos, fim = Time.time + d, proximo = Time.time + 0.3f, buff = buff, fx = Efeito(fx, pos, null, d) });
+	}
+
+	private static GameObject Efeito(string prefab, Vector3 pos, Transform pai, float vida)
+	{
+		GameObject p = Resources.Load<GameObject>(prefab);
+		return p != null ? EfeitoCor.Criar(p, pos, Quaternion.identity, pai, Color.white, 1f, vida) : null;
 	}
 
 	// ---------- fim de luta (3 abates) ----------
@@ -961,6 +1131,10 @@ public class BattleManager : MonoBehaviour
 		System.Text.StringBuilder sb = new System.Text.StringBuilder();
 		foreach (ActiveBuff b in f.buffs)
 		{
+			if (string.IsNullOrEmpty(b.def.name))
+			{
+				continue;   // partes sem nome (ex.: a velocidade do Vento Fugaz que cai aos poucos)
+			}
 			string hex = ColorUtility.ToHtmlStringRGB(b.def.color);
 			string stack = b.stack > 1 ? $" x{b.stack}" : string.Empty;
 			sb.Append($"<color=#{hex}>{(b.def.type == CS.BuffType.Debuff ? "v" : "^")} {b.def.name}{stack} {b.remaining:0.0}s</color>   ");
@@ -1010,6 +1184,7 @@ public class BattleManager : MonoBehaviour
 			m_toque.Botao(slot)?.Configurar(cor, ControlesToque.Icone(icone), sd == null);
 		}
 		(m_playerBrain as PlayerBrain)?.Ligar(m_toque);
+		PrepararReliquias();
 		// voltar para a escolha de heroi
 		RectTransform voltar = Rect("Herois", canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -112f), new Vector2(120f, 36f));   // embaixo do placar
 		Image vi = voltar.gameObject.AddComponent<Image>();

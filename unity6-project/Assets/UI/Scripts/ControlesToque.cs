@@ -24,6 +24,19 @@ public class ControlesToque : MonoBehaviour
 
 	public BotaoSkill Botao(int slot) => m_botoes.TryGetValue(slot, out BotaoSkill b) ? b : null;
 
+	// botoes das reliquias no centro-baixo (so toque, sem mira); teclas 1, 2, 3 no PC
+	public BotaoSkill[] CriarReliquias(int quantas, bool mostrarTeclas)
+	{
+		BotaoSkill[] r = new BotaoSkill[quantas];
+		for (int i = 0; i < quantas; i++)
+		{
+			float x = (i - (quantas - 1) * 0.5f) * 104f;
+			Criar(areaReliquias, 100 + i, new Vector2(x, 0f), 84f, false, mostrarTeclas ? (i + 1).ToString() : null, new Vector2(0.5f, 0.5f));
+			r[i] = m_botoes[100 + i];
+		}
+		return r;
+	}
+
 	public static Sprite SpriteDe(string recurso)
 	{
 		if (!s_sprites.TryGetValue(recurso, out Sprite s) || s == null)
@@ -102,9 +115,10 @@ public class ControlesToque : MonoBehaviour
 		Criar(canto, Ultimate, new Vector2(-70f, 300f), 104f, true, teclas ? "R" : null);
 	}
 
-	private void Criar(RectTransform pai, int slot, Vector2 pos, float tamanho, bool mira, string tecla)
+	private void Criar(RectTransform pai, int slot, Vector2 pos, float tamanho, bool mira, string tecla, Vector2? ancora = null)
 	{
-		RectTransform rt = Rect("Botao" + slot, pai, new Vector2(1f, 0f), new Vector2(1f, 0f), pos, new Vector2(tamanho, tamanho));
+		Vector2 a = ancora ?? new Vector2(1f, 0f);
+		RectTransform rt = Rect("Botao" + slot, pai, a, a, pos, new Vector2(tamanho, tamanho));
 		BotaoSkill b = rt.gameObject.AddComponent<BotaoSkill>();
 		b.podeMirar = mira;
 		if (slot == Ultimate)

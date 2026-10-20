@@ -967,6 +967,39 @@ public class Fighter : IActor
 
 	public bool HasBuff(BuffDef buff) => buffs.Exists(b => b.def == buff);
 
+	public void RemoverBuff(BuffDef buff)
+	{
+		ActiveBuff b = buffs.Find(x => x.def == buff);
+		if (b != null)
+		{
+			RemoveBuff(b);
+		}
+	}
+
+	// reliquias: tira todas as lentidoes (Sapatilhas do Vento Fugaz) e cura (Calice da Fonte Serena)
+	public void RemoverLentidoes()
+	{
+		for (int i = buffs.Count - 1; i >= 0; i--)
+		{
+			if (buffs[i].def.control == MotionControlType.Slow)
+			{
+				RemoveBuff(buffs[i]);
+			}
+		}
+	}
+
+	public int Curar(float fracaoVidaMax)
+	{
+		if (!IsAlive)
+		{
+			return 0;
+		}
+		int cura = Mathf.RoundToInt(Mathf.Min(maxHp - hp, maxHp * fracaoVidaMax));
+		hp += cura;
+		onPopup?.Invoke(this, "+" + cura, new Color(0.45f, 1f, 0.55f));
+		return cura;
+	}
+
 	private void Die(Fighter killer)
 	{
 		hp = 0f;
