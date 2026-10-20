@@ -2,104 +2,156 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!1045 &1
 EditorBuildSettings:
-  serializedVersion: 2
   m_ObjectHideFlags: 0
+  serializedVersion: 2
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
+    guid: fbd77403c038f944cbda313a2a28b2f6
   - enabled: 1
     path: Assets/Scenes/LobbyScene.unity
+    guid: 828cabbaa40c4ee46a4413dd434767be
   - enabled: 1
     path: Assets/Scenes/GameScene_DayofWeek.unity
+    guid: c99f0670307e80545b8c91ec36a48342
   - enabled: 1
     path: Assets/Scenes/GameScene_DeathMatch.unity
+    guid: d80323c586878d242813022dcf821bea
   - enabled: 1
     path: Assets/Scenes/GameScene_DeathMatch02.unity
+    guid: 9d1c2942ca0391e4cb13530c06f48839
   - enabled: 1
     path: Assets/Scenes/GameScene_DeathMatch03.unity
+    guid: 7c170ccc1bb07c449823bb1b381e94c2
   - enabled: 1
     path: Assets/Scenes/GameScene_DuelArena.unity
+    guid: 93459687dac6c154fbc14108920ca5d2
   - enabled: 1
     path: Assets/Scenes/GameScene_SkyTower_01.unity
+    guid: d89a89a9822d73445a5670ac3e183fcc
   - enabled: 1
     path: Assets/Scenes/GameScene_SkyTower_02.unity
+    guid: 2aef9dd7affe86246a566321f74377c0
   - enabled: 1
     path: Assets/Scenes/GameScene_SkyTower_03.unity
+    guid: b29aef4500b3d5f4d84470848d5133d7
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Forest01.unity
+    guid: 0892e9703aeb33041bb7259c3650310d
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Lava01.unity
+    guid: dcdf63ff256c8434394805b5ec22cf79
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Skygarden01.unity
+    guid: 3450116869fe5754ab7446ce2558714e
   - enabled: 1
     path: Assets/Scenes/GameScene_Team02Arena.unity
+    guid: e9eead919d8605a4a9fba63c81c4bcdf
   - enabled: 1
     path: Assets/Scenes/GameScene_TeamDeathMatch.unity
+    guid: b28c3042908792d4f9e34c17dec3d41c
   - enabled: 1
     path: Assets/Scenes/GameScene_Zombie.unity
+    guid: db1448e662c406b4c9f98edadc2a73fc
   - enabled: 1
     path: Assets/Scenes/GameScene_Zombie02.unity
+    guid: c17e9c35bbfc68e4f9064312e592f7fc
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Skygarden02.unity
+    guid: 5191fe7ef56f2604bbd66dddbed0dc83
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Skygarden03.unity
+    guid: b453412840810e54783e114f0cfc210f
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Skygarden04.unity
+    guid: fc45d0d14bf06e247be8c67929cbed09
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_Lavacave01.unity
+    guid: e7ff608606762f34bb3e74874462628d
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_GhostShip01.unity
+    guid: 11d0fdab1f166a749bcc15623f4ebc67
   - enabled: 1
     path: Assets/Scenes/GameScene_Stage_GhostShip02.unity
+    guid: 5979a223972a69f4da5c187fe6afc266
   - enabled: 1
     path: Assets/Scenes/GameScene_Pvp_Forest.unity
+    guid: 045aa308f6d1e464b9e9cd5e7676726b
   - enabled: 1
     path: Assets/Scenes/GameScene_Pvp_SkyGarden.unity
+    guid: c651fa3b2c337f1479c3b106ccf442c4
   - enabled: 1
     path: Assets/Scenes/GameScene_Pvp_GhostShip.unity
+    guid: 54933e52cb7fa6e49a5cbf509c8a37a9
   - enabled: 1
     path: Assets/Scenes/GameScene_DefenseArena.unity
+    guid: c857e73efee19cb4b8e677d8f788a033
   - enabled: 1
     path: Assets/Scenes/GameScene_Pvp_Factory_Flag.unity
+    guid: 9f679cf4831f5f2488d8151750a2d344
   - enabled: 1
     path: Assets/Scenes/GameScene_Death_Qube.unity
+    guid: 319e7f5eaef4497409a19424204aa305
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
+    guid: af749c008cfe433409cb904f9849ac7c
   - enabled: 1
     path: Assets/Scenes/GameScene_Duel_Under.unity
+    guid: c2fe1e6266a50a04cbaa7082fdd879fd
   - enabled: 1
     path: Assets/Scenes/GameScene_eli_Forest.unity
+    guid: c6eb4013e2efc6845bbcc8a35b6084a5
   - enabled: 1
     path: Assets/Scenes/GameScene_eli_Factory.unity
+    guid: 11b699da1ff88e54f9c68faaf45945ac
   - enabled: 1
     path: Assets/Scenes/GameScene_Team_Valor.unity
+    guid: 43cc3aa57b2f73c42bc46090fba341d1
   - enabled: 1
     path: Assets/Scenes/GameScene_Team_SkyGarden.unity
+    guid: ef9064f0aada03f44b8803ad42bf2207
   - enabled: 1
     path: Assets/Scenes/GameScene_Team_Culvert.unity
+    guid: 727652ae25e809a42a7cf0b600aa04de
   - enabled: 1
     path: Assets/Scenes/GameScene_Duel_Qube.unity
+    guid: 2eeee290349891943857c7caa5faaf33
   - enabled: 1
     path: Assets/Scenes/GameScene_eli_Under.unity
+    guid: d7913dcdeae2e9d428d6e27d12319807
   - enabled: 1
     path: Assets/Scenes/GameScene_Zombie_Ghostship.unity
+    guid: 368847712bc4bb445b30b245d767bd41
   - enabled: 1
     path: Assets/Scenes/GameScene_Team_Graveyard.unity
+    guid: b7bfb0484ad956d4cae905b61e4dcf1f
   - enabled: 1
     path: Assets/Scenes/GameScene_Prisoners_Jail.unity
+    guid: 79266939d6b235c41bd51bf589babdf3
   - enabled: 1
     path: Assets/Scenes/GameScene_Relay_Factory.unity
+    guid: e8e8b3a2dcab5304b8abc594eec6b38b
   - enabled: 1
     path: Assets/Scenes/GameScene_Cops_Mansion.unity
+    guid: c3fcb8a71abe8fb4daa2ea9894bf093d
   - enabled: 1
     path: Assets/Scenes/GameScene_Cops_Factory.unity
+    guid: 1a83782344a7cc949b140c89c49d2c40
   - enabled: 1
     path: Assets/Scenes/GameScene_Hide_Graveyard.unity
+    guid: 97164ee63151b1e45b7a92f038d22156
   - enabled: 1
     path: Assets/Scenes/GameScene_Hide_Culvert.unity
+    guid: 3258901ba2a20e84ebdd5d8bc4512227
   - enabled: 1
     path: Assets/Scenes/GameScene_Hide_HighSchool.unity
+    guid: a4d97f41fa32a524f9674a917dc5119f
   - enabled: 1
     path: Assets/Scenes/GameScene_Hide_Jail.unity
+    guid: 8ed1dca8dc50ad247aaa5402a9374593
   - enabled: 1
     path: Assets/Scenes/GameScene_CoopDefense.unity
+    guid: afc775c1b218d5d4686b9ee1c21caa03
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 7f63040f106e7124498c6891ef23b9c3,
+      type: 2}

@@ -115,7 +115,7 @@ QualitySettings:
     terrainMaxTrees: 50
     excludedTargetPlatforms: []
   - serializedVersion: 5
-    name: Simple
+    name: Celular
     pixelLightCount: 0
     shadows: 0
     shadowResolution: 0
@@ -156,7 +156,7 @@ QualitySettings:
     asyncUploadBufferSize: 4
     asyncUploadPersistentBuffer: 1
     resolutionScalingFixedDPIFactor: 1
-    customRenderPipeline: {fileID: 11400000, guid: 49fdee936da49b342b866632b9212a31,
+    customRenderPipeline: {fileID: 11400000, guid: 22cf166cb869a0e41a420d73d76310d9,
       type: 2}
     terrainQualityOverrides: 0
     terrainPixelError: 1
