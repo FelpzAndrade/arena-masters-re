@@ -100,6 +100,9 @@ public class Fighter : IActor
 		{ "Bufalo_Cabecada", 0.4f },   // feita no Blender: cabecada no quadro 12 de 27 (30 fps)
 		{ "Corneta_Guerra", 0.3f },    // feita no Blender: grito no quadro 9 de 22
 		{ "Golpe_Terra", 0.333f },     // feita no Blender: machado bate no chao no quadro 10 de 28
+		{ "Spark_Disparo", 0.133f },   // feitas no Blender: estocada do cajado no quadro 4 de 12
+		{ "Spark_Feixe", 0.3f },       // solta o feixe no quadro 9 de 22
+		{ "Spark_Onda", 0.3f },        // varrida passa pela frente no quadro 9 de 18 (Relampago e Ruptura tem varios golpes: tocam esticadas)
 	};
 
 	// velocidade natural de cada clipe de locomocao (m/s, medida no pe de apoio no Blender): o clipe toca na

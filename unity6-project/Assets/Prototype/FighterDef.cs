@@ -172,20 +172,20 @@ public class FighterDef
 				// Relampago do Caos: raio vermelho em linha reta, 100%
 				new SkillDef
 				{
-					name = "Relampago do Caos", vfx = "bolt", anim = "Spellcast_Shoot", damageType = (SkillDamageTypes)2, damageRatio = 1f, cooldown = 0.3f,
+					name = "Relampago do Caos", vfx = "bolt", anim = "Spark_Disparo", damageType = (SkillDamageTypes)2, damageRatio = 1f, cooldown = 0.3f,
 					windup = 0.16f, recovery = 0.2f, range = 10f, projectileSpeed = 24f, ultimateCharge = 250f, projectileRadius = 0.5f, color = red, hitstop = 0.04f,
 				},
 				// A - Raio Penetrante (3,5s): raios em linha reta que atravessam os inimigos, 440%
 				new SkillDef
 				{
-					name = "Raio Penetrante", vfx = "beam", anim = "Spellcasting", damageType = (SkillDamageTypes)2, damageRatio = 4.4f, cooldown = 3.5f,
+					name = "Raio Penetrante", vfx = "beam", anim = "Spark_Feixe", damageType = (SkillDamageTypes)2, damageRatio = 4.4f, cooldown = 3.5f,
 					windup = 0.3f, recovery = 0.25f, range = 10f, angle = 12f, lineWidth = 1.4f, color = cyan, hitstop = 0.08f, shake = 0.15f,
 					procs = { eletrocutar },
 				},
 				// B - Relampago (5s): 3 raios na area mirada (280% x3); com alvo ganha Carga de Poder (+10% dano magico, 3x, 4s); acelera
 				new SkillDef
 				{
-					name = "Relampago", vfx = "lightning", anim = "Spellcast_Raise", damageType = (SkillDamageTypes)2, damageRatio = 2.8f, cooldown = 5f,
+					name = "Relampago", vfx = "lightning", anim = "Spark_Relampago", damageType = (SkillDamageTypes)2, damageRatio = 2.8f, cooldown = 5f,
 					windup = 0.45f, hitCount = 3, hitInterval = 0.3f, recovery = 0.25f, range = 2.2f, angle = 360f, areaAtTarget = true, castRange = 9f,
 					color = cyan, hitstop = 0.06f, shake = 0.2f,
 					procs =
@@ -198,7 +198,7 @@ public class FighterDef
 				// C - Onda de Raios (10s): ondas que empurram os inimigos, 260%; acelera
 				new SkillDef
 				{
-					name = "Onda de Raios", vfx = "wave", anim = "Spellcast_Shoot", damageType = (SkillDamageTypes)2, damageRatio = 2.6f, cooldown = 10f,
+					name = "Onda de Raios", vfx = "wave", anim = "Spark_Onda", damageType = (SkillDamageTypes)2, damageRatio = 2.6f, cooldown = 10f,
 					windup = 0.3f, recovery = 0.3f, range = 5f, angle = 110f, knockbackDistance = 4f, color = cyan, hitstop = 0.1f, shake = 0.3f,
 					procs = { eletrocutar, new BuffProc { timing = ProcTimingType.None, buff = BuffLibrary.Pressa, onSelf = true } },
 				},
@@ -207,7 +207,7 @@ public class FighterDef
 			// Ruptura Caotica: fenda a frente que suga os inimigos para o centro e da dano continuo (3,33 vezes/s, 90%)
 			ultimate = new SkillDef
 			{
-				name = "Ruptura Caotica", vfx = "rupture", anim = "Spellcast_Long", damageType = (SkillDamageTypes)2, damageRatio = 0.9f, cooldown = 1f,
+				name = "Ruptura Caotica", vfx = "rupture", anim = "Spark_Ruptura", damageType = (SkillDamageTypes)2, damageRatio = 0.9f, cooldown = 1f,
 				windup = 0.45f, hitCount = 10, hitInterval = 0.3f, recovery = 0.35f, range = 3.6f, angle = 360f, areaAtTarget = true, castRange = 5f,
 				pullDistance = 1.1f, superArmor = true, cancelable = false, color = new Color(0.7f, 0.45f, 1f), hitstop = 0.03f, shake = 0.12f,
 			},
