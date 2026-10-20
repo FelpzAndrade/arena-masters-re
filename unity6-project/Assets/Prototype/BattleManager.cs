@@ -87,16 +87,21 @@ public class BattleManager : MonoBehaviour
 		}
 
 		arena = new Arena();
-		DungeonDecor.Build(arena, 3);
-		// clima de masmorra: luz fria e fraca de cima, tochas quentes nas paredes
-		Light light = new GameObject("Luz ambiente").AddComponent<Light>();
-		light.type = LightType.Directional;
-		light.intensity = 0.65f;
-		light.color = new Color(0.75f, 0.8f, 1f);
-		light.shadows = LightShadows.Soft;
-		light.transform.rotation = Quaternion.Euler(55f, -30f, 0f);
-		RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-		RenderSettings.ambientLight = new Color(0.17f, 0.16f, 0.21f);   // espaco de cor Linear (URP): mais escuro que no Gamma
+		// cena da luta: o cenario ja vem salvo com lightmap, luzes e probes (Arena Masters/Mapa/Salvar arena e fazer bake).
+		// Sem ele (cena vazia da captura de teste), monta na hora com luz em tempo real.
+		if (DungeonDecor.UseBaked(arena) == null)
+		{
+			DungeonDecor.Build(arena, 3);
+			// clima de masmorra: luz fria e fraca de cima, tochas quentes nas paredes
+			Light light = new GameObject("Luz ambiente").AddComponent<Light>();
+			light.type = LightType.Directional;
+			light.intensity = 0.65f;
+			light.color = new Color(0.75f, 0.8f, 1f);
+			light.shadows = LightShadows.Soft;
+			light.transform.rotation = Quaternion.Euler(55f, -30f, 0f);
+			RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+			RenderSettings.ambientLight = new Color(0.17f, 0.16f, 0.21f);   // espaco de cor Linear (URP): mais escuro que no Gamma
+		}
 
 		FighterDef machadinha = FighterDef.Axie();
 		machadinha.model = machadinhaModel;
@@ -162,7 +167,7 @@ public class BattleManager : MonoBehaviour
 		cam = new GameObject("Camera").AddComponent<Camera>();
 		cam.clearFlags = CameraClearFlags.SolidColor;
 		cam.backgroundColor = new Color(0.03f, 0.03f, 0.05f);
-		cam.fieldOfView = 45f;
+		cam.fieldOfView = CameraFov;
 		SetupPostProcessing();
 		m_playerBrain = playerControlled ? (IBrain)new PlayerBrain(cam) : new BotBrain(7);
 		m_enemyBrain = new BotBrain(42) { projectiles = LiveProjectiles };
@@ -227,7 +232,7 @@ public class BattleManager : MonoBehaviour
 		// lutadores longe (ou um entre a camera e o outro): afasta a camera para caber os dois
 		float spread = player.IsAlive && enemy.IsAlive ? Vector3.Distance(player.Position, enemy.Position) : 0f;
 		float zoomOut = 1f + Mathf.Clamp(spread - 5f, 0f, 10f) * 0.07f;
-		Vector3 want = focus + (m_ultTime > 0f ? new Vector3(0f, 5.5f, -5f) : new Vector3(0f, 8.5f, -7.5f) * zoomOut);
+		Vector3 want = focus + CameraOffset(m_ultTime > 0f ? CameraDistanceUlt : CameraDistance * zoomOut);
 		if (m_ultTime <= 0f && player.IsAlive && enemy.IsAlive)
 		{
 			// nunca deixa um lutador passar por baixo/atras da camera
@@ -242,6 +247,19 @@ public class BattleManager : MonoBehaviour
 		cam.transform.position = m_camBase + CameraShake.Offset(RealDt(dt));
 		cam.transform.rotation = Quaternion.LookRotation(focus - want);
 		DungeonDecor.UpdateOcclusion(focus, cam.transform.position);
+		LuzesBraseiros.SetFocus(focus);
+	}
+
+	// camera do jogo original (referencia_visual.md): 55 graus do chao, FOV fechado, heroi com ~15% da altura da tela
+	private const float CameraPitch = 55f;
+	private const float CameraFov = 33f;
+	private const float CameraDistance = 16.5f;
+	private const float CameraDistanceUlt = 10f;   // aproxima na ativacao da ultimate
+
+	private static Vector3 CameraOffset(float distance)
+	{
+		float a = CameraPitch * Mathf.Deg2Rad;
+		return new Vector3(0f, Mathf.Sin(a), -Mathf.Cos(a)) * distance;
 	}
 
 	// ---------- efeitos ----------

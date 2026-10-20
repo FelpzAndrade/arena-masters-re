@@ -11,11 +11,12 @@ public static class DungeonDecor
 	// renderers do cenario com os limites pre-calculados, para esconder o que tapa a camera
 	public static readonly List<(Renderer renderer, Bounds bounds)> Occluders = new List<(Renderer, Bounds)>();
 
-	public static GameObject Build(Arena arena, int seed)
+	// maxTorches: luzes de tocha (em tempo real so cabem poucas; no bake o ArenaBake pede muitas, espalhadas a cada 6 m)
+	public static GameObject Build(Arena arena, int seed, int maxTorches = 18)
 	{
 		Occluders.Clear();
 		System.Random rng = new System.Random(seed);
-		GameObject root = new GameObject("Cenario (KayKit Dungeon)");
+		GameObject root = new GameObject(RootName);
 		Dictionary<string, GameObject> cache = new Dictionary<string, GameObject>();
 		GameObject Prefab(string name)
 		{
@@ -46,12 +47,8 @@ public static class DungeonDecor
 		props.SetParent(root.transform, false);
 
 		BuildFloor(arena, rng, Place, floor);
-		BuildEdges(arena, rng, Place, walls, props);
-		arena.floor.GetComponent<MeshRenderer>().enabled = false;
-		foreach (LineRenderer line in arena.floor.GetComponentsInChildren<LineRenderer>())
-		{
-			line.enabled = false;
-		}
+		BuildEdges(arena, rng, Place, walls, props, maxTorches);
+		HideNavmesh(arena);
 		foreach (Renderer r in root.GetComponentsInChildren<Renderer>())
 		{
 			Occluders.Add((r, r.bounds));
@@ -62,6 +59,39 @@ public static class DungeonDecor
 			StaticBatchingUtility.Combine(walls.gameObject);
 		}
 		return root;
+	}
+
+	public const string RootName = "Cenario (KayKit Dungeon)";
+	public static bool Baked { get; private set; }
+
+	// cenario ja salvo na cena com lightmap (menu Arena Masters/Mapa/Salvar arena e fazer bake): usa ele em vez de montar.
+	// A sombra em tempo real fica so para os herois (a do cenario esta no lightmap), o que poupa ~1000 objetos no mapa de sombra.
+	public static GameObject UseBaked(Arena arena)
+	{
+		Occluders.Clear();
+		Baked = false;
+		GameObject root = GameObject.Find(RootName);
+		if (root == null)
+		{
+			return null;
+		}
+		Baked = true;
+		HideNavmesh(arena);
+		foreach (Renderer r in root.GetComponentsInChildren<Renderer>())
+		{
+			r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+			Occluders.Add((r, r.bounds));
+		}
+		return root;
+	}
+
+	private static void HideNavmesh(Arena arena)
+	{
+		arena.floor.GetComponent<MeshRenderer>().enabled = false;
+		foreach (LineRenderer line in arena.floor.GetComponentsInChildren<LineRenderer>())
+		{
+			line.enabled = false;
+		}
 	}
 
 	// ladrilhos de 2m em cada altura de chao encontrada (o mapa tem varios niveis)
@@ -82,7 +112,7 @@ public static class DungeonDecor
 		}
 	}
 
-	private static void BuildEdges(Arena arena, System.Random rng, System.Func<string, Vector3, float, Transform, GameObject> place, Transform walls, Transform props)
+	private static void BuildEdges(Arena arena, System.Random rng, System.Func<string, Vector3, float, Transform, GameObject> place, Transform walls, Transform props, int maxTorches)
 	{
 		HashSet<Vector2Int> used = new HashSet<Vector2Int>();
 		bool Claim(Vector3 p, float cell)
@@ -92,6 +122,18 @@ public static class DungeonDecor
 		}
 		int wallCount = 0;
 		int lights = 0;
+		List<Vector3> torches = new List<Vector3>();
+		bool FarFromTorches(Vector3 p)
+		{
+			foreach (Vector3 t in torches)
+			{
+				if ((t - p).sqrMagnitude < 6f * 6f)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
 		string[] obstacles = { "crates_stacked", "barrel_large", "box_stacked", "keg", "pillar", "rubble_half" };
 		string[] wallVariants = { "wall", "wall", "wall", "wall_arched", "wall_broken", "wall_pillar" };
 		foreach ((Vector3 a, Vector3 c, Vector3 outward) in arena.BoundaryEdges())
@@ -124,7 +166,7 @@ public static class DungeonDecor
 						wall.transform.Rotate(0f, 180f, 0f);
 					}
 					wallCount++;
-					if (wallCount % 3 == 0 && lights < 18)
+					if (lights < maxTorches && (maxTorches > 18 ? FarFromTorches(pos) : wallCount % 3 == 0))
 					{
 						Vector3 torchPos = pos - outward * 0.55f + Vector3.up * 2.4f;
 						GameObject torch = place("torch_mounted", torchPos, 0f, props);
@@ -139,6 +181,7 @@ public static class DungeonDecor
 							l.range = 10f;
 							l.intensity = 4f;   // URP: queda da luz fisica, precisa de mais intensidade
 							lights++;
+							torches.Add(pos);
 						}
 					}
 					else if (wallCount % 7 == 0)
@@ -205,6 +248,15 @@ public static class DungeonDecor
 				float t = Mathf.Clamp01(Vector2.Dot(center - f, seg) / seg.sqrMagnitude);
 				float dist = (f + seg * t - center).magnitude;
 				between = t > 0.05f && dist < Mathf.Max(b.extents.x, b.extents.z) + 1.5f;
+			}
+			if (Baked)
+			{
+				// cenario com lightmap: a sombra dele ja esta assada, entao so some de vista
+				if (r.forceRenderingOff != (above || between))
+				{
+					r.forceRenderingOff = above || between;
+				}
+				continue;
 			}
 			UnityEngine.Rendering.ShadowCastingMode mode = above || between
 				? UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly
