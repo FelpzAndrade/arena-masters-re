@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Monta a cena Assets/Scenes/VFX_Test.unity (teste de efeitos de skill, combate_spec.md):
 // pedaco de masmorra com o mesmo chao/paredes/cor da arena, tochas com brasas, luz e pos-processamento iguais aos da luta,
-// o Aj (heroi de teste) e um boneco de treino. Espaco = Skill B, J = combo, T = volta para o inicio.
+// o Cavaleiro (heroi de teste das skills), o Aj sem armadura e um boneco de treino cinza. Espaco = Skill B, J = combo, T = volta para o inicio.
 // Menu: Arena Masters/VFX/Criar cena VFX_Test. Nao mexe na cena da luta.
 public static class VfxTestScene
 {
@@ -16,6 +16,7 @@ public static class VfxTestScene
 		VfxSkillBBuilder.Build();
 		VfxSkillABuilder.Build();
 		VfxAmbienteBuilder.Build();
+		VfxCavaleiroBuilder.Build();
 		EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
 		// luz parecida com a da arena (sem bake: cena pequena, luz em tempo real)
@@ -70,38 +71,36 @@ public static class VfxTestScene
 			t.gameObject.isStatic = t.GetComponent<ParticleSystem>() == null && t.root.name == "Cenario";
 		}
 
-		// Aj
-		GameObject aj = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Herois/Aj/Aj_Idle.fbx"));
-		aj.name = "Aj";
-		aj.transform.SetPositionAndRotation(new Vector3(-2.5f, 0f, 0f), Quaternion.Euler(0f, 90f, 0f));
-		Animator anim = aj.GetComponent<Animator>();
+		// heroi: Cavaleiro (corpo do KayKit Knight com as pecas dele, animacoes do Aj por retarget Humanoid)
+		GameObject heroi = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(CavaleiroSetup.Fbx));
+		heroi.name = "Cavaleiro";
+		heroi.transform.SetPositionAndRotation(new Vector3(-2.5f, 0f, 0f), Quaternion.Euler(0f, 90f, 0f));
+		CavaleiroSetup.Vestir(heroi);
+		Animator anim = heroi.GetComponent<Animator>();
 		anim.runtimeAnimatorController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>("Assets/Herois/Aj/Aj.controller");
 		anim.applyRootMotion = false;
-		Bounds b = Bounds(aj);
-		SkillEsferaGiratoria skill = aj.AddComponent<SkillEsferaGiratoria>();
-		skill.alturaCentro = b.size.y * 0.52f;
-		skill.escala = b.size.y / 1.8f + 0.15f;
-		Equipamento equip = aj.AddComponent<Equipamento>();   // espada, escudo e elmo (KayKit Adventurers)
-		equip.encaixes = AjEquipar.Encaixes();
-		SkillUltimateExplosao ult = aj.AddComponent<SkillUltimateExplosao>();
+		Bounds b = Bounds(heroi);
+		SkillEsferaGiratoria skill = heroi.AddComponent<SkillEsferaGiratoria>();
+		skill.alturaCentro = b.size.y * 0.45f;
+		skill.escala = 1.9f / 1.8f + 0.15f;   // mesma esfera do Aj (o elmo alto nao aumenta o giro)
+		CavaleiroSetup.Armar(heroi);   // ponta da lamina e rastro na espada do proprio modelo
+		SkillUltimateExplosao ult = heroi.AddComponent<SkillUltimateExplosao>();
 		ult.escala = skill.escala;
-		AjTeste teste = aj.AddComponent<AjTeste>();
+		AjTeste teste = heroi.AddComponent<AjTeste>();
 
-		// boneco de treino: o cavaleiro do KayKit parado
+		// Aj: so boneco de teste das animacoes, sem armadura, parado num canto
+		GameObject aj = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Herois/Aj/Aj_Idle.fbx"));
+		aj.name = "Aj (teste)";
+		aj.transform.SetPositionAndRotation(new Vector3(-7f, 0f, 5f), Quaternion.Euler(0f, 150f, 0f));
+		Animator ajAnim = aj.GetComponent<Animator>();
+		ajAnim.runtimeAnimatorController = anim.runtimeAnimatorController;
+		ajAnim.applyRootMotion = false;
+
+		// boneco de treino: corpo do Rogue do KayKit todo cinza e sem armas (nao se confunde com nenhum heroi)
 		GameObject boneco = new GameObject("Boneco de treino");
 		boneco.transform.SetPositionAndRotation(new Vector3(-0.6f, 0f, 0f), Quaternion.Euler(0f, -90f, 0f));
-		GameObject visual = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prototype/KayKit/Characters/Knight.fbx"), boneco.transform);
-		visual.transform.localPosition = Vector3.zero;
-		visual.transform.localRotation = Quaternion.identity;
+		GameObject visual = MontarBoneco(boneco.transform);
 		visual.transform.localScale = Vector3.one * 0.85f;
-		foreach (Renderer r in visual.GetComponentsInChildren<Renderer>(true))
-		{
-			// o modelo vem com todas as armas do pacote: fica so espada e escudo
-			if (r.name.Contains("Shield") && r.name != "Badge_Shield" || r.name == "2H_Sword" || r.name == "1H_Sword_Offhand")
-			{
-				r.gameObject.SetActive(false);
-			}
-		}
 		BonecoTreino dummy = boneco.AddComponent<BonecoTreino>();
 		dummy.altura = Bounds(boneco).size.y;
 		teste.boneco = dummy;
@@ -114,12 +113,30 @@ public static class VfxTestScene
 		cam.clearFlags = CameraClearFlags.SolidColor;
 		cam.backgroundColor = new Color(0.105f, 0.075f, 0.075f);
 		CenaTesteVfx ct = cam.gameObject.AddComponent<CenaTesteVfx>();
-		ct.alvo = aj.transform;
+		ct.alvo = heroi.transform;
 		ct.distancia = 12.5f;
 		cam.transform.SetPositionAndRotation(new Vector3(-1.5f, 9.8f, -6.3f), Quaternion.Euler(55f, 0f, 0f));
 
 		EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene(), ScenePath);
-		Debug.Log($"[VFX] cena VFX_Test criada (Aj com {b.size.y:0.00} m, boneco com {dummy.altura:0.00} m)");
+		Debug.Log($"[VFX] cena VFX_Test criada (Cavaleiro com {b.size.y:0.00} m, boneco com {dummy.altura:0.00} m)");
+	}
+
+	public static GameObject MontarBoneco(Transform pai)
+	{
+		GameObject visual = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prototype/KayKit/Characters/Rogue.fbx"), pai);
+		visual.transform.localPosition = Vector3.zero;
+		visual.transform.localRotation = Quaternion.identity;
+		Material cinza = CavaleiroSetup.MaterialBoneco();
+		foreach (Renderer r in visual.GetComponentsInChildren<Renderer>(true))
+		{
+			if (r.transform.parent.name.StartsWith("handslot"))
+			{
+				r.gameObject.SetActive(false);
+				continue;
+			}
+			r.sharedMaterial = cinza;
+		}
+		return visual;
 	}
 
 	private static GameObject Place(string name, Vector3 pos, float yaw, Transform parent)

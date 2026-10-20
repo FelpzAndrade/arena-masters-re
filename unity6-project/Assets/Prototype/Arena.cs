@@ -466,9 +466,5 @@ public class Arena
 		return Snap(best);
 	}
 
-	public static Material MakeMaterial(Color color)
-	{
-		Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Unlit/Color");
-		return new Material(shader) { color = color };
-	}
+	public static Material MakeMaterial(Color color) => Vfx.MaterialLit(color);
 }

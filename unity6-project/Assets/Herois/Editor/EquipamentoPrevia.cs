@@ -14,6 +14,11 @@ public static class EquipamentoPrevia
 		go.transform.position = new Vector3(0f, 500f, 0f);
 		go.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
 		preparar?.Invoke(go);
+		foreach (SkinnedMeshRenderer smr in go.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+		{
+			smr.forceMatrixRecalculationPerRender = true;   // sem isso a malha com esqueleto fica uma pose atrasada na foto
+			smr.updateWhenOffscreen = true;
+		}
 		Camera cam = new GameObject("PreviaCam").AddComponent<Camera>();
 		cam.enabled = false;
 		cam.clearFlags = CameraClearFlags.SolidColor;
@@ -27,8 +32,18 @@ public static class EquipamentoPrevia
 		RenderTexture rt = new RenderTexture(w, h, 24);
 		cam.targetTexture = rt;
 		Texture2D folha = new Texture2D(w * 3, h * poses.Count, TextureFormat.RGB24, false);
-		Vector3 foco = new Vector3(0f, 501f, 0f);
-		Vector3[] vistas = { new Vector3(0f, 2.6f, -3.8f), new Vector3(3.8f, 0.6f, 0f), new Vector3(0f, 0.7f, 3.9f) };
+		// enquadra pela altura do heroi (o Aj tem ~2 m, o corpo do KayKit ~2,7 m)
+		Bounds bb = new Bounds(go.transform.position, Vector3.zero);
+		foreach (Renderer r in go.GetComponentsInChildren<Renderer>())
+		{
+			if (r.gameObject.activeInHierarchy && !(r is ParticleSystemRenderer) && !(r is TrailRenderer))   // so a malha
+			{
+				bb.Encapsulate(r.bounds);
+			}
+		}
+		float k = Mathf.Max(1f, bb.size.y / 2f);
+		Vector3 foco = new Vector3(0f, 500f + bb.size.y * 0.5f, 0f);
+		Vector3[] vistas = { new Vector3(0f, 2.6f, -3.8f) * k, new Vector3(3.8f, 0.6f, 0f) * k, new Vector3(0f, 0.7f, 3.9f) * k };
 		AnimationMode.StartAnimationMode();
 		for (int i = 0; i < poses.Count; i++)
 		{

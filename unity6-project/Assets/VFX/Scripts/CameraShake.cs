@@ -29,6 +29,7 @@ public static class CameraShake
 		return n * (s_trauma * Amplitude);
 	}
 
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
 	public static void Clear()
 	{
 		s_trauma = 0f;

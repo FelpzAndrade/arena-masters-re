@@ -278,6 +278,119 @@ public static class VfxCapture
 		return "agendado";
 	}
 
+	// Teste de leitura dos herois: na luta (Prototype1x1) em Play, poe Axie, Spark, Cavaleiro e o boneco de treino em fila
+	// num trecho aberto e fotografa com a camera do jogo (mesmo angulo, FOV e distancia da luta).
+	// modo: "idle" (todos de frente), "correr" (de lado, correndo), "skillB" (Cavaleiro na Skill B, os outros na 2a skill).
+	// Fotos em Captures/<nome>_0.png (tela inteira) e <nome>_zoom.png (recorte da fila, 2x).
+	public static string Fileira(string name, string modo, float tempo = 0.45f, float cx = -8.77f, float cz = -7.43f)
+	{
+		BattleManager bm = Object.FindAnyObjectByType<BattleManager>();
+		if (!EditorApplication.isPlaying || bm == null)
+		{
+			return "precisa estar no Play com a luta aberta";
+		}
+		bm.brainsPaused = true;
+		bm.player.invulnerable = bm.enemy.invulnerable = true;
+		float chao = 1.31f - Arena.CenterHeight;
+		Vector3 centro = new Vector3(cx, chao, cz);   // padrao: o trecho mais aberto do DuelArena (8,7 m ate a borda)
+		float yaw = bm.cam.transform.eulerAngles.y;
+		Quaternion girar = Quaternion.Euler(0f, yaw, 0f);
+		Vector3 lado = girar * Vector3.right, paraCamera = girar * Vector3.back;
+		Quaternion olhar = modo == "correr" ? Quaternion.LookRotation(lado) : Quaternion.LookRotation(paraCamera);
+
+		GameObject cav = GameObject.Find("FileiraCavaleiro");
+		if (cav == null)
+		{
+			cav = (GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(CavaleiroSetup.Fbx));
+			cav.name = "FileiraCavaleiro";
+			CavaleiroSetup.Vestir(cav);
+			Animator a = cav.GetComponent<Animator>();
+			a.runtimeAnimatorController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>("Assets/Herois/Aj/Aj.controller");
+			a.applyRootMotion = false;
+			SkillEsferaGiratoria s = cav.AddComponent<SkillEsferaGiratoria>();
+			s.alturaCentro = 1.15f;
+			s.escala = 1.9f / 1.8f + 0.15f;
+			Equipamento eq = CavaleiroSetup.Armar(cav);
+			eq.Equipar();
+			s.pontaDaLamina = eq.PontaDaLamina;
+		}
+		GameObject bon = GameObject.Find("FileiraBoneco");
+		if (bon == null)
+		{
+			bon = new GameObject("FileiraBoneco");
+			VfxTestScene.MontarBoneco(bon.transform).transform.localScale = Vector3.one * 0.85f;
+		}
+		Fighter[] lutadores = { bm.player, bm.enemy };
+		float[] xs = { -3.3f, -1.1f, 1.1f, 3.3f };
+		for (int i = 0; i < 2; i++)
+		{
+			lutadores[i].go.transform.position = centro + lado * xs[i] + Vector3.up * Arena.CenterHeight;
+			lutadores[i].go.transform.rotation = olhar;
+			lutadores[i].facing = olhar * Vector3.forward;
+		}
+		cav.transform.SetPositionAndRotation(centro + lado * xs[2], olhar);
+		bon.transform.SetPositionAndRotation(centro + lado * xs[3], olhar);
+
+		Animator anim = cav.GetComponent<Animator>();
+		anim.SetFloat("Velocidade", modo == "correr" ? 5f : 0f);
+		foreach (Fighter f in lutadores)
+		{
+			Animation an = f.go.GetComponentInChildren<Animation>();
+			string clip = modo == "correr" ? f.def.animRun : f.def.animIdle;
+			if (an != null && an[clip] != null)
+			{
+				an[clip].wrapMode = WrapMode.Loop;
+				an.Play(clip);
+			}
+		}
+
+		Camera cam = new GameObject("CameraFileira").AddComponent<Camera>();
+		cam.CopyFrom(bm.cam);
+		UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cam).renderPostProcessing = true;
+		cam.enabled = false;
+		Vector3 foco = centro + Vector3.up * 1f;
+		cam.transform.rotation = Quaternion.Euler(55f, yaw, 0f);
+		cam.transform.position = foco - cam.transform.forward * 16.5f;
+		CapturaSequencia c = CapturaSequencia.Iniciar(name, new[] { modo == "skillB" ? tempo : 0.6f }, () =>
+		{
+			if (modo != "skillB")
+			{
+				return;
+			}
+			anim.SetTrigger("Redemoinho");
+			cav.GetComponent<SkillEsferaGiratoria>().Iniciar(paraCamera);
+			cav.GetComponent<Equipamento>().Rastro(true);
+			cav.GetComponent<EspadaBrilho>()?.Pico(0.95f);
+			foreach (Fighter f in lutadores)
+			{
+				f.cooldowns[1] = 0f;
+				f.TryUseSkill(1, f.Position + paraCamera * 3f);
+			}
+		});
+		c.cam = cam;
+		Object.Destroy(cam.gameObject, 3f);
+		return "agendado";
+	}
+
+	// recorte 2x do centro da foto da fila (os herois ficam pequenos na distancia da luta)
+	public static string Zoom(string name)
+	{
+		Texture2D src = new Texture2D(2, 2);
+		src.LoadImage(File.ReadAllBytes($"Captures/{name}_0.png"));
+		int w = 480, h = 270, x0 = (src.width - w) / 2, y0 = (src.height - h) / 2;
+		Texture2D dst = new Texture2D(w * 2, h * 2, TextureFormat.RGB24, false);
+		for (int y = 0; y < h * 2; y++)
+		{
+			for (int x = 0; x < w * 2; x++)
+			{
+				dst.SetPixel(x, y, src.GetPixelBilinear((x0 + x * 0.5f) / src.width, (y0 + y * 0.5f) / src.height));
+			}
+		}
+		dst.Apply();
+		File.WriteAllBytes($"Captures/{name}_zoom.png", dst.EncodeToPNG());
+		return "ok";
+	}
+
 	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
 	public static void ReimportCfxr()
 	{

@@ -9,6 +9,9 @@ public class TintTela : MonoBehaviour
 {
 	private static TintTela s_instancia;
 
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
+	private static void Zerar() => s_instancia = null;
+
 	private Volume m_volume;
 	private ColorAdjustments m_cor;
 	private float m_t = -1f, m_subida, m_segura, m_queda;

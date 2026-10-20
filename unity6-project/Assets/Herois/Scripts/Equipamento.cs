@@ -6,6 +6,7 @@ using UnityEngine;
 //   Equipar()          cria sockets e pecas (roda sozinho no Awake; no editor, menu do componente)
 //   Rastro(bool)       liga/desliga o rastro da lamina (so durante os golpes)
 //   PontaDaLamina      ponto na ponta da arma (efeitos de corte saem dali)
+// Heroi que ja vem com a arma no modelo (ex.: Cavaleiro do KayKit): deixe encaixes vazio e preencha armaDoModelo.
 [RequireComponent(typeof(Animator))]
 public class Equipamento : MonoBehaviour
 {
@@ -25,6 +26,8 @@ public class Equipamento : MonoBehaviour
 	public Encaixe[] encaixes = new Encaixe[0];
 	[ColorUsage(false, true)] public Color corRastro = new Color(0.4f, 0.75f, 1.6f);
 	public float larguraRastro = 0.18f;
+	public string armaDoModelo = "";                       // nome do objeto da arma que o modelo ja traz
+	public Vector3 pontaDoModelo = new Vector3(0f, 1.4f, 0f);   // ponta da lamina no espaco dessa arma
 
 	public Transform PontaDaLamina { get; private set; }
 
@@ -40,6 +43,16 @@ public class Equipamento : MonoBehaviour
 	public void Equipar()
 	{
 		Animator anim = GetComponent<Animator>();
+		if (!string.IsNullOrEmpty(armaDoModelo))
+		{
+			foreach (Transform t in GetComponentsInChildren<Transform>(true))
+			{
+				if (t.name == armaDoModelo)
+				{
+					ArmaPronta(t, pontaDoModelo);
+				}
+			}
+		}
 		foreach (Encaixe e in encaixes)
 		{
 			Transform osso = anim.GetBoneTransform(e.osso);
@@ -63,12 +76,27 @@ public class Equipamento : MonoBehaviour
 			p.name = e.nome;
 			if (e.arma)
 			{
-				PontaDaLamina = new GameObject("PontaDaLamina").transform;
-				PontaDaLamina.SetParent(p.transform, false);
-				PontaDaLamina.localPosition = e.ponta;
-				CriarRastro(p.transform, e.ponta);
+				ArmaPronta(p.transform, e.ponta);
 			}
 		}
+	}
+
+	private void ArmaPronta(Transform arma, Vector3 ponta)
+	{
+		Transform velha = arma.Find("PontaDaLamina");
+		if (velha != null)
+		{
+			DestroyImmediate(velha.gameObject);
+		}
+		Transform velho = arma.Find("RastroLamina");
+		if (velho != null)
+		{
+			DestroyImmediate(velho.gameObject);
+		}
+		PontaDaLamina = new GameObject("PontaDaLamina").transform;
+		PontaDaLamina.SetParent(arma, false);
+		PontaDaLamina.localPosition = ponta;
+		CriarRastro(arma, ponta);
 	}
 
 	public void Rastro(bool ligado)

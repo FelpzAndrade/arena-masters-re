@@ -27,6 +27,9 @@ public static class DamageNumber
 	}
 
 	private static readonly List<Item> s_items = new List<Item>();
+
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
+	private static void Zerar() => s_items.Clear();   // os textos eram da cena anterior (as fontes ficam em cache)
 	private static TMP_FontAsset s_tmpFont;
 	private static Material s_tmpMat;
 

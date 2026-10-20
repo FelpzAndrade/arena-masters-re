@@ -4,6 +4,8 @@ using UnityEngine;
 //   Espaco  Skill B (Redemoinho + SkillEsferaGiratoria)
 //   J       ataque basico: cada toque avanca um golpe do combo (Ataque1..4); 0,8 s sem tocar volta para o Ataque1
 //   T       volta o Aj e o boneco para o lugar inicial
+//   U       enche a barra da ultimate (teste do brilho maximo da espada)
+// Com EspadaBrilho (Cavaleiro): a espada brilha forte na Skill B e no inicio da ultimate, e fica no maximo com a barra cheia.
 // O Animator chama OnImpacto (evento do clipe) no quadro do golpe; aqui ele vira efeito + game feel do combate_spec.md:
 // hit stop, tremida, flash branco no boneco, numero de dano e contador de combo.
 [RequireComponent(typeof(Animator))]
@@ -25,6 +27,9 @@ public class AjTeste : MonoBehaviour
 	private int m_passo;
 	private float m_semTocar = 99f;
 	private static GameObject s_impacto;
+	private EspadaBrilho m_espada;
+	private float m_carga;                  // barra da ultimate (10.000 cheia, carga = dano causado; estimativa para o teste)
+	private const float CargaCheia = 10000f;
 
 	private void Awake()
 	{
@@ -33,6 +38,7 @@ public class AjTeste : MonoBehaviour
 		m_skillB = GetComponent<SkillEsferaGiratoria>();
 		m_equip = GetComponent<Equipamento>();
 		m_ult = GetComponent<SkillUltimateExplosao>();
+		m_espada = GetComponent<EspadaBrilho>();
 		if (m_ult != null)
 		{
 			m_ult.mao = m_anim.GetBoneTransform(HumanBodyBones.RightHand);
@@ -77,6 +83,10 @@ public class AjTeste : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.T))
 		{
 			Resetar();
+		}
+		if (Input.GetKeyDown(KeyCode.U))
+		{
+			Carregar(CargaCheia);
 		}
 		Andar();
 		AcertoNoCaminho();
@@ -155,7 +165,8 @@ public class AjTeste : MonoBehaviour
 		{
 			Resetar();
 		}
-		GUI.Label(new Rect(20f, 20f, 700f, 30f), "WASD anda | Espaco Skill B | R ultimate | J ataque | T volta");
+		GUI.Label(new Rect(20f, 20f, 700f, 30f), "WASD anda | Espaco Skill B | R ultimate | J ataque | T volta | U enche a ultimate");
+		GUI.Label(new Rect(20f, 48f, 400f, 30f), m_carga >= CargaCheia ? "Ultimate PRONTA" : $"Ultimate {m_carga / CargaCheia * 100f:0}%");
 	}
 
 	public void Resetar()
@@ -198,6 +209,10 @@ public class AjTeste : MonoBehaviour
 		m_acertouCaminho = false;
 		m_anim.SetTrigger("Redemoinho");
 		m_skillB.Iniciar(transform.forward);
+		if (m_espada != null)
+		{
+			m_espada.Pico(m_skillB.atraso + m_skillB.duracao);
+		}
 	}
 
 	// Skill A da ficha como ultimate: avanca, tela tinge, impacto pesado, 2a onda e fumaca (SkillUltimateExplosao)
@@ -210,6 +225,12 @@ public class AjTeste : MonoBehaviour
 		m_acao = "GolpeChao";
 		m_anim.SetTrigger("GolpeChao");
 		m_ult.Iniciar(boneco.transform.position);
+		m_carga = 0f;
+		if (m_espada != null)
+		{
+			m_espada.ultimatePronta = false;
+			m_espada.Pico(m_ult.tempoImpacto);
+		}
 	}
 
 	// impacto principal: hit stop de ultimate, tremida forte e varios numeros em sequencia (multi-hit)
@@ -247,6 +268,15 @@ public class AjTeste : MonoBehaviour
 			{
 				combo.Hit();
 			}
+		}
+	}
+
+	private void Carregar(float quanto)
+	{
+		m_carga = Mathf.Min(CargaCheia, m_carga + quanto);
+		if (m_espada != null)
+		{
+			m_espada.ultimatePronta = m_carga >= CargaCheia;
 		}
 	}
 
@@ -310,6 +340,7 @@ public class AjTeste : MonoBehaviour
 			EfeitoCor.Criar(s_impacto, p, Quaternion.identity, null, Color.white, critico ? 1.3f : 1f, 0.5f);
 		}
 		boneco.Acertar(critico ? Mathf.RoundToInt(dano * 1.8f) : dano, critico, transform.position);
+		Carregar(critico ? dano * 1.8f : dano);
 		if (combo != null)
 		{
 			combo.Hit();

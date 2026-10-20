@@ -4,6 +4,25 @@ using UnityEngine;
 // Efeitos de skill com o ParticleSystem do Unity e texturas do Kenney Particle Pack (CC0, Resources/VFX).
 public static class Vfx
 {
+	// altura do centro do corpo acima do pe (a mesma do Arena.CenterHeight da luta; repetida aqui para o VFX nao depender do Combate)
+	private const float CentroCorpo = 1f;
+
+	// efeitos vivos eram da cena anterior; caches de material e prefab (assets) continuam
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
+	private static void Zerar()
+	{
+		s_live.Clear();
+		s_ghosts.Clear();
+		s_rocks.Clear();
+	}
+
+	// material simples iluminado (URP Lit; sem URP cai para Standard/Unlit)
+	public static Material MaterialLit(Color color)
+	{
+		Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Unlit/Color");
+		return new Material(shader) { color = color };
+	}
+
 	private struct Live
 	{
 		public ParticleSystem ps;
@@ -113,7 +132,7 @@ public static class Vfx
 		if (s_pillar == null)
 		{
 			s_pillar = Resources.Load<Mesh>("M_PilarPedra");
-			s_pillarMat = Arena.MakeMaterial(new Color(0.45f, 0.38f, 0.31f));
+			s_pillarMat = MaterialLit(new Color(0.45f, 0.38f, 0.31f));
 		}
 	}
 
@@ -398,7 +417,7 @@ public static class Vfx
 	// Onda de Raios: arcos eletricos em leque a partir dos pes (prefab feito para alcance 5 m)
 	public static void Wave(Vector3 pos, Vector3 facing, Color color, float range)
 	{
-		Own("VFX_OndaRaios", pos + Vector3.down * Arena.CenterHeight, Quaternion.LookRotation(facing), range / 5f, 0.8f);
+		Own("VFX_OndaRaios", pos + Vector3.down * CentroCorpo, Quaternion.LookRotation(facing), range / 5f, 0.8f);
 	}
 
 	// Ruptura Caotica: pulso a cada dano (a fenda inteira nasce em RuptureRift, no inicio da skill)
@@ -449,7 +468,7 @@ public static class Vfx
 		if (s_pillar == null)
 		{
 			s_pillar = Resources.Load<Mesh>("M_PilarPedra");   // pedra pontuda (menu Arena Masters/VFX/Montar Divisor de Terra)
-			s_pillarMat = Arena.MakeMaterial(new Color(0.45f, 0.38f, 0.31f));
+			s_pillarMat = MaterialLit(new Color(0.45f, 0.38f, 0.31f));
 		}
 		GameObject rock;
 		if (s_pillar != null)

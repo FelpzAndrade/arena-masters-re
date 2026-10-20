@@ -14,6 +14,9 @@ public class LuzesBraseiros : MonoBehaviour
 	public Transform poeira;                    // poeira no ar (VFX_PoeiraAr): acompanha o ponto que a camera olha
 
 	private static Vector3 s_focus;
+
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
+	private static void Zerar() => s_focus = Vector3.zero;
 	private Light[] m_lights;
 	private float[] m_seed;
 

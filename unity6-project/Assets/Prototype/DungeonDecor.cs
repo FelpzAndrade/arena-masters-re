@@ -11,6 +11,9 @@ public static class DungeonDecor
 	// renderers do cenario com os limites pre-calculados, para esconder o que tapa a camera
 	public static readonly List<(Renderer renderer, Bounds bounds)> Occluders = new List<(Renderer, Bounds)>();
 
+	[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]   // inicio de cada Play (vale com o recarregamento de codigo desligado)
+	private static void Zerar() => Occluders.Clear();
+
 	// maxTorches: luzes de tocha (em tempo real so cabem poucas; no bake o ArenaBake pede muitas, espalhadas a cada 6 m)
 	public static GameObject Build(Arena arena, int seed, int maxTorches = 18)
 	{
