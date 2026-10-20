@@ -106,7 +106,7 @@ public class FighterDef
 				// B - Investida do Bufalo (8s): corre ate o inimigo e da uma cabecada, inconsciente 1s, 300%
 				new SkillDef
 				{
-					name = "Investida do Bufalo", vfx = "slash", anim = "Bufalo_Cabecada", damageRatio = 3f, cooldown = 8f, windup = 0.35f, recovery = 0.35f,
+					name = "Investida do Bufalo", vfx = "bufalo", anim = "Bufalo_Cabecada", damageRatio = 3f, cooldown = 8f, windup = 0.35f, recovery = 0.35f,
 					range = 2.2f, angle = 120f, dashDistance = 6f, color = new Color(1f, 0.35f, 0.15f), hitstop = 0.12f, shake = 0.3f, cancelable = false,
 					procs = { new BuffProc { timing = ProcTimingType.Hit, rate = 100, buff = BuffLibrary.Inconsciente(1f) } },
 				},

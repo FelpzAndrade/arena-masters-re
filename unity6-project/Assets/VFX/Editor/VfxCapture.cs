@@ -57,8 +57,9 @@ public static class VfxCapture
 
 	// No Play (pelo MCP): poe o jogador num lugar aberto perto do inimigo, usa a skill e fotografa a sequencia em
 	// tempo real (sem pausar: as particulas andam em tempo nao escalado). O inimigo fica parado durante a captura.
-	// Fotos em captures/vfx_<nome>_*.png.
-	public static string PlaySkill(int skill, string name)
+	// Fotos em captures/vfx_<nome>_*.png. ahead = quanto a camera olha para a frente do jogador; enemyAhead > 0 poe o inimigo
+	// parado nessa distancia, na frente (para ver o acerto), senao ele fica longe da camera.
+	public static string PlaySkill(int skill, string name, float ahead = 1.2f, float enemyAhead = 0f)
 	{
 		BattleManager bm = Object.FindFirstObjectByType<BattleManager>();
 		if (!EditorApplication.isPlaying || bm == null || bm.player == null)
@@ -85,7 +86,7 @@ public static class VfxCapture
 				EditorApplication.update -= cb;
 				return;
 			}
-			enemyGo.transform.position = spot + new Vector3(0f, 0f, 7f);   // longe da camera
+			enemyGo.transform.position = enemyAhead > 0f ? spot + Vector3.right * enemyAhead : spot + new Vector3(0f, 0f, 7f);
 			for (int i = 0; i < e.cooldowns.Length; i++)
 			{
 				e.cooldowns[i] = 99f;
@@ -104,12 +105,12 @@ public static class VfxCapture
 				{
 					return;
 				}
-				Vector3 c = p.Position + Vector3.right * 1.2f + Vector3.down * 0.7f;
+				Vector3 c = p.Position + Vector3.right * ahead + Vector3.down * 0.7f;
 				cam = new GameObject("CapturaVfx").AddComponent<Camera>();
 				cam.CopyFrom(bm.cam);
 				UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cam).renderPostProcessing = true;
 				cam.enabled = false;
-				cam.transform.position = c + new Vector3(1.2f, 3.6f, -4.2f);
+				cam.transform.position = c + new Vector3(1.2f, 3.6f, -4.2f) * Mathf.Max(1f, ahead / 2.4f);   // afasta para golpes longos
 				cam.transform.LookAt(c);
 				rt = new RenderTexture(960, 540, 24, RenderTextureFormat.ARGB32);
 				cam.targetTexture = rt;

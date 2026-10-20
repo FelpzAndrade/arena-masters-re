@@ -232,6 +232,9 @@ public class BattleManager : MonoBehaviour
 				Vfx.WarHorn(owner.Position + Vector3.down * Arena.CenterHeight);
 				CameraShake.Add(0.12f);
 				return;
+			case "bufalo":
+				Vfx.BufaloImpact(owner.Position + owner.facing * 0.9f, owner.facing);
+				return;
 			case "earthslam":
 				Vfx.EarthSlam(owner.Position + Vector3.down * Arena.CenterHeight, owner.facing, sd.range);
 				return;
@@ -315,6 +318,10 @@ public class BattleManager : MonoBehaviour
 		if (sd.vfx == "teleport")
 		{
 			Vfx.Teleport(owner.Position, owner.def.color);
+		}
+		if (sd.vfx == "bufalo")
+		{
+			Vfx.BufaloRun(owner.go.transform, sd.windup + 0.9f);   // corrida + tempo para a poeira assentar
 		}
 	}
 

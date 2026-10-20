@@ -105,8 +105,24 @@ public static class Vfx
 		Own("VFX_GolpeTerra", groundPos + facing * (1.1f * k), Quaternion.LookRotation(facing), k, 1.9f);
 	}
 
+	// Investida do Bufalo: rastro preso no Axie durante a corrida e explosao na cabecada (pos = ponto do impacto, altura do peito)
+	public static void BufaloRun(Transform owner, float life)
+	{
+		OwnAttached(owner, "VFX_BufaloCorrida", life);
+	}
+
+	public static void BufaloImpact(Vector3 pos, Vector3 facing)
+	{
+		Own("VFX_BufaloImpacto", pos, Quaternion.LookRotation(facing), 1f, 1.2f);
+	}
+
 	// aura de efeito proprio presa no lutador enquanto o buff durar (removida em DestroyAura)
 	public static GameObject OwnAura(Transform owner, string name)
+	{
+		return OwnAttached(owner, name, 9999f);
+	}
+
+	private static GameObject OwnAttached(Transform owner, string name, float life)
 	{
 		GameObject prefab = Resources.Load<GameObject>(name);
 		if (prefab == null)
@@ -124,7 +140,7 @@ public static class Vfx
 				ps.Simulate(0f, false, true, false);
 			}
 		}
-		s_live.Add(new Live { prefab = go, systems = systems, life = 9999f, total = 9999f });
+		s_live.Add(new Live { prefab = go, systems = systems, life = life, total = life });
 		return go;
 	}
 
