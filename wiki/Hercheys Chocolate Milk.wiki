@@ -1,0 +1,13 @@
+{{Relic
+|name=Herchey's Chocolate Milk
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Hercheys_Chocolate_Milk.png|150x150px|link=]]
+|lore=A chocolate drink enjoyed by the spirited high school student Vasco.  Perfect for sharing with friends.
+|relicskillname=On the House
+|relicCD=50
+|relicskilldesc=Chug a carton of Herchey's Chocolate Milk.  Gradually recovers HP in proportion to Max HP for 8 sec.
+|reliceffect=Recover <font color="yellow">10%</font> of Max HP.
+|reliceffect2=Max enhancement reached.
+}}
+[[Category:Relic]]

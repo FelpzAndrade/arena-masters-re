@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Vasco.png]]
+|class=Tank
+|type=Melee
+|rating=13,455
+|obtained=Event
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=83,160
+|physdef=3,600
+|magdef=3,600
+|physdefrate=22.5%
+|magdefrate=22.5%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=6.6
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Seeing Red
+|passiveskill1desc=DEF Rate increases by 2.5%, and Max HP increases by 5%.
+|attackskill=Knuckle Storm
+|attackskilldesc=Swing your fists rapidly to attack enemies.  DMG 130%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly.  When using a skill, you can dodge enemy's attack.
+|skilla=Meet the Feet (3s CD)
+|skilladesc=Launch yourself at the enemy and deliver 3 consecutive kicks.  DMG 200% x3
+|skillb=Gentleman's Headbutt (10s CD)
+|skillbdesc=Charge until you collide with an enemy.  MOV SPD slows down before gradually increasing.  While charging, DEF Rate increases by 15%, and hitting an enemy triggers Bravado Effect, which increases DMG by 20% and pushes enemies back for 4 sec.  DMG 420%
+|skillc=Leap (6s CD)
+|skillbcdesc=Jump forward and strike the ground.  Temporarily decreases the targets' MOV SPD.  DMG 420%
+|ultimateskill=Powerknuckle
+|ultimateskilldesc=Leap in place and strike the ground with your fist to launch a shockwave that knocks enemies Unconscious for 2.5 secs.  DMG 900%
+}}
+[[Category:Backup]]

@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Dora.png]]
+|class=
+|type=Ranged
+|rating=
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=
+|magatk=
+|physpenrate=
+|magpenrate=
+|critrate=
+|critatk=
+|accuracy=
+<!-------->
+|maxhp=
+|physdef=
+|magdef=
+|physdefrate=
+|magdefrate=
+|critevaderate=
+|critdefrate=
+|evade=
+<!-------->
+|movespd=
+|rage=
+|tag=
+|skillcd=
+<!-------->
+|toughness=
+|weight=
+<!----Skill Descriptions Start---->
+|passiveskill=Bomb Maniac (30s CD)
+|passiveskill1desc=Drops a bomb onto the ground when HP falls below 30%.  Bomb explodes after 2 sec to deal heavy DMG to enemies and launch them into the air.  DMG 600%
+|attackskill=Bouncing Bomb
+|attackskilldesc=Launch a bouncing bomb at the enemy.  DMG 150%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Time Bomb (7s CD)
+|skilladesc=Installs a time bomb that explodes after 2 sec.  Deals heavy DMG to enemies caught in the blast and launches them into the air.  DMG 600%
+|skillb=Rocket Gloves (7s CD)
+|skillbdesc=Launches rocket gloves that pulls and Slows the enemy.  DMG 330%
+|skillc=Smoke Bomb (10s CD)
+|skillbcdesc=Throw a smoke bomb to deal DMG and apply a smoke screen to the area for 4 sec.  The smoke screen reduces visual range, inflicts continuous DMG, and reduces MOV SPD (max of 3 times).  Temporarily increases MOV SPD.  DMG 440%, Smoke Screen DMG 60% x3
+|ultimateskill=Explosive Delivery
+|ultimateskilldesc=Charge forward wearing a giant bomb that explodes and pushes enemies back.  Provides increased DEF (30%) and immunity to control Effects while charging.  DMG 1,700%
+}}
+[[Category:Backup]]

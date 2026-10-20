@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Terrain
+  - player
+  - monster
+  - attack
+  - attack_range
+  - dropobject
+  - sensor
+  - SpawnPoint
+  - gem
+  - mapobject
+  - pointobject
+  - props
+  - meat
+  - trap
+  - ground
+  - trap_pierce
+  - obstacle
+  - explosion
+  - wall
+  - EnemyAttackRange
+  - missile
+  - shield
+  - FxTemporaire
+  - MyAttack
+  - breath
+  - Fx
+  - Effect
+  - DragCard
+  - Drag and Drop Root
+  - DirectionLight
+  - gimmick
+  - hideandseek_tagger
+  - RelicObject
+  - HeadStone
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - MapFloor
+  - MapWall
+  - DieObject
+  - Stencil
+  - NoneAStarCollisoin
+  - Character
+  - AttackCollision
+  - UI - Loading
+  - Monster
+  - Trigger
+  - MapObject
+  - Wall
+  - Ghost
+  - gacha
+  - 
+  - NoneCollision
+  - PushCollider
+  - 
+  - 
+  - 
+  - 
+  - EyeBandage
+  - Pet
+  m_SortingLayers:
+  - name: FXBackground
+    uniqueID: 1659420987
+    locked: 0
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: FXForeground
+    uniqueID: 590853191
+    locked: 0
+  - name: TopMost
+    uniqueID: 3160215465
+    locked: 0

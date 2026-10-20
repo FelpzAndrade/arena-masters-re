@@ -1,0 +1,13 @@
+{{Relic
+|name=Totem of Madness
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Totem_of_Madness.png|150x150px|link=]]
+|lore=A totem used by raging barbarians through the ages.  Use in the Arena to cause total chaos.
+|relicskillname=Totem of Madness
+|relicCD=45
+|relicskilldesc=A totem cursed with madness.  Decreases DEF by 10% and increases the ATK of every hero within the target area for 8 sec.
+|reliceffect=DMG Increase <font color="yellow">10%</font>
+|reliceffect2=DMG Increase <font color="yellow">?%</font>
+}}
+[[Category:Relic]]

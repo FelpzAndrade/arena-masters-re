@@ -1,0 +1,50 @@
+<!---
+{{
+{{#switch: Relic_Fetch
+ | Elijahs_Chalice = Elijahs_Chalice
+ | Steel_Knights_Shield = Steel_Knights_Shield
+ | Barbaric_Warriors_Bugle = Barbaric_Warriors_Bugle
+ | Ice_Crystal = Ice_Crystal
+ | #default = Elijahs_Chalice
+}}
+}}
+--->
+<!---
+{{Nav_Relic
+|template=Elijahs_Chalice}}
+--->
+<!----
+<iframe scrolling="no" height="500" width="1000" frameborder="1" align="top" src="http://arena-masters-legend-begins.wikia.com/wiki/Elijahs_Chalice" marginwidth="0" marginheight="0" name="iframe_relic">
+</iframe>
+---->
+
+{| style="background-color:#fff; border:1px solid #fff; width:auto;" align="center"
+|-
+|[[Image:Elijahs_Chalice.png|100px|alt=Alt text|Elijah's Chalice|link=Elijahs_Chalice]]
+|[[Image:Steel_Knights_Shield.png|100px|alt=Alt text|Steel Knight's Shield|link=Steel_Knights_Shield]]
+|[[Image:Barbaric_Warriors_Bugle.png|100px|alt=Alt text|Barbaric Warrior's Bugle|link=Barbaric_Warriors_Bugle]]
+|[[Image:Ice_Crystal.png|100px|alt=Alt text|Ice Crystal|link=Ice_Crystal]]
+|[[Image:Jungle_Hunters_Bolas.png|100px|alt=Alt text|Jungle Hunter's Bolas|link=Jungle_Hunters_Bolas]]
+|[[Image:Winged_Leather_Shoes.png|100px|alt=Alt text|Winged Leather Shoes|link=Winged_Leather_Shoes]]
+|[[Image:Fairy_Dust_Pouch.png|100px|alt=Alt text|Fairy Dust Pouch|link=Fairy_Dust_Pouch]]
+|[[Image:Royal_Knights_Charm.png|100px|alt=Alt text|Royal Knight's Charm|link=Royal_Knights_Charm]]
+|-
+|[[Image:Vampire_Fang_Talisman.png|100px|alt=Alt text|Vampire Fang Talisman|link=Vampire_Fang_Talisman]]
+|[[Image:Magical_Engineers_Land_Mine.png|100px|alt=Alt text|Magical Engineer's Land Mine|link=Magical_Engineers_Land_Mine]]
+|[[Image:Vampire_Skull.png|100px|alt=Alt text|Vampire Skull|link=Vampire_Skull]]
+|[[Image:Battlefield_Flag.png|100px|alt=Alt text|Battlefield Flag|link=Battlefield_Flag]]
+|[[Image:Magical_Engineers_Booster.png|100px|alt=Alt text|Magical Engineer's Booster|link=Magical_Engineers_Booster]]
+|[[Image:Invisibility_Potion.png|100px|alt=Alt text|Invisibility Potion|link=Invisibility_Potion]]
+|[[Image:Invisibility_Cloak.png|100px|alt=Alt text|Invisibility Cloak|link=Invisibility_Cloak]]
+|[[Image:Hailstorm_Staff.png|100px|alt=Alt text|Hailstorm Staff|link=Hailstorm_Staff]]
+|-
+|[[Image:Wind_Spirit_Bottle.png|100px|alt=Alt text|Wind Spirit Bottle|link=Wind_Spirit_Bottle]]
+|[[Image:Ice_Queens_First_Ring.png|100px|alt=Alt text|Ice Queen's First Ring|link=Ice_Queens_First_Ring]]
+|[[Image:Totem_of_Madness.png|100px|alt=Alt text|Totem of Madness|link=Totem_of_Madness]]
+|[[Image:Cursed_Staff.png|100px|alt=Alt text|Cursed Staff|link=Cursed_Staff]]
+|[[Image:Hercheys_Chocolate_Milk.png|100px|alt=Alt text|Herchey's Chocolate Milk|link=Hercheys_Chocolate_Milk]]
+|[[Image:Bog_Conjurers_Amulet.png|100px|alt=Alt text|Bog Conjurer's Amulet|link=Bog_Conjurers_Amulet]]
+|[[Image:Magical_Engineers_Turret.png|100px|alt=Alt text|Magical Engineer's Turret|link=Magical_Engineers_Turret]]
+|[[Image:Ice_Queens_Second_Ring.png|100px|alt=Alt text|Ice Queen's Second Ring|link=Ice_Queens_Second_Ring]]
+|}
+[[Category:Relic]]

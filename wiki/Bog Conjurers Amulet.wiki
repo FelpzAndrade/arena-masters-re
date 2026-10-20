@@ -1,0 +1,13 @@
+{{Relic
+|name=Bog Conjurer's Amulet
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Bog_Conjurers_Amulet.png|150x150px|link=]]
+|lore=An amulet created by the Bog Conjurers.  Infused with dark power that can summon the dead and curse enemies.
+|relicskillname=Dead Man's Grip
+|relicCD=55
+|relicskilldesc=Generate a cursed swamp beneath the enemy and summon the undead to attack.  The attacked enemies decrease in moving speed and ATK.
+|reliceffect=Dead Man's Grip DMG <font color="yellow">10%</font>, DMG Reduction <font color="yellow">-6%</font>
+|reliceffect2=Dead Man's Grip DMG <font color="yellow">?%</font>, DMG Reduction <font color="yellow">-?%</font>
+}}
+[[Category:Relic]]

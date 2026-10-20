@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 5-1 Core of the Problem
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 5-2 Deathmatch Finals Round 1
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 5-3 Mark of Courage 12
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 5-4 Bronze Golem Core
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 5-5 Team Deathmatch Finals Round 1
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 5-6 Mark of Courage 13
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 5-7 Fiery Vengeance
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 5-8 King of the Hill Finals Round 1
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 5-9 Mark of Courage 14
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 5-10 Too Hot to Handle
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 5-11 Bomb Party
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

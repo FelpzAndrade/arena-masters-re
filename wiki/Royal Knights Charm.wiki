@@ -1,0 +1,13 @@
+{{Relic
+|name=Royal Knight's Charm
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Royal_Knights_Charm.png|150x150px|link=]]
+|lore=A sacred charm given to royal knights.  It's engraved with a special symbol that protects the wearer from danger.
+|relicskillname=Royal Knight's Charm
+|relicCD=40
+|relicskilldesc=Generates a barrier that absorbs DMG for 5 sec.  Increases Crit Evade Rate while the barrier is in place.
+|reliceffect=Absorb DMG equal to <font color="yellow">8%</font> of Max HP, Crit Evade
+|reliceffect2=Absorb DMG equal to <font color="yellow">9%</font> of Max HP, Crit Evade
+}}
+[[Category:Relic]]

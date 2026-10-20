@@ -1,0 +1,13 @@
+{{Relic
+|name=Vampire Skull
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Vampire_Skull.png|150x150px|link=]]
+|lore=A cursed skull that absorbs the life energy of any living thing around it.
+|relicskillname=Energy Drain
+|relicCD=45
+|relicskilldesc=Deal MAG DMG to nearby enemies and convert a portion of the DMG dealt into HP.  Drains energy from enemies and reduces their MOV SPD.  Decreases enemy DMG (-30%)
+|reliceffect=DMG <font color="yellow">100%</font>, Energy Drain Duration <font color="yellow">2 sec</font>
+|reliceffect2=DMG <font color="yellow">125%</font>, Energy Drain Duration <font color="yellow">2.25 sec</font>
+}}
+[[Category:Relic]]

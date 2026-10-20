@@ -1,0 +1,433 @@
+// Fatia 2: som (XSoundManager + registro de tabelas usado por XGlobal.proto.sound).
+// Fonte: decomp/sm_out.c, decomp/sm2_out.c, decomp/pm_out.c, decomp/xpm_out.c (Ghidra sobre libil2cpp.so armeabi-v7a).
+// Onde o original passa por XAssetBundle.ResourceLoader (bundle ou Resources), aqui so Resources.
+
+//@file Assembly-CSharp/CS/CSProtoInfoManagers.cs
+//@using System
+//@using System.Text
+//@body 0x1CCFFA4
+{
+	return t1 == t2;
+}
+//@body 0x1CCFFB4
+{
+	return (int)type;
+}
+//@body 0x1CCBAFC
+{
+	m_ContentsTags = new ContentsTags();
+	m_lock = new object();
+	m_container = new Dictionary<ProtoInfoTypes, CSProtoInfoManagerBase>(new ProtoInfoTypesComparer());
+	m_reload_container = new Dictionary<ProtoInfoTypes, CSProtoInfoManagerBase>(new ProtoInfoTypesComparer());
+}
+//@body 0x1CCC958
+{
+	InitContainer(factory, from, ref m_container);
+}
+//@body 0x1CCC974
+{
+	container.Clear();
+	StringBuilder warnings = new StringBuilder();
+	foreach (int value in Enum.GetValues(typeof(ProtoInfoTypes)))
+	{
+		if (value == 0)
+		{
+			continue;
+		}
+		ProtoInfoTypes type = (ProtoInfoTypes)value;
+		CSProtoInfoManagerBase manager = factory.Create(type);
+		if (manager == null)
+		{
+			warnings.AppendFormat("\n {0}", type.ToString());
+			continue;
+		}
+		if (from != ProtoInfoFrom.ServerAndClient && !manager.IsFrom(from))
+		{
+			continue;
+		}
+		container.Add(type, manager);
+	}
+	if (warnings.Length > 0)
+	{
+		CSLog.Warning("invalid warnings => {0}", warnings.ToString());
+	}
+}
+//@body 0x1CCDD70
+{
+	m_container.Clear();
+}
+//@body 0x1CCDE08
+{
+	lock (m_lock)
+	{
+		return m_container[type];
+	}
+}
+
+//@file Assembly-CSharp/XProtoInfoManagers.cs
+//@using System.Collections.Generic
+//@ctorbase 0x1C9373C : base()
+//@body 0x1C946A0
+{
+	return Get(ProtoInfoTypes.Sound) as XProtoInfoManager_Sound;
+}
+//@body 0x1C93D68
+{
+	// GameDataDirectory nao e usado: tabelas do cliente vem de Resources
+	foreach (KeyValuePair<ProtoInfoTypes, CSProtoInfoManagerBase> pair in m_container)
+	{
+		if (pair.Value == null || pair.Value.IsFrom(ProtoInfoFrom.Server))
+		{
+			continue;
+		}
+		if (!pair.Value.LoadFromLocalFile(new XFileLoader_UnityResource(GetFilePath(pair.Key))))
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+//@file Assembly-CSharp/XProtoInfoFactory.cs
+//@using CS
+//@body 0x1C859E4
+{
+	switch (type)
+	{
+		case ProtoInfoTypes.Character:
+			return new XProtoInfoManager_Character();
+		case ProtoInfoTypes.Skill:
+			return new XProtoInfoManager_Skill();
+		case ProtoInfoTypes.Buff:
+			return new XProtoInfoManager_Buff();
+		case ProtoInfoTypes.GameConst:
+			return new XProtoInfoManager_GameConst();
+		case ProtoInfoTypes.Quest:
+			return new XProtoInfoManager_Quest();
+		case ProtoInfoTypes.SkillSpecialization:
+			return new XProtoInfoManager_SkillSpecialization();
+		case ProtoInfoTypes.Skin:
+			return new XProtoInfoManager_Skin();
+		case ProtoInfoTypes.ClanMark:
+			return new XProtoInfoManager_ClanMark();
+		case ProtoInfoTypes.ClanLevel:
+			return new XProtoInfoManager_ClanLevel();
+		case ProtoInfoTypes.BattleRecord:
+			return new XProtoInfoManager_BattleRecord();
+		case ProtoInfoTypes.GameModeUISort:
+			return new ProtoInfoManager_GameModeSort();
+		case ProtoInfoTypes.LobbyButton:
+			return new XProtoInfoManager_LobbyButton();
+		case ProtoInfoTypes.GameMode:
+			return new ProtoInfoManager_GameMode();
+		case ProtoInfoTypes.Sector:
+			return new CSProtoInfoManager_Sector();
+		case ProtoInfoTypes.PackageDetail:
+			return new XProtoInfoManager_PackageDetail();
+		case ProtoInfoTypes.Sound:
+			return new XProtoInfoManager_Sound();
+		case ProtoInfoTypes.Tips:
+			return new XProtoInfoManager_Tips();
+		case ProtoInfoTypes.KillStreak:
+			return new XProtoInfoManager_KillStreak();
+		case ProtoInfoTypes.Help:
+			return new XProtoInfoManager_Help();
+		case ProtoInfoTypes.CharacterSound:
+			return new CSProtoInfoManager_CharacterSound();
+		case ProtoInfoTypes.CharAnim:
+			return new CSProtoInfoManager_CharAnim();
+		case ProtoInfoTypes.ShowBox:
+			return new XProtoInfoManager_ShowBox();
+		case ProtoInfoTypes.TutorialScript:
+			return new XProtoInfoManager_TutorialScript();
+		case ProtoInfoTypes.Language:
+			return new XProtoInfoManager_Language();
+		case ProtoInfoTypes.Abuse:
+			return new XProtoInfoManager_Abuse();
+		case ProtoInfoTypes.DownloadImg:
+			return new XProtoInfoManager_DownloadImg();
+		case ProtoInfoTypes.Country:
+			return new XProtoInfoManager_Country();
+		case ProtoInfoTypes.CharacterFreeRotation:
+			return new XProtoInfoManager_CharacterFreeRotation();
+		default:
+			return base.Create(type);
+	}
+}
+
+//@file Assembly-CSharp/XSoundManager.cs
+//@using CS
+//@body 0x1825DC8
+{
+	return m_bgmSource;
+}
+//@body 0x1825DD0
+{
+	return m_bgmEffectSource;
+}
+//@body 0x1825BA8
+{
+	m_sources = new AudioSources();
+	m_clips = new Dictionary<string, AudioClip>();
+	m_CullingChecker = new XSoundCullingChecker();
+	systemSoundManager = new SystemSoundManager();
+	initFadeBGMTime = 0.5f;
+	unloadList = new List<AudioClip>();
+	requestList = new List<XRequestSoundInfo>();
+	preloadSoundKey = new HashSet<string>();
+	removeRequestList = new HashSet<XRequestSoundInfo>();
+	audioSourcePool = new Stack<XAudioSourceFromPool>();
+}
+//@body 0x1825DD8
+{
+	return m_objSystemSound;
+}
+//@body 0x1825DE0
+{
+	if (m_objSound == null)
+	{
+		m_objSound = new GameObject("AudioSource");
+		m_objSound.AddComponent<AudioListener>();
+		GameObject bgm = new GameObject();
+		bgm.name = "BGM";
+		bgm.transform.parent = m_objSound.transform;
+		m_bgmSource = bgm.AddComponent<AudioSource>();
+		GameObject bgmEffect = new GameObject();
+		bgmEffect.name = "BGM_Effect";
+		bgmEffect.transform.parent = m_objSound.transform;
+		m_bgmEffectSource = bgmEffect.AddComponent<AudioSource>();
+		if (m_objSystemSound == null)
+		{
+			m_objSystemSound = new GameObject("SystemAudioSource");
+			m_objSystemSound.AddComponent<XAudioSourceFromPool>();
+			m_objSystemSound.GetComponent<XAudioSourceFromPool>().Init();
+		}
+		InitAudioMixer();
+		InitAudioSourcePool();
+	}
+	if (Application.isPlaying)
+	{
+		Object.DontDestroyOnLoad(m_objSound);
+		Object.DontDestroyOnLoad(this);
+	}
+}
+//@body 0x1826640
+{
+	SetAudioMixerDecibel(MixerTrack.MUSIC, "BGM", XGlobal.Option.BGM_Vol);
+	SetAudioMixerDecibel(MixerTrack.SFX, "SFX", XGlobal.Option.SFX_Vol);
+}
+//@body 0x18261C4
+{
+	m_AudioMixer = Resources.Load("Sound/AudioMixer/AudioMixer") as AudioMixer;
+	// nome do snapshot nao resolvido no pseudo-C; "Start" e o snapshot inicial do mixer
+	SetSnapShot("Start", 0f);
+}
+//@body 0x1826C70
+{
+	if (m_AudioMixer == null)
+	{
+		return;
+	}
+	if (soundInfo.trackType == MixerTrack.NONE)
+	{
+		return;
+	}
+	AudioMixerGroup[] groups = m_AudioMixer.FindMatchingGroups(soundInfo.trackType.ToString());
+	audioSource.outputAudioMixerGroup = groups[0];
+}
+//@body 0x1828350
+{
+	source.loop = info.LoopFlag;
+	source.volume = forceVolumeMax ? 1f : info.fVolume;
+	source.playOnAwake = false;
+}
+//@body 0x1828F80
+{
+	if (m_clips.TryGetValue(info.strFileName, out clip))
+	{
+		return true;
+	}
+	if (info.trackType != MixerTrack.VOX_TUTO)
+	{
+		CSLog.Warning("Not Sound Preloading : {0}", info.strFileName);
+	}
+	clip = Resources.Load("Sound/" + info.strFileName) as AudioClip;
+	if (clip == null)
+	{
+		CSLog.Warning("invalid sound file name : " + info.strFileName);
+		return false;
+	}
+	m_clips.Add(info.strFileName, clip);
+	return true;
+}
+//@body 0x1826774
+{
+	AudioMixerGroup[] groups = XGlobal.sound.GetAudioMixerGroup(track);
+	float decibel = XGlobal.sound.CalcVolumToDecibel(value);
+	foreach (AudioMixerGroup group in groups)
+	{
+		group.audioMixer.SetFloat(name, decibel);
+	}
+}
+//@body 0x1829994
+{
+	float decibel = volume * 30f - 20f;
+	if (decibel == -20f)
+	{
+		// constante nao resolvida no pseudo-C; -80 dB e o silencio do AudioMixer
+		decibel = -80f;
+	}
+	return decibel;
+}
+//@body 0x18298A0
+{
+	return m_AudioMixer.FindMatchingGroups(mixerTrack.ToString());
+}
+//@body 0x18299C4
+{
+	XSoundInfo info = GetSoundInfo(key);
+	if (info == null)
+	{
+		CSLog.Error("BGM key {0} not exist.", key);
+		return;
+	}
+	string path = "Sound/" + info.strFileName;
+	// original: ResourceLoader.Load<AudioClip> + XAssetBundleManager.UnloadAssetBundle(path)
+	AudioClip clip = Resources.Load<AudioClip>(path);
+	if (clip == null)
+	{
+		// texto do log nao resolvido no pseudo-C
+		CSLog.Error("BGM clip not exist : {0}", path);
+		return;
+	}
+	clip.LoadAudioData();
+	PlayBGM(bgmType, info, clip, path);
+}
+//@body 0x1829DB0
+{
+	AudioSource source = bgmType == BGM_TYPE.Effect ? m_bgmEffectSource : m_bgmSource;
+	string currentPath = bgmType == BGM_TYPE.Normal ? m_bgmClipPath : (bgmType == BGM_TYPE.Effect ? m_bgmEffectClipPath : string.Empty);
+	if (currentPath == bgmClipPath)
+	{
+		return;
+	}
+	// mesmo clip pausado: nao reinicia
+	if (source != null && source.clip != null && source.clip == bgmClip && !source.isPlaying)
+	{
+		return;
+	}
+	ClearBGM(bgmType);
+	source.clip = bgmClip;
+	SetAudioSourceData(source, soundInfo);
+	source.loop = true;
+	LinkAudioToMixer(soundInfo, source);
+	isFadeBGMVolume = false;
+	fadeBGMVolume = soundInfo.fVolume;
+	fadeBGMTime = initFadeBGMTime;
+	source.volume = soundInfo.fVolume;
+	source.Play();
+}
+//@body 0x182A2B4
+{
+	GetBGMAudioSource(bgmType).Play();
+}
+//@body 0x182A2EC
+{
+	GetBGMAudioSource(bgmType).Pause();
+}
+//@body 0x182A0B4
+{
+	return bgmType == BGM_TYPE.Effect ? m_bgmEffectSource : m_bgmSource;
+}
+//@body 0x182A0C8
+{
+	AudioSource source = GetBGMAudioSource(bgmType);
+	if (source == null || source.clip == null)
+	{
+		return;
+	}
+	if (source.clip.loadState == AudioDataLoadState.Loading)
+	{
+		unloadList.Add(source.clip);
+	}
+	else
+	{
+		source.clip.UnloadAudioData();
+		Resources.UnloadAsset(source.clip);
+	}
+	source.clip = null;
+}
+//@body 0x182A324
+{
+	isFadeBGMVolume = true;
+}
+//@body 0x182A330
+{
+	XSoundInfo info = GetSoundInfo("BGM_Title");
+	if (info == null)
+	{
+		CSLog.Error("BGM key {0} not exist.", "BGM_Title");
+		return;
+	}
+	string path = "Sound/" + info.strFileName;
+	AudioClip clip = Resources.Load<AudioClip>("Sound/" + info.strFileName);
+	PlayBGM(BGM_TYPE.Normal, info, clip, path);
+}
+//@body 0x182A570
+{
+	PlayBGM(BGM_TYPE.Normal, "BGM_Lobby");
+}
+//@body 0x1828D38
+{
+	if (!XGlobal.proto.sound.TryGetValue(key, out List<XSoundInfo> list))
+	{
+		return null;
+	}
+	// sorteio ponderado pela soma acumulada de ratio
+	float pick = Random.Range(0f, list[list.Count - 1].ratioSum);
+	for (int i = 0; i < list.Count; i++)
+	{
+		if (pick <= list[i].ratioSum)
+		{
+			return list[i];
+		}
+	}
+	return list[0];
+}
+//@body 0x1826A94
+{
+	if (m_AudioMixer == null)
+	{
+		return;
+	}
+	AudioMixerSnapshot snapshot = m_AudioMixer.FindSnapshot(name);
+	if (snapshot == null)
+	{
+		CSLog.Error("Not Exist Snapshot!!");
+		return;
+	}
+	snapshot.TransitionTo(delay);
+}
+//@body 0x1826330
+{
+	m_transform = transform;
+	poolRoot = new GameObject("pool").transform;
+	poolRoot.parent = transform;
+	Object prefab = Resources.Load("Prefab/AudioSourceFromPool");
+	if (prefab == null)
+	{
+		return;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		GameObject go = Object.Instantiate(prefab) as GameObject;
+		// o pseudo-C passa null como parent aqui
+		go.transform.parent = null;
+		XAudioSourceFromPool pooled = go.GetComponent<XAudioSourceFromPool>();
+		pooled.Init();
+		if (pooled != null)
+		{
+			audioSourcePool.Push(pooled);
+		}
+	}
+}

@@ -1,0 +1,489 @@
+// Fatia 1: tabelas locais country_xml e download_img_xml.
+// Fonte: decomp/s1_out.c, decomp/dep_out.c, decomp/ce_out.c (Ghidra sobre libil2cpp.so armeabi-v7a).
+// Nomes de atributos XML tirados dos arquivos reais em Resources/xml (IL2CPP nao guarda os argumentos).
+
+//@file Assembly-CSharp/CS/ConnectEnum.cs
+//@init AllowRegionList = new List<RegionType> { RegionType.Asia, RegionType.US, RegionType.Korea }
+
+//@file Assembly-CSharp/CS/CSHelper.cs
+//@body 0x2233F44
+{
+	if (string.IsNullOrEmpty(strText))
+	{
+		return strText;
+	}
+	return strText.Replace("[BR]", "\n");
+}
+
+//@file Assembly-CSharp/XUIHelper.cs
+//@using System.Globalization
+//@body 0x1081CE0
+{
+	if (string.IsNullOrEmpty(hexString))
+	{
+		return Color.white;
+	}
+	string hex = hexString.Replace("0x", string.Empty).Replace("#", string.Empty);
+	byte r = byte.MaxValue;
+	byte g = byte.MaxValue;
+	byte b = byte.MaxValue;
+	byte a = byte.MaxValue;
+	if (hex.Length > 1)
+	{
+		r = byte.Parse(hex.Substring(0, 2), NumberStyles.HexNumber);
+	}
+	if (hex.Length > 3)
+	{
+		g = byte.Parse(hex.Substring(2, 2), NumberStyles.HexNumber);
+	}
+	if (hex.Length > 5)
+	{
+		b = byte.Parse(hex.Substring(4, 2), NumberStyles.HexNumber);
+	}
+	if (hex.Length == 8)
+	{
+		a = byte.Parse(hex.Substring(6, 2), NumberStyles.HexNumber);
+	}
+	return new Color32(r, g, b, a);
+}
+
+//@file Assembly-CSharp/XCountryInfo.cs
+//@using System.Xml.Serialization
+//@attr countryCode [XmlAttribute("country_code")]
+//@attr regionServerKey [XmlAttribute("region_server_key")]
+//@attr inGameRegionServerKey [XmlAttribute("ingame_region_server_key")]
+//@attr flagIcon [XmlAttribute("flag_icon")]
+//@attr defaultLanguage [XmlAttribute("default_language")]
+//@attr gradeIcon [XmlAttribute("use_grade_icon")]
+//@attr titleUI [XmlAttribute("title_ui")]
+//@attr subTitleUI [XmlAttribute("sub_tutile_ui")]
+//@attr matchingSupplementation [XmlAttribute("matching_supplementation")]
+//@attr payLaw [XmlAttribute("pay_law")]
+//@body 0x19A16FC
+{
+	return IsMatchingSupplementation__BackingField;
+}
+//@body 0x19A1704
+{
+	IsMatchingSupplementation__BackingField = value;
+}
+//@body 0x19A170C
+{
+	return IsPayLaw__BackingField;
+}
+//@body 0x19A1714
+{
+	IsPayLaw__BackingField = value;
+}
+//@body 0x19A15E0
+{
+	// titleUI e payLaw recebem literais que o pseudo-C nao resolve; valores coerentes com Cooking()
+	regionServerKey = string.Empty;
+	inGameRegionServerKey = string.Empty;
+	titleUI = "Title/logo";
+	matchingSupplementation = string.Empty;
+	payLaw = "FALSE";
+}
+//@body 0x19A171C
+{
+	IsMatchingSupplementation = matchingSupplementation.ToUpper() == "TRUE";
+	IsPayLaw = payLaw.ToUpper() == "TRUE";
+	countryCode = countryCode.ToUpper();
+	regionServerKey = regionServerKey.ToLower();
+	inGameRegionServerKey = inGameRegionServerKey.ToLower();
+	if (titleUI != "Title/logo")
+	{
+		IsLogoEffect = false;
+	}
+	return true;
+}
+
+//@file Assembly-CSharp/XCountryInfoXML.cs
+//@using System.Xml.Serialization
+//@attr XCountryInfoXML [XmlRoot("t1")]
+//@attr dataList [XmlElement("COUNTRY")]
+//@body 0x19A1930
+{
+	dataList = new List<XCountryInfo>();
+}
+//@body 0x19A19DC
+{
+	dataList.Add(i);
+}
+
+//@file Assembly-CSharp/XProtoInfoManager_Country.cs
+//@using System.Text
+//@using System.Linq
+//@body 0x1C89870
+{
+	return from == ProtoInfoFrom.Client;
+}
+//@body 0x1C89884
+{
+	foreach (KeyValuePair<string, XCountryInfo> pair in this)
+	{
+		pair.Value.Cooking();
+	}
+	return true;
+}
+//@body 0x1C89B00
+{
+	Clear();
+	XCountryInfoXML xml = CSXMLSerialization.Deserialize<XCountryInfoXML>(loader, Encoding.UTF8);
+	if (xml == null)
+	{
+		if (loader != null)
+		{
+			CSLog.Error("Load failed : " + loader.Filename);
+		}
+		return false;
+	}
+	if (xml.dataList != null)
+	{
+		foreach (XCountryInfo info in xml.dataList)
+		{
+			string key = info.countryCode.ToUpper();
+			if (!ContainsKey(key))
+			{
+				Add(key, info);
+			}
+		}
+	}
+	if (loader != null)
+	{
+		CSLog.Info("Load complete : " + loader.Filename);
+	}
+	return true;
+}
+//@body 0x1C8A034
+{
+	XCountryInfo info = null;
+	if (!string.IsNullOrEmpty(strCountryCode))
+	{
+		info = GetCountryInfobyCountryCode(strCountryCode);
+	}
+	if (info != null || !getDefaultEN)
+	{
+		return info;
+	}
+	return GetDefaultCountry();
+}
+//@body 0x1C8A238
+{
+	return GetCountryInfobyCountryCode("US");
+}
+//@body 0x1C8A11C
+{
+	string code = strCountryCode.ToUpper();
+	return FindCountryInfo(countryInfo => countryInfo.countryCode == code);
+}
+//@body 0x1C8A48C
+{
+	XCountryInfo info = GetCountryInfo(strCountryCode) ?? GetDefaultCountry();
+	return info.flagIcon;
+}
+//@body 0x1C8A2C4
+{
+	foreach (KeyValuePair<string, XCountryInfo> pair in this)
+	{
+		if (pair.Value == null)
+		{
+			return null;
+		}
+		if (searchAction(pair.Value))
+		{
+			return pair.Value;
+		}
+	}
+	return null;
+}
+//@body 0x1C8A4CC
+{
+	if (string.IsNullOrEmpty(strCountryCode))
+	{
+		return ConnectEnum.RegionType.Asia;
+	}
+	XCountryInfo info = GetCountryInfo(strCountryCode);
+	if (info == null)
+	{
+		return ConnectEnum.RegionType.Asia;
+	}
+	foreach (ConnectEnum.RegionType region in ConnectEnum.AllowRegionList)
+	{
+		if (region.ToString().ToLower() == info.regionServerKey)
+		{
+			return region;
+		}
+	}
+	return ConnectEnum.RegionType.Asia;
+}
+
+//@file Assembly-CSharp/XDownloadImgXMLInfo.cs
+//@using System.Xml.Serialization
+//@attr id [XmlAttribute("id")]
+//@attr language [XmlAttribute("language")]
+//@attr bgPath1 [XmlAttribute("bg_path_1")]
+//@attr bgPath2 [XmlAttribute("bg_path_2")]
+//@attr imgPath [XmlAttribute("img_path")]
+//@attr episode [XmlAttribute("ep")]
+//@attr page_id [XmlAttribute("page_id")]
+//@attr text [XmlAttribute("text")]
+//@attr posX [XmlAttribute("position_x")]
+//@attr posY [XmlAttribute("position_y")]
+//@attr sizeX [XmlAttribute("size_x")]
+//@attr sizeY [XmlAttribute("size_y")]
+//@attr fontSize [XmlAttribute("font_size")]
+//@attr rotation [XmlAttribute("rotation")]
+//@attr outlineSize [XmlAttribute("outline_size")]
+//@attr outlineColor [XmlAttribute("outline_color")]
+//@attr textSpaceX [XmlAttribute("text_space_x")]
+//@attr textSpaceY [XmlAttribute("text_space_y")]
+
+//@file Assembly-CSharp/XDownloadImgInfoXML.cs
+//@using System.Xml.Serialization
+//@attr XDownloadImgInfoXML [XmlRoot("t1")]
+//@attr dataList [XmlElement("DOWNLOADIMG")]
+//@body 0x19A9120
+{
+	dataList = new List<XDownloadImgXMLInfo>();
+}
+//@body 0x19A91CC
+{
+	dataList.Add(i);
+}
+
+//@file Assembly-CSharp/XDownloadImgDisplayInfo.cs
+//@body 0x19A8FA8
+{
+	return !string.IsNullOrEmpty(ImgPath);
+}
+//@body 0x19A9058
+{
+	if (IsImgDisplay())
+	{
+		return false;
+	}
+	return !string.IsNullOrEmpty(Text);
+}
+
+//@file Assembly-CSharp/XDownloadPageInfo.cs
+//@body 0x19A9274
+{
+	return ImgCount__BackingField;
+}
+//@body 0x19A927C
+{
+	ImgCount__BackingField = value;
+}
+//@body 0x19A9284
+{
+	return TextCount__BackingField;
+}
+//@body 0x19A928C
+{
+	TextCount__BackingField = value;
+}
+//@body 0x19A8C20
+{
+	displayInfos = new List<XDownloadImgDisplayInfo>();
+	this.bgPath1 = bgPath1;
+	this.bgPath2 = bgPath2;
+	page_id = pageID;
+}
+//@body 0x19A8E04
+{
+	displayInfos.Add(displayInfo);
+	if (displayInfo.IsImgDisplay())
+	{
+		ImgCount++;
+	}
+	else if (displayInfo.IsTextDisplay())
+	{
+		TextCount++;
+	}
+}
+//@body 0x19A9294
+{
+	return new List<XDownloadImgDisplayInfo>(displayInfos);
+}
+
+//@file Assembly-CSharp/XDownloadEpisodeInfo.cs
+//@body 0x19A89FC
+{
+	return pageInfos.Count;
+}
+//@body 0x19A8940
+{
+	pageInfos = new Dictionary<int, XDownloadPageInfo>();
+	this.Episode = Episode;
+	this.language = language;
+}
+//@body 0x19A8A94
+{
+	return pageInfos.ContainsKey(pageID);
+}
+//@body 0x19A8B34
+{
+	pageInfos.Add(pageID, new XDownloadPageInfo(bgPath1, bgPath2, pageID));
+}
+//@body 0x19A8D50
+{
+	pageInfos[pageID].AddDisplayInfo(displayInfo);
+}
+//@body 0x19A8EE4
+{
+	if (!ExistPageInfo(page))
+	{
+		return null;
+	}
+	return pageInfos[page];
+}
+
+//@file Assembly-CSharp/XProtoInfoManager_DownloadImg.cs
+//@using System.Text
+//@using UnityEngine
+//@body 0x1C8A87C
+{
+	return from == ProtoInfoFrom.Client;
+}
+//@body 0x1C8A890
+{
+	return true;
+}
+//@body 0x1C8A898
+{
+	for (int i = 0; i < dataList.Count; i++)
+	{
+		XDownloadImgXMLInfo info = dataList[i];
+		string language = info.language.ToString().ToLower();
+		if (!ContainsKey(language))
+		{
+			Add(language, new Dictionary<int, XDownloadEpisodeInfo>());
+		}
+		int episode = info.episode;
+		if (!this[language].ContainsKey(episode))
+		{
+			this[language].Add(episode, new XDownloadEpisodeInfo(episode, language));
+		}
+		XDownloadEpisodeInfo episodeInfo = this[language][episode];
+		if (!episodeInfo.ExistPageInfo(info.page_id))
+		{
+			episodeInfo.AddPageInfo(info.bgPath1, info.bgPath2, info.page_id);
+		}
+		episodeInfo.AddDisplayInfo(info.page_id, CreateDisplayInfo(info));
+	}
+}
+//@body 0x1C8AF60
+{
+	Clear();
+	XDownloadImgInfoXML xml = CSXMLSerialization.Deserialize<XDownloadImgInfoXML>(loader, Encoding.UTF8);
+	if (xml == null)
+	{
+		if (loader != null)
+		{
+			CSLog.Error("Load failed : " + loader.Filename);
+		}
+		return false;
+	}
+	CookingList(xml.dataList);
+	CSLog.Info("Load complete : " + loader.Filename);
+	return true;
+}
+//@body 0x1C8AC48
+{
+	if (info.fontSize == 0)
+	{
+		info.fontSize = 24;
+	}
+	string imgPath = info.imgPath;
+	string text = null;
+	if (string.IsNullOrEmpty(imgPath))
+	{
+		text = info.text;
+	}
+	XDownloadImgDisplayInfo display = new XDownloadImgDisplayInfo();
+	display.ImgPath = imgPath;
+	display.Text = CSHelper.ReplaceCodeText(text);
+	display.Position = new Vector2(info.posX, info.posY);
+	display.Size = new Vector2(info.sizeX, info.sizeY);
+	display.FontSize = info.fontSize;
+	display.Rotation = new Vector3(0f, 0f, info.rotation);
+	display.OutlineColor = string.IsNullOrEmpty(info.outlineColor) ? Color.white : XUIHelper.HexToColor(info.outlineColor);
+	display.OutlineSize = info.outlineSize;
+	display.TextSpace = new Vector2(info.textSpaceX, info.textSpaceY);
+	return display;
+}
+//@body 0x1C8B250
+{
+	string language = strLanguage.ToLower();
+	if (ContainsKey(language))
+	{
+		return this[language];
+	}
+	string fallback = "en-US".ToLower();
+	if (ContainsKey(fallback))
+	{
+		return this[fallback];
+	}
+	return new Dictionary<int, XDownloadEpisodeInfo>();
+}
+
+//@file Assembly-CSharp/XProtoInfoManagers.cs
+//@body 0x1C93744
+{
+	switch (type)
+	{
+		case ProtoInfoTypes.Character:
+			return "XML/character_xml";
+		case ProtoInfoTypes.GameConst:
+			return "XML/const_xml";
+		case ProtoInfoTypes.Balance:
+			return "XML/balance_xml";
+		case ProtoInfoTypes.Item:
+			return "XML/item_xml";
+		case ProtoInfoTypes.LotteryBox:
+			return "XML/lottery_box_xml";
+		case ProtoInfoTypes.BalanceNPC:
+			return "XML/npc_balance_xml";
+		case ProtoInfoTypes.Stage:
+			return "XML/stage_xml";
+		case ProtoInfoTypes.ItemBalance:
+			return "XML/item_balance_xml";
+		case ProtoInfoTypes.Quest:
+			return "XML/quest_xml";
+		case ProtoInfoTypes.GameModeInstance:
+			return "XML/gamemode_instance_xml";
+		case ProtoInfoTypes.Skin:
+			return "XML/skin_xml";
+		case ProtoInfoTypes.TrophyReward:
+			return "XML/trophyreward_xml";
+		case ProtoInfoTypes.LobbyButton:
+			return "XML/lobby_button_xml";
+		case ProtoInfoTypes.GameMode:
+			return "XML/gamemode_xml";
+		case ProtoInfoTypes.IronsMission:
+			return "XML/quest_irons_xml";
+		case ProtoInfoTypes.Sound:
+			return XProtoInfoManager_Sound.ClientFilePath;
+		case ProtoInfoTypes.Colt:
+			return "XML/colt_xml";
+		case ProtoInfoTypes.Relic:
+			return "XML/relic_xml";
+		case ProtoInfoTypes.Title:
+			return "XML/title_xml";
+		case ProtoInfoTypes.CharacterSound:
+			return "XML/character_sound_xml";
+		case ProtoInfoTypes.CharAnim:
+			return "XML/character_anim_xml";
+		case ProtoInfoTypes.DownloadImg:
+			return "XML/download_img_xml";
+		case ProtoInfoTypes.Country:
+			return "XML/country_xml";
+		case ProtoInfoTypes.CharacterFreeRotation:
+			return "XML/free_rotation_xml";
+		default:
+			// literal do prefixo nao resolvido no pseudo-C
+			CSLog.Error("GetFilePath : unknown type " + type.ToString());
+			return string.Empty;
+	}
+}

@@ -1,0 +1,4458 @@
+// Gerado por tools/auto_trivial.py: metodos triviais (getter/setter/constante) do pseudo-C.
+
+//@file Assembly-CSharp/Assets/DustinHorne/JsonDotNetUnity/TestCases/TestModels/SampleBase.cs
+//@body 0x20BD5E4
+{
+	return TextValue__BackingField;
+}
+//@body 0x20BCE54
+{
+	TextValue__BackingField = value;
+}
+//@body 0x20BD5EC
+{
+	return NumberValue__BackingField;
+}
+//@body 0x20BCE5C
+{
+	NumberValue__BackingField = value;
+}
+
+//@file Assembly-CSharp/Assets/DustinHorne/JsonDotNetUnity/TestCases/TestModels/SampleChild.cs
+//@body 0x20BD5B8
+{
+	return ObjectList__BackingField;
+}
+//@body 0x20BD5B0
+{
+	ObjectList__BackingField = value;
+}
+//@body 0x20BD5A8
+{
+	return ObjectDictionary__BackingField;
+}
+//@body 0x20BD2C0
+{
+	ObjectDictionary__BackingField = value;
+}
+
+//@file Assembly-CSharp/Assets/DustinHorne/JsonDotNetUnity/TestCases/TestModels/SimpleClassObject.cs
+//@body 0x20BD608
+{
+	return TextValue__BackingField;
+}
+//@body 0x20BD5C8
+{
+	TextValue__BackingField = value;
+}
+//@body 0x20BD610
+{
+	return NumberValue__BackingField;
+}
+//@body 0x20BD5D0
+{
+	NumberValue__BackingField = value;
+}
+
+//@file Assembly-CSharp/AuthenticationValues.cs
+//@body 0x20BD9D8
+{
+	return authType;
+}
+//@body 0x20BD9E0
+{
+	authType = value;
+}
+//@body 0x20BD9E8
+{
+	return AuthGetParameters__BackingField;
+}
+//@body 0x20BD9F0
+{
+	AuthGetParameters__BackingField = value;
+}
+//@body 0x20BDA08
+{
+	return Token__BackingField;
+}
+//@body 0x20BDA10
+{
+	Token__BackingField = value;
+}
+//@body 0x20BDA18
+{
+	return UserId__BackingField;
+}
+//@body 0x20BD9D0
+{
+	UserId__BackingField = value;
+}
+//@body 0x20BD994
+{
+	authType = (CustomAuthenticationType)255;
+}
+//@body 0x20BD9A4
+{
+	authType = (CustomAuthenticationType)255;
+	UserId__BackingField = userId;
+}
+
+//@file Assembly-CSharp/BMFont.cs
+//@body 0x20C0AF0
+{
+	return mSize;
+}
+//@body 0x20C0AF8
+{
+	mSize = value;
+}
+//@body 0x20C0B00
+{
+	return mBase;
+}
+//@body 0x20C0B08
+{
+	mBase = value;
+}
+//@body 0x20C0B10
+{
+	return mWidth;
+}
+//@body 0x20C0B18
+{
+	mWidth = value;
+}
+//@body 0x20C0B20
+{
+	return mHeight;
+}
+//@body 0x20C0B28
+{
+	mHeight = value;
+}
+//@body 0x20C0BE0
+{
+	return mSpriteName;
+}
+//@body 0x20C0BE8
+{
+	mSpriteName = value;
+}
+//@body 0x20C0BF0
+{
+	return mSaved;
+}
+
+//@file Assembly-CSharp/BMSymbol.cs
+//@body 0x20C1408
+{
+	return mOffsetX;
+}
+//@body 0x20C1410
+{
+	return mOffsetY;
+}
+//@body 0x20C1418
+{
+	return mWidth;
+}
+//@body 0x20C1420
+{
+	return mHeight;
+}
+//@body 0x20C1428
+{
+	return mAdvance;
+}
+//@body 0x20C1440
+{
+	mIsValid = false;
+}
+
+//@file Assembly-CSharp/BaseModeElementLogic.cs
+//@body 0x20BEF68
+{
+	return info__BackingField;
+}
+
+//@file Assembly-CSharp/Bit32Flags.cs
+//@body 0x20C0388
+{
+	return Value__BackingField;
+}
+//@body 0x20C0340
+{
+	Value__BackingField = 0;
+}
+//@body 0x20C0368
+{
+	Value__BackingField = _value;
+}
+//@body 0x20C0390
+{
+	Value__BackingField = setting;
+}
+//@body 0x20C0398
+{
+	Value__BackingField = 0;
+}
+
+//@file Assembly-CSharp/ByteReader.cs
+//@body 0x20C2540
+{
+	mBuffer = bytes;
+}
+
+//@file Assembly-CSharp/CS/AbuseCharNode.cs
+//@body 0x23E4264
+{
+	return m_is_leaf_node;
+}
+//@body 0x23E426C
+{
+	m_is_leaf_node = value;
+}
+
+//@file Assembly-CSharp/CS/AttendanceOptions.cs
+//@body 0x23E7C30
+{
+	return ReturnerDay__BackingField;
+}
+//@body 0x23E7C38
+{
+	return ReturnerResetDay__BackingField;
+}
+
+//@file Assembly-CSharp/CS/BoughtLimitedGoods.cs
+//@body 0x23E7C48
+{
+	return ProductId__BackingField;
+}
+//@body 0x23E7C50
+{
+	ProductId__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSArenaShopItem.cs
+//@body 0x23EE6D4
+{
+	return showCountrys__BackingField;
+}
+//@body 0x23EE6DC
+{
+	showCountrys__BackingField = value;
+}
+//@body 0x23EE6E4
+{
+	return disableCountrys__BackingField;
+}
+//@body 0x23EE6EC
+{
+	disableCountrys__BackingField = value;
+}
+//@body 0x23EE6F4
+{
+	return disableRegions__BackingField;
+}
+//@body 0x23EE6FC
+{
+	disableRegions__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSAttendanceService.cs
+//@body 0x23EF0EC
+{
+	m_proto = proto;
+}
+
+//@file Assembly-CSharp/CS/CSBroadcastExtraData.cs
+//@body 0x23F0768
+{
+	return To__BackingField;
+}
+//@body 0x23F0758
+{
+	To__BackingField = value;
+}
+//@body 0x23F0770
+{
+	return From__BackingField;
+}
+//@body 0x23F0760
+{
+	From__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSBroadcastMessage.cs
+//@body 0x2224CC4
+{
+	return Message__BackingField;
+}
+//@body 0x2224C84
+{
+	Message__BackingField = value;
+}
+//@body 0x2224CCC
+{
+	return Type__BackingField;
+}
+//@body 0x2224C8C
+{
+	Type__BackingField = value;
+}
+//@body 0x2224C58
+{
+	Param__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSBuffEffectInfo.cs
+//@body 0x2224E1C
+{
+	return m_refreshOnUpdate;
+}
+//@body 0x2224E24
+{
+	m_refreshOnUpdate = value;
+}
+//@body 0x2224E2C
+{
+	return m_eraseOnRelease;
+}
+//@body 0x2224E34
+{
+	return m_applyBuffEffectScale;
+}
+
+//@file Assembly-CSharp/CS/CSBuffInfo.cs
+//@body 0x22254A8
+{
+	return m_Invincible;
+}
+//@body 0x22254B0
+{
+	return m_invisible;
+}
+//@body 0x22254B8
+{
+	return m_ImmuneMapItem;
+}
+//@body 0x22254C0
+{
+	return m_ImmunTrapPierce;
+}
+//@body 0x22254C8
+{
+	return m_InstantDeath;
+}
+//@body 0x22254D0
+{
+	return m_ShowDescInGame;
+}
+//@body 0x22254E8
+{
+	return m_IdleRotation;
+}
+//@body 0x22254F0
+{
+	return m_ClearOnDie;
+}
+//@body 0x22254F8
+{
+	return m_ProcSkillLeader;
+}
+//@body 0x2225544
+{
+	return m_blind;
+}
+
+//@file Assembly-CSharp/CS/CSCharacterInfo.cs
+//@body 0x2226D7C
+{
+	return m_UseCharacterShader;
+}
+//@body 0x2226D84
+{
+	return m_MapObjectReCreated;
+}
+//@body 0x2226FA4
+{
+	return m_DefaultSkillInfo;
+}
+//@body 0x2226FAC
+{
+	return nDodgeSkill;
+}
+//@body 0x2226FB4
+{
+	return m_pushing;
+}
+//@body 0x22272E0
+{
+	return m_AIMovingFlag;
+}
+//@body 0x22272E8
+{
+	return m_AutoTarget;
+}
+//@body 0x22272F0
+{
+	return m_PlayableCharacter;
+}
+//@body 0x22272F8
+{
+	return m_ShopGacha;
+}
+//@body 0x2227300
+{
+	return m_ChangeTagger;
+}
+
+//@file Assembly-CSharp/CS/CSChattingMessage.cs
+//@body 0x22288D8
+{
+	return strJsonObj__BackingField;
+}
+//@body 0x22288C8
+{
+	strJsonObj__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSClanBoxReward.cs
+//@body 0x222896C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSContent.cs
+//@body 0x2229A48
+{
+	ContentType = (CSContentType)0;
+	Bonus = 0;
+}
+//@body 0x2229A6C
+{
+	ContentType = type;
+	Bonus = 0;
+}
+//@body 0x2229A94
+{
+	ContentType = type;
+	ContentCount = count;
+	ContentId = id;
+	Bonus = 0;
+}
+
+//@file Assembly-CSharp/CS/CSEnergyShopMgr.cs
+//@body 0x222C108
+{
+	return 10;
+}
+
+//@file Assembly-CSharp/CS/CSEventAttendanceBookItem.cs
+//@body 0x222C224
+{
+	return m_isShowEffect;
+}
+
+//@file Assembly-CSharp/CS/CSEventConditionCheck_UserDataParam.cs
+//@body 0x222C7DC
+{
+	return m_UserData;
+}
+
+//@file Assembly-CSharp/CS/CSEventSystemInfo.cs
+//@body 0x222E8F8
+{
+	return eventMagnify__BackingField;
+}
+//@body 0x222E900
+{
+	eventMagnify__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSFileLoaderBase.cs
+//@body 0x222EB98
+{
+	return Filename__BackingField;
+}
+//@body 0x222E9C0
+{
+	Filename__BackingField = filename;
+}
+
+//@file Assembly-CSharp/CS/CSFirstRankReward.cs
+//@body 0x222F034
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSFreeRelicSlotInfo.cs
+//@body 0x222F254
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSHotTimeEventList.cs
+//@body 0x2234D34
+{
+	return LastIncreasedId__BackingField;
+}
+//@body 0x2234D3C
+{
+	LastIncreasedId__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSItemDictionaryInfo.cs
+//@body 0x2235840
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSItemInfo.cs
+//@body 0x2235B60
+{
+	return nType__BackingField;
+}
+//@body 0x2235B68
+{
+	nType__BackingField = value;
+}
+//@body 0x2235B70
+{
+	return nRarity__BackingField;
+}
+//@body 0x2235B78
+{
+	nRarity__BackingField = value;
+}
+//@body 0x2235B80
+{
+	return m_FixedMod;
+}
+//@body 0x2235B88
+{
+	return m_SellPossible;
+}
+
+//@file Assembly-CSharp/CS/CSNetCommand.cs
+//@body 0x223A4A4
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSNewUserBenefitInfo.cs
+//@body 0x1FBF8B4
+{
+	return Content__BackingField;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ArenaShop.cs
+//@body 0x1FC24C0
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_AttendanceBook.cs
+//@body 0x1FC31F4
+{
+	return NormalAttendanceCount__BackingField;
+}
+//@body 0x1FC3204
+{
+	return ReturnerAttendanceCount__BackingField;
+}
+//@body 0x1FC3214
+{
+	return NewbieAttendanceCount__BackingField;
+}
+//@body 0x1FC3224
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Balance.cs
+//@body 0x1FC39E0
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FC39F4
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_BalancePet.cs
+//@body 0x1FC41C4
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FC41D8
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Buff.cs
+//@body 0x1FC47B4
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_BuffEffect.cs
+//@body 0x1FC4D84
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_CharAnim.cs
+//@body 0x1FC79B4
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FC79C8
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Character.cs
+//@body 0x1FC55A8
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ClanBoxReward.cs
+//@body 0x1FC8B54
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ClanRankReward.cs
+//@body 0x1FC99B4
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_CommonValues.cs
+//@body 0x1FCBA64
+{
+	return AniToller__BackingField;
+}
+//@body 0x1FCBA6C
+{
+	return Diff_ani_via_elapse__BackingField;
+}
+//@body 0x1FCBA74
+{
+	return appstore_download_ready__BackingField;
+}
+//@body 0x1FCBA7C
+{
+	return appstore_download_url__BackingField;
+}
+//@body 0x1FCBA84
+{
+	return playstore_download_url__BackingField;
+}
+//@body 0x1FCB130
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Craft.cs
+//@body 0x1FCC130
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Currency.cs
+//@body 0x1FCC7F0
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FCCD4C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Event.cs
+//@body 0x1FCCD58
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_EventAttendanceBook.cs
+//@body 0x1FCD624
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FCD638
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_EventGameMode.cs
+//@body 0x1FCECC0
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_EventGameReward.cs
+//@body 0x1FD0D88
+{
+	return true;
+}
+//@body 0x1FD0D90
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_FirstRankReward.cs
+//@body 0x1FD1118
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FD112C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_FreeRelicSlot.cs
+//@body 0x1FD1C84
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_GameConst.cs
+//@body 0x1FD30D4
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_GameModeOpen.cs
+//@body 0x1FDC158
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_GameModeReward.cs
+//@body 0x1FDD828
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FDD83C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_IronsMission.cs
+//@body 0x1FDE004
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1FDE018
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Item.cs
+//@body 0x1CB1878
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ItemBalance.cs
+//@body 0x1CB307C
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1CB3090
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ItemDictionary.cs
+//@body 0x1CB4528
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_ItemSet.cs
+//@body 0x1CB4EB0
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_LotteryBox.cs
+//@body 0x1CB63B4
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x1CB63C8
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_NewUserBenefits.cs
+//@body 0x1CB6C50
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_PackageShop.cs
+//@body 0x1CB74FC
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_PandoraBox.cs
+//@body 0x1CB8A68
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_PremiumTicket.cs
+//@body 0x1CBA158
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_PvpReward.cs
+//@body 0x1CBAAF4
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_RandomOption.cs
+//@body 0x1CBC274
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_RankReward.cs
+//@body 0x1CBD3B0
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Shop.cs
+//@body 0x1CBEF70
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Skill.cs
+//@body 0x1CC22C4
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_SkillEffect.cs
+//@body 0x1CC4124
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_Stage.cs
+//@body 0x1CC4C90
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_TeamLevel.cs
+//@body 0x1CC6C30
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_TimeInterval.cs
+//@body 0x1CC7F44
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_TrophyReward.cs
+//@body 0x1CC8D48
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_TutorialCondition.cs
+//@body 0x1CC996C
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSProtoInfoManager_UserInitials.cs
+//@body 0x1CCA954
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/CSPvpRewardInfo.cs
+//@body 0x1CCFFC4
+{
+	return LotteryIdList__BackingField;
+}
+
+//@file Assembly-CSharp/CS/CSShopItem.cs
+//@body 0x1CC06D0
+{
+	return nProductID__BackingField;
+}
+//@body 0x1CD1884
+{
+	nProductID__BackingField = value;
+}
+//@body 0x1CC17E4
+{
+	return store_product_id__BackingField;
+}
+//@body 0x1CD188C
+{
+	store_product_id__BackingField = value;
+}
+//@body 0x1CD1894
+{
+	return strName__BackingField;
+}
+//@body 0x1CD189C
+{
+	strName__BackingField = value;
+}
+//@body 0x1CD18A4
+{
+	return strIcon__BackingField;
+}
+//@body 0x1CD18AC
+{
+	strIcon__BackingField = value;
+}
+//@body 0x1CD18B4
+{
+	return iconSoulstoneId__BackingField;
+}
+//@body 0x1CD18BC
+{
+	iconSoulstoneId__BackingField = value;
+}
+//@body 0x1CD18C4
+{
+	return strSaleCostType__BackingField;
+}
+//@body 0x1CD18CC
+{
+	strSaleCostType__BackingField = value;
+}
+//@body 0x1CD18D4
+{
+	return nPrice__BackingField;
+}
+//@body 0x1CD18DC
+{
+	nPrice__BackingField = value;
+}
+//@body 0x1CD18E4
+{
+	return nId_type;
+}
+//@body 0x1CD18EC
+{
+	return nID;
+}
+//@body 0x1CD18F4
+{
+	return nCount;
+}
+//@body 0x1CC06C8
+{
+	return HideProduct__BackingField;
+}
+//@body 0x1CD18FC
+{
+	HideProduct__BackingField = value;
+}
+//@body 0x1CD1904
+{
+	return premiumTicketId__BackingField;
+}
+//@body 0x1CD190C
+{
+	premiumTicketId__BackingField = value;
+}
+//@body 0x1CD1914
+{
+	return strRejectCondition__BackingField;
+}
+//@body 0x1CD191C
+{
+	strRejectCondition__BackingField = value;
+}
+//@body 0x1CD1974
+{
+	return Available_count__BackingField;
+}
+//@body 0x1CD197C
+{
+	Available_count__BackingField = value;
+}
+//@body 0x1CD1984
+{
+	return reset_date__BackingField;
+}
+//@body 0x1CD198C
+{
+	reset_date__BackingField = value;
+}
+//@body 0x1CC06D8
+{
+	return showCountrys__BackingField;
+}
+//@body 0x1CD1B64
+{
+	showCountrys__BackingField = value;
+}
+//@body 0x1CD1B6C
+{
+	return disableCountrys__BackingField;
+}
+//@body 0x1CD1B74
+{
+	disableCountrys__BackingField = value;
+}
+//@body 0x1CD1B7C
+{
+	return disableRegions__BackingField;
+}
+//@body 0x1CD1B84
+{
+	disableRegions__BackingField = value;
+}
+//@body 0x1CD1B8C
+{
+	return PayType__BackingField;
+}
+//@body 0x1CD1B94
+{
+	PayType__BackingField = value;
+}
+//@body 0x1CC136C
+{
+	return packageList__BackingField;
+}
+//@body 0x1CC1374
+{
+	packageList__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CSSkillEffectInfo.cs
+//@body 0x1CD2A7C
+{
+	return m_EffectFollow;
+}
+//@body 0x1CD2A84
+{
+	return m_effectPersistance;
+}
+//@body 0x1CD2A8C
+{
+	return m_useHitBlink;
+}
+
+//@file Assembly-CSharp/CS/CSSkillInfo.cs
+//@body 0x1CD3084
+{
+	return m_hasProjectile;
+}
+//@body 0x1CD3054
+{
+	return false;
+}
+
+//@file Assembly-CSharp/CS/CSStaminaShopMgr.cs
+//@body 0x1CD6D04
+{
+	return 120;
+}
+
+//@file Assembly-CSharp/CS/CSTimeInterval.cs
+//@body 0x1CC81C0
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/CharPartyData.cs
+//@body 0x23E86A0
+{
+	return Party1__BackingField;
+}
+//@body 0x23E8688
+{
+	Party1__BackingField = value;
+}
+//@body 0x23E86A8
+{
+	return Party2__BackingField;
+}
+//@body 0x23E8690
+{
+	Party2__BackingField = value;
+}
+//@body 0x23E86B0
+{
+	return Party3__BackingField;
+}
+//@body 0x23E8698
+{
+	Party3__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CharStatus.cs
+//@body 0x23E915C
+{
+	return m_attrs;
+}
+
+//@file Assembly-CSharp/CS/CharStatusAttr.cs
+//@body 0x23EA2D4
+{
+	value = 0.0f;
+	ratio = 0.0f;
+	multiplier = 1.0f;
+}
+//@body 0x23E9868
+{
+	value = 0.0f;
+	ratio = 0.0f;
+	multiplier = 1.0f;
+}
+
+//@file Assembly-CSharp/CS/ClanBoxSeasonRecord.cs
+//@body 0x23EB6C0
+{
+	return SeasonNum__BackingField;
+}
+//@body 0x23EB6C8
+{
+	SeasonNum__BackingField = value;
+}
+//@body 0x23EB6D0
+{
+	return Score__BackingField;
+}
+//@body 0x23EB6D8
+{
+	Score__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanMember.cs
+//@body 0x23EB7CC
+{
+	return Name__BackingField;
+}
+//@body 0x23EB7D4
+{
+	Name__BackingField = value;
+}
+//@body 0x23EB7DC
+{
+	return Contribution__BackingField;
+}
+//@body 0x23EB7E4
+{
+	Contribution__BackingField = value;
+}
+//@body 0x23EB814
+{
+	return Grade__BackingField;
+}
+//@body 0x23EB81C
+{
+	Grade__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanMemberMetaData.cs
+//@body 0x23EB900
+{
+	return IsOnline__BackingField;
+}
+//@body 0x23EB8F0
+{
+	IsOnline__BackingField = value;
+}
+//@body 0x23EB908
+{
+	return Room__BackingField;
+}
+//@body 0x23EB8F8
+{
+	Room__BackingField = value;
+}
+//@body 0x23EB9D0
+{
+	return IsOnline__BackingField;
+}
+//@body 0x23EB9D8
+{
+	return AccountID__BackingField;
+}
+//@body 0x23EB9E0
+{
+	AccountID__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanMemberSeasonRecord.cs
+//@body 0x23EB9E8
+{
+	return SeasonNum__BackingField;
+}
+//@body 0x23EB9F0
+{
+	SeasonNum__BackingField = value;
+}
+//@body 0x23EB9F8
+{
+	return ClanWarPoint__BackingField;
+}
+//@body 0x23EBA00
+{
+	ClanWarPoint__BackingField = value;
+}
+//@body 0x23EBA08
+{
+	return PlayCount__BackingField;
+}
+//@body 0x23EBA10
+{
+	PlayCount__BackingField = value;
+}
+//@body 0x23EBA18
+{
+	return TakeReward__BackingField;
+}
+//@body 0x23EBA20
+{
+	TakeReward__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanMetaData.cs
+//@body 0x23EBA30
+{
+	return ClanId__BackingField;
+}
+//@body 0x23EBA38
+{
+	ClanId__BackingField = value;
+}
+//@body 0x23EBA40
+{
+	return ClanName__BackingField;
+}
+//@body 0x23EBA48
+{
+	ClanName__BackingField = value;
+}
+//@body 0x23EBA50
+{
+	return Introduction__BackingField;
+}
+//@body 0x23EBA58
+{
+	Introduction__BackingField = value;
+}
+//@body 0x23EBA60
+{
+	return ClanJoinType__BackingField;
+}
+//@body 0x23EBA68
+{
+	ClanJoinType__BackingField = value;
+}
+//@body 0x23EBA70
+{
+	return NeedLevel__BackingField;
+}
+//@body 0x23EBA78
+{
+	NeedLevel__BackingField = value;
+}
+//@body 0x23EBA80
+{
+	return MemberCount__BackingField;
+}
+//@body 0x23EBA88
+{
+	MemberCount__BackingField = value;
+}
+//@body 0x23EBABC
+{
+	return ClanMaster__BackingField;
+}
+//@body 0x23EBAC4
+{
+	ClanMaster__BackingField = value;
+}
+//@body 0x23EBACC
+{
+	return MarkId__BackingField;
+}
+//@body 0x23EBAD4
+{
+	MarkId__BackingField = value;
+}
+//@body 0x23EBADC
+{
+	return ColorId__BackingField;
+}
+//@body 0x23EBAE4
+{
+	ColorId__BackingField = value;
+}
+//@body 0x23EBAEC
+{
+	return Country__BackingField;
+}
+//@body 0x23EBAF4
+{
+	Country__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanRankMetaData.cs
+//@body 0x23EBB7C
+{
+	return ClanId__BackingField;
+}
+//@body 0x23EBB84
+{
+	ClanId__BackingField = value;
+}
+//@body 0x23EBB8C
+{
+	return ClanName__BackingField;
+}
+//@body 0x23EBB94
+{
+	ClanName__BackingField = value;
+}
+//@body 0x23EBB9C
+{
+	return MarkId__BackingField;
+}
+//@body 0x23EBBA4
+{
+	MarkId__BackingField = value;
+}
+//@body 0x23EBBAC
+{
+	return ColorId__BackingField;
+}
+//@body 0x23EBBB4
+{
+	ColorId__BackingField = value;
+}
+//@body 0x23EBBBC
+{
+	return Country__BackingField;
+}
+//@body 0x23EBBC4
+{
+	Country__BackingField = value;
+}
+//@body 0x23EBBCC
+{
+	return Score__BackingField;
+}
+//@body 0x23EBBD4
+{
+	Score__BackingField = value;
+}
+//@body 0x23EBBDC
+{
+	return Wins__BackingField;
+}
+//@body 0x23EBBE4
+{
+	Wins__BackingField = value;
+}
+//@body 0x23EBBEC
+{
+	return WinStreak__BackingField;
+}
+//@body 0x23EBBF4
+{
+	WinStreak__BackingField = value;
+}
+//@body 0x23EBBFC
+{
+	return WinRate__BackingField;
+}
+//@body 0x23EBC04
+{
+	WinRate__BackingField = value;
+}
+//@body 0x23EBC0C
+{
+	return TotalWarCount__BackingField;
+}
+//@body 0x23EBC14
+{
+	TotalWarCount__BackingField = value;
+}
+//@body 0x23EBC1C
+{
+	return ClanMaster__BackingField;
+}
+//@body 0x23EBC24
+{
+	ClanMaster__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanRankingList.cs
+//@body 0x23EBB04
+{
+	return Season__BackingField;
+}
+//@body 0x23EBB0C
+{
+	Season__BackingField = value;
+}
+//@body 0x23EBB14
+{
+	return list__BackingField;
+}
+//@body 0x23EBB1C
+{
+	list__BackingField = value;
+}
+//@body 0x23EBB24
+{
+	return Page__BackingField;
+}
+//@body 0x23EBB2C
+{
+	Page__BackingField = value;
+}
+//@body 0x23EBB34
+{
+	return ViewCount__BackingField;
+}
+//@body 0x23EBB3C
+{
+	ViewCount__BackingField = value;
+}
+//@body 0x23EBB44
+{
+	return TotalCount__BackingField;
+}
+//@body 0x23EBB4C
+{
+	TotalCount__BackingField = value;
+}
+//@body 0x23EBB54
+{
+	return TopScoreTieCount__BackingField;
+}
+//@body 0x23EBB5C
+{
+	TopScoreTieCount__BackingField = value;
+}
+//@body 0x23EBB64
+{
+	return ViewType__BackingField;
+}
+//@body 0x23EBB6C
+{
+	ViewType__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ClanWarSeasonRecord.cs
+//@body 0x23EC698
+{
+	return SeasonNum__BackingField;
+}
+//@body 0x23EC6A0
+{
+	SeasonNum__BackingField = value;
+}
+//@body 0x23EC6A8
+{
+	return Score__BackingField;
+}
+//@body 0x23EC6B0
+{
+	Score__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CompletedClanMember.cs
+//@body 0x23EC8F0
+{
+	return clanData__BackingField;
+}
+//@body 0x23EC8C4
+{
+	clanData__BackingField = value;
+}
+//@body 0x23EC8F8
+{
+	return MetaData__BackingField;
+}
+//@body 0x23EC900
+{
+	MetaData__BackingField = value;
+}
+//@body 0x23EC8E8
+{
+	MetaData__BackingField = metaData;
+}
+
+//@file Assembly-CSharp/CS/ComplexCurrency.cs
+//@body 0x23EC9F4
+{
+	return Paid__BackingField;
+}
+//@body 0x23ECA04
+{
+	return Free__BackingField;
+}
+
+//@file Assembly-CSharp/CS/ContinuousItem.cs
+//@body 0x23ED740
+{
+	return DicPremiumTicket__BackingField;
+}
+//@body 0x23ED738
+{
+	DicPremiumTicket__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/CurrencyInfo.cs
+//@body 0x1CDA524
+{
+	return Currency__BackingField;
+}
+//@body 0x1CDA52C
+{
+	return ContentType__BackingField;
+}
+//@body 0x1CDA534
+{
+	return IncreaseStat__BackingField;
+}
+//@body 0x1CDA53C
+{
+	return DecreaseStat__BackingField;
+}
+//@body 0x1CDA4CC
+{
+	Currency__BackingField = Currency;
+	ContentType__BackingField = ContentType;
+	IncreaseStat__BackingField = IncreaseStat;
+	DecreaseStat__BackingField = DecreaseStat;
+}
+
+//@file Assembly-CSharp/CS/DBEntry.cs
+//@body 0x1CDA918
+{
+	return InsertStack__BackingField;
+}
+//@body 0x1CDA920
+{
+	InsertStack__BackingField = value;
+}
+//@body 0x1CDA940
+{
+	return padding__BackingField;
+}
+//@body 0x1CDA948
+{
+	padding__BackingField = value;
+}
+//@body 0x1CDA950
+{
+	return TTL__BackingField;
+}
+//@body 0x1CDA958
+{
+	TTL__BackingField = value;
+}
+//@body 0x1CDAB84
+{
+	return CommitType__BackingField;
+}
+//@body 0x1CDAB8C
+{
+	CommitType__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/DoubleKeyConverter.cs
+//@body 0x1CDB82C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/EloImpl.cs
+//@body 0x1CDBC50
+{
+	return Elo__BackingField;
+}
+//@body 0x1CDBC40
+{
+	Elo__BackingField = value;
+}
+//@body 0x1CDBC58
+{
+	return EloLadderList__BackingField;
+}
+//@body 0x1CDBC48
+{
+	EloLadderList__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/EventAttendanceGroup.cs
+//@body 0x1CDC5FC
+{
+	return GroupId__BackingField;
+}
+//@body 0x1CDC604
+{
+	GroupId__BackingField = value;
+}
+//@body 0x1CDC60C
+{
+	return Title__BackingField;
+}
+//@body 0x1CDC614
+{
+	Title__BackingField = value;
+}
+//@body 0x1CDC66C
+{
+	return RewardList__BackingField;
+}
+//@body 0x1CDC674
+{
+	RewardList__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/EventGameModeClearRecord.cs
+//@body 0x1CDD644
+{
+	_playRecordDic = value;
+}
+
+//@file Assembly-CSharp/CS/EventGameModeRecordData.cs
+//@body 0x1CDDDE4
+{
+	return FailCount__BackingField;
+}
+//@body 0x1CDDF3C
+{
+	FailCount__BackingField = value;
+}
+//@body 0x1CDDF64
+{
+	return RepeatCount__BackingField;
+}
+//@body 0x1CDE030
+{
+	RepeatCount__BackingField = value;
+}
+//@body 0x1CDEC04
+{
+	MilestoneRecieveDic__BackingField = value;
+}
+//@body 0x1CDEC0C
+{
+	FirstRecieveDic__BackingField = value;
+}
+//@body 0x1CDEC14
+{
+	TotalRecieveDic__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/EventGameModeRecordLogic.cs
+//@body 0x1CDF344
+{
+	this.record = record;
+}
+
+//@file Assembly-CSharp/CS/EventGameRewardGroup.cs
+//@body 0x1CDF63C
+{
+	return m_milestoneConditionType;
+}
+//@body 0x1CDC890
+{
+	return m_firstConditionType;
+}
+//@body 0x1CDF644
+{
+	return MilestoneMaxConditionCount__BackingField;
+}
+//@body 0x1CDD4D0
+{
+	return FirstMaxConditionCount__BackingField;
+}
+
+//@file Assembly-CSharp/CS/ExpireNode.cs
+//@body 0x1CE0A48
+{
+	return Type__BackingField;
+}
+//@body 0x1CE1124
+{
+	Type__BackingField = value;
+}
+//@body 0x1CE0FCC
+{
+	return Id__BackingField;
+}
+//@body 0x1CE112C
+{
+	Id__BackingField = value;
+}
+//@body 0x1CE1178
+{
+	return Value__BackingField;
+}
+//@body 0x1CE1134
+{
+	Value__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/Friend.cs
+//@body 0x2333A98
+{
+	return FriendPointCooltime__BackingField;
+}
+//@body 0x2333AA0
+{
+	FriendPointCooltime__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/FriendlySessionData.cs
+//@body 0x2333BEC
+{
+	return IsFriendlyMatch__BackingField;
+}
+//@body 0x2333B94
+{
+	IsFriendlyMatch__BackingField = value;
+}
+//@body 0x2333BF4
+{
+	return RoomName__BackingField;
+}
+//@body 0x2333B9C
+{
+	RoomName__BackingField = value;
+}
+//@body 0x2333BFC
+{
+	return Password__BackingField;
+}
+//@body 0x2333BA4
+{
+	Password__BackingField = value;
+}
+//@body 0x2333BAC
+{
+	IsFriendlyMatch__BackingField = isFriendlyMatch;
+	RoomName__BackingField = roomName;
+	Password__BackingField = password;
+}
+//@body 0x2333BDC
+{
+	IsFriendlyMatch__BackingField = isFriendlyMatch;
+	RoomName__BackingField = roomName;
+	Password__BackingField = password;
+}
+
+//@file Assembly-CSharp/CS/GameKeyConverter.cs
+//@body 0x2334450
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/GameModeInfo.cs
+//@body 0x2334A7C
+{
+	return m_bTimeOut;
+}
+//@body 0x2334A84
+{
+	return m_bGoldenGoal;
+}
+//@body 0x2334A8C
+{
+	return m_bMultiplay;
+}
+//@body 0x2334A94
+{
+	return UseMatchServer__BackingField;
+}
+//@body 0x2334AA4
+{
+	return m_bFirstRandomSpawn;
+}
+//@body 0x2334AAC
+{
+	return m_bAutoRespawn;
+}
+//@body 0x2334AB4
+{
+	return m_bInstantRespawn;
+}
+//@body 0x2334ABC
+{
+	return m_bForcedEntry;
+}
+//@body 0x2334AC4
+{
+	return m_bSneak;
+}
+//@body 0x2334ACC
+{
+	return m_bBalancedPlayerStart;
+}
+//@body 0x2334AD4
+{
+	return m_bVeryVeryNewbie;
+}
+//@body 0x2334ADC
+{
+	return m_bCharTag;
+}
+//@body 0x2334AE4
+{
+	return m_bCharTagOnPlayState;
+}
+
+//@file Assembly-CSharp/CS/GameModeInstanceInfo.cs
+//@body 0x2335A34
+{
+	return m_bUseMatchServer;
+}
+//@body 0x2335A3C
+{
+	return m_bIsLadder;
+}
+//@body 0x2335A44
+{
+	return m_bAIMode;
+}
+//@body 0x2335A4C
+{
+	return m_bBalanceRegulate;
+}
+//@body 0x2335A54
+{
+	return m_use_elo_match;
+}
+//@body 0x2335A5C
+{
+	m_use_elo_match = value;
+}
+//@body 0x2335A64
+{
+	return m_use_item_modifier;
+}
+//@body 0x2335A6C
+{
+	return m_use_skill_specialize;
+}
+//@body 0x2335A74
+{
+	return m_use_talent;
+}
+//@body 0x2335A7C
+{
+	return m_use_relic;
+}
+//@body 0x2335A84
+{
+	return m_normal_view_show;
+}
+//@body 0x2335A8C
+{
+	return m_friendly_match_view_show;
+}
+//@body 0x2335A94
+{
+	return m_show_character_level;
+}
+//@body 0x2335A9C
+{
+	return PrivateRoomUse__BackingField;
+}
+//@body 0x2335AAC
+{
+	return IsPasswordSetOutput__BackingField;
+}
+
+//@file Assembly-CSharp/CS/GameSession.cs
+//@body 0x2337494
+{
+	return GameId__BackingField;
+}
+//@body 0x233744C
+{
+	GameId__BackingField = value;
+}
+//@body 0x233749C
+{
+	return MatchType__BackingField;
+}
+//@body 0x2337454
+{
+	MatchType__BackingField = value;
+}
+//@body 0x23374A4
+{
+	return Mode__BackingField;
+}
+//@body 0x233745C
+{
+	Mode__BackingField = value;
+}
+//@body 0x23374AC
+{
+	return Season__BackingField;
+}
+//@body 0x2337464
+{
+	Season__BackingField = value;
+}
+//@body 0x23374B4
+{
+	return AllyELO__BackingField;
+}
+//@body 0x233746C
+{
+	AllyELO__BackingField = value;
+}
+//@body 0x23374BC
+{
+	return EnemyELO__BackingField;
+}
+//@body 0x2337474
+{
+	EnemyELO__BackingField = value;
+}
+//@body 0x23374C4
+{
+	return CharPartyId__BackingField;
+}
+//@body 0x233747C
+{
+	CharPartyId__BackingField = value;
+}
+//@body 0x23374CC
+{
+	return SectorId__BackingField;
+}
+//@body 0x2337484
+{
+	SectorId__BackingField = value;
+}
+//@body 0x23374F4
+{
+	return Record__BackingField;
+}
+//@body 0x23372B0
+{
+	Record__BackingField = value;
+}
+//@body 0x23374FC
+{
+	return Rank__BackingField;
+}
+//@body 0x2337504
+{
+	Rank__BackingField = value;
+}
+//@body 0x233750C
+{
+	return RewardRank__BackingField;
+}
+//@body 0x2337514
+{
+	RewardRank__BackingField = value;
+}
+//@body 0x233751C
+{
+	return PlayerCount__BackingField;
+}
+//@body 0x2337524
+{
+	PlayerCount__BackingField = value;
+}
+//@body 0x233752C
+{
+	return IsCompleted__BackingField;
+}
+//@body 0x23372E8
+{
+	IsCompleted__BackingField = value;
+}
+//@body 0x2337534
+{
+	return TrophyPoint__BackingField;
+}
+//@body 0x233753C
+{
+	TrophyPoint__BackingField = value;
+}
+//@body 0x2337544
+{
+	return ClanBoxPoint__BackingField;
+}
+//@body 0x2337300
+{
+	ClanBoxPoint__BackingField = value;
+}
+//@body 0x233754C
+{
+	return WinLose__BackingField;
+}
+//@body 0x2337554
+{
+	WinLose__BackingField = value;
+}
+//@body 0x233748C
+{
+	return FriendlySession__BackingField;
+}
+//@body 0x23372F0
+{
+	FriendlySession__BackingField = value;
+}
+//@body 0x2337574
+{
+	return FailCause__BackingField;
+}
+//@body 0x23372F8
+{
+	FailCause__BackingField = value;
+}
+//@body 0x233757C
+{
+	return EnterModeInstanceID__BackingField;
+}
+//@body 0x2337584
+{
+	EnterModeInstanceID__BackingField = value;
+}
+//@body 0x233758C
+{
+	return EnterEventModeID__BackingField;
+}
+//@body 0x2337594
+{
+	EnterEventModeID__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/Item.cs
+//@body 0x2339954
+{
+	return IID__BackingField;
+}
+//@body 0x233995C
+{
+	IID__BackingField = value;
+}
+//@body 0x2339964
+{
+	return nItemID__BackingField;
+}
+//@body 0x233996C
+{
+	nItemID__BackingField = value;
+}
+//@body 0x2339974
+{
+	return StackCount__BackingField;
+}
+//@body 0x233997C
+{
+	StackCount__BackingField = value;
+}
+//@body 0x2339984
+{
+	return IsShowed__BackingField;
+}
+//@body 0x233998C
+{
+	IsShowed__BackingField = value;
+}
+//@body 0x2339994
+{
+	return nEhchantXP__BackingField;
+}
+//@body 0x233999C
+{
+	nEhchantXP__BackingField = value;
+}
+//@body 0x2339A54
+{
+	m_RandomOptionList = value;
+}
+
+//@file Assembly-CSharp/CS/LastStartedGame.cs
+//@body 0x233A3B8
+{
+	return Mode__BackingField;
+}
+//@body 0x233A3C0
+{
+	Mode__BackingField = value;
+}
+//@body 0x233A3C8
+{
+	return GameId__BackingField;
+}
+//@body 0x233A3D0
+{
+	GameId__BackingField = value;
+}
+//@body 0x233A3D8
+{
+	return SectorId__BackingField;
+}
+//@body 0x233A3E0
+{
+	SectorId__BackingField = value;
+}
+//@body 0x233A3E8
+{
+	return EnemyELO__BackingField;
+}
+//@body 0x233A3F0
+{
+	EnemyELO__BackingField = value;
+}
+//@body 0x233A3F8
+{
+	return Char1__BackingField;
+}
+//@body 0x233A400
+{
+	Char1__BackingField = value;
+}
+//@body 0x233A408
+{
+	return Char2__BackingField;
+}
+//@body 0x233A410
+{
+	Char2__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/LimitItem.cs
+//@body 0x233A488
+{
+	return ProductId__BackingField;
+}
+//@body 0x233A490
+{
+	ProductId__BackingField = value;
+}
+//@body 0x233A498
+{
+	return BoughtCount__BackingField;
+}
+//@body 0x233A4A0
+{
+	BoughtCount__BackingField = value;
+}
+//@body 0x233A4A8
+{
+	return MaxCount__BackingField;
+}
+//@body 0x233A4B0
+{
+	MaxCount__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/LimitItemPurchasedList.cs
+//@body 0x233A58C
+{
+	return AccountId__BackingField;
+}
+//@body 0x233A594
+{
+	AccountId__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/LoginFailReason.cs
+//@body 0x233B0F8
+{
+	return Reason__BackingField;
+}
+//@body 0x233B100
+{
+	Reason__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/MannerRepairInfo.cs
+//@body 0x233B674
+{
+	return LastSeason__BackingField;
+}
+
+//@file Assembly-CSharp/CS/NameChecker.cs
+//@body 0x233BDAC
+{
+	m_name_filter = name_filter;
+}
+
+//@file Assembly-CSharp/CS/NetData_Achievement_Clear_List.cs
+//@body 0x233E2F4
+{
+	m_cleared_quest = l;
+}
+
+//@file Assembly-CSharp/CS/NetData_Char_List.cs
+//@body 0x233E8B0
+{
+	liNetChar = liNetDataChar;
+}
+
+//@file Assembly-CSharp/CS/NetData_Pet_List.cs
+//@body 0x234029C
+{
+	liNetPet = liNetDataPet;
+}
+
+//@file Assembly-CSharp/CS/NetData_Record.cs
+//@body 0x23404A0
+{
+	hp = 0.0f;
+}
+
+//@file Assembly-CSharp/CS/Netdata_Actor.cs
+//@body 0x233E518
+{
+	is_showed = true;
+}
+
+//@file Assembly-CSharp/CS/Netdata_Char.cs
+//@body 0x233E7F4
+{
+	return skins__BackingField;
+}
+//@body 0x233E7FC
+{
+	skins__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/Netdata_Clan.cs
+//@body 0x233EB9C
+{
+	return Notification__BackingField;
+}
+//@body 0x233EBA4
+{
+	Notification__BackingField = value;
+}
+//@body 0x233EBAC
+{
+	return Exp__BackingField;
+}
+//@body 0x233EBB4
+{
+	Exp__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/Netdata_Ranker.cs
+//@body 0x23402C4
+{
+	return Level__BackingField;
+}
+//@body 0x23402CC
+{
+	Level__BackingField = value;
+}
+//@body 0x23402D4
+{
+	return Name__BackingField;
+}
+//@body 0x23402DC
+{
+	Name__BackingField = value;
+}
+//@body 0x23402E4
+{
+	return RankType__BackingField;
+}
+//@body 0x23402EC
+{
+	RankType__BackingField = value;
+}
+//@body 0x23402F4
+{
+	return Season__BackingField;
+}
+//@body 0x23402FC
+{
+	Season__BackingField = value;
+}
+//@body 0x2340304
+{
+	return Rank__BackingField;
+}
+//@body 0x234030C
+{
+	Rank__BackingField = value;
+}
+//@body 0x2340314
+{
+	return Score__BackingField;
+}
+//@body 0x234031C
+{
+	Score__BackingField = value;
+}
+//@body 0x2340324
+{
+	return ProfileIconID__BackingField;
+}
+//@body 0x234032C
+{
+	ProfileIconID__BackingField = value;
+}
+//@body 0x2340334
+{
+	return TitleId__BackingField;
+}
+//@body 0x234033C
+{
+	TitleId__BackingField = value;
+}
+//@body 0x2340344
+{
+	return CharacterList__BackingField;
+}
+//@body 0x234034C
+{
+	CharacterList__BackingField = value;
+}
+//@body 0x2340354
+{
+	return SeasonRecord__BackingField;
+}
+//@body 0x234035C
+{
+	SeasonRecord__BackingField = value;
+}
+//@body 0x2340364
+{
+	return TotalRecord__BackingField;
+}
+//@body 0x234036C
+{
+	TotalRecord__BackingField = value;
+}
+//@body 0x2340374
+{
+	return Country__BackingField;
+}
+//@body 0x234037C
+{
+	Country__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ObjectDiffPatchResult.cs
+//@body 0x2342A1C
+{
+	return _type;
+}
+//@body 0x2341378
+{
+	_type = value;
+}
+//@body 0x2342970
+{
+	return _oldValues;
+}
+//@body 0x2341388
+{
+	_oldValues = value;
+}
+//@body 0x2342968
+{
+	return _newValues;
+}
+//@body 0x2341390
+{
+	_newValues = value;
+}
+
+//@file Assembly-CSharp/CS/PackageShopInfo.cs
+//@body 0x21ABBE8
+{
+	return nProductID__BackingField;
+}
+//@body 0x21ABBF0
+{
+	nProductID__BackingField = value;
+}
+//@body 0x21ABBF8
+{
+	return store_product_id__BackingField;
+}
+//@body 0x21ABC00
+{
+	store_product_id__BackingField = value;
+}
+//@body 0x21ABC08
+{
+	return strName__BackingField;
+}
+//@body 0x21ABC10
+{
+	strName__BackingField = value;
+}
+//@body 0x21ABC18
+{
+	return strIcon__BackingField;
+}
+//@body 0x21ABC20
+{
+	strIcon__BackingField = value;
+}
+//@body 0x21ABC28
+{
+	return iconSoulstoneId__BackingField;
+}
+//@body 0x21ABC30
+{
+	iconSoulstoneId__BackingField = value;
+}
+//@body 0x21ABC38
+{
+	return strSaleCostType__BackingField;
+}
+//@body 0x21ABC40
+{
+	strSaleCostType__BackingField = value;
+}
+//@body 0x21ABC48
+{
+	return nPrice__BackingField;
+}
+//@body 0x21ABC50
+{
+	nPrice__BackingField = value;
+}
+//@body 0x21ABC58
+{
+	return contentType__BackingField;
+}
+//@body 0x21ABC60
+{
+	contentType__BackingField = value;
+}
+//@body 0x21ABC68
+{
+	return contentID__BackingField;
+}
+//@body 0x21ABC70
+{
+	contentID__BackingField = value;
+}
+//@body 0x21ABC78
+{
+	return contentCount__BackingField;
+}
+//@body 0x21ABC80
+{
+	contentCount__BackingField = value;
+}
+//@body 0x21ABC88
+{
+	return premiumTicketId__BackingField;
+}
+//@body 0x21ABC90
+{
+	premiumTicketId__BackingField = value;
+}
+//@body 0x21ABC98
+{
+	return strRejectCondition__BackingField;
+}
+//@body 0x21ABCA0
+{
+	strRejectCondition__BackingField = value;
+}
+//@body 0x21ABCF8
+{
+	return Available_count__BackingField;
+}
+//@body 0x21ABD00
+{
+	Available_count__BackingField = value;
+}
+//@body 0x21ABD08
+{
+	return reset_date__BackingField;
+}
+//@body 0x21ABD10
+{
+	reset_date__BackingField = value;
+}
+//@body 0x21ABEE8
+{
+	return HideProduct__BackingField;
+}
+//@body 0x21ABEF0
+{
+	HideProduct__BackingField = value;
+}
+//@body 0x21ABEF8
+{
+	return PayType__BackingField;
+}
+//@body 0x21ABF00
+{
+	PayType__BackingField = value;
+}
+//@body 0x21ABF08
+{
+	return showCountrys__BackingField;
+}
+//@body 0x21ABF10
+{
+	showCountrys__BackingField = value;
+}
+//@body 0x21ABF18
+{
+	return disableCountrys__BackingField;
+}
+//@body 0x21ABF20
+{
+	disableCountrys__BackingField = value;
+}
+//@body 0x21ABF28
+{
+	return disableRegions__BackingField;
+}
+//@body 0x21ABF30
+{
+	disableRegions__BackingField = value;
+}
+//@body 0x21ABF38
+{
+	return IsUsedProductDes__BackingField;
+}
+//@body 0x21ACAF4
+{
+	return packageList__BackingField;
+}
+//@body 0x21ACAFC
+{
+	packageList__BackingField = value;
+}
+//@body 0x21AD4A4
+{
+	return false;
+}
+
+//@file Assembly-CSharp/CS/PandoraBoxLastRecieveInfo.cs
+//@body 0x21AD854
+{
+	return LastSeason__BackingField;
+}
+
+//@file Assembly-CSharp/CS/PeriodUpdaterPuase.cs
+//@body 0x21AE208
+{
+	return pause__BackingField;
+}
+//@body 0x21AE200
+{
+	pause__BackingField = value;
+}
+//@body 0x21AE210
+{
+	pause__BackingField = false;
+}
+//@body 0x21AE21C
+{
+	pause__BackingField = true;
+}
+
+//@file Assembly-CSharp/CS/PlacementTestInfo.cs
+//@body 0x21AE2F4
+{
+	return DicPtPlayData__BackingField;
+}
+//@body 0x21AE2EC
+{
+	DicPtPlayData__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/PlayerGameRecord.cs
+//@body 0x21AE2FC
+{
+	lastState = (CSPlayerState)3;
+}
+
+//@file Assembly-CSharp/CS/PremiumTicketData.cs
+//@body 0x21AE804
+{
+	return TicketID__BackingField;
+}
+//@body 0x21AE678
+{
+	TicketID__BackingField = value;
+}
+//@body 0x21AE81C
+{
+	return TakeCount__BackingField;
+}
+//@body 0x21AE680
+{
+	TakeCount__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoException.cs
+//@body 0x21AEE80
+{
+	return FileName__BackingField;
+}
+//@body 0x21AEE88
+{
+	return Cursor__BackingField;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_GameMode.cs
+//@body 0x21AEF14
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_GameModeInstance.cs
+//@body 0x21AFD18
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_Quest.cs
+//@body 0x21B1964
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_Relic.cs
+//@body 0x21B27F0
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_SkillSound.cs
+//@body 0x21B3B34
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_SkillSpecialization.cs
+//@body 0x21B4C88
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_Skin.cs
+//@body 0x21B7674
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_Talent.cs
+//@body 0x21B7EC0
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x21B7ED4
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoManager_Title.cs
+//@body 0x21B8D68
+{
+	return from == (ProtoInfoFrom)1;
+}
+//@body 0x21B8D7C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/ProtoInfoXmlException.cs
+//@body 0x21B9B24
+{
+	return FileName__BackingField;
+}
+//@body 0x21B9B2C
+{
+	return Cursor__BackingField;
+}
+//@body 0x21B9B34
+{
+	return LineNumber__BackingField;
+}
+//@body 0x21B9B3C
+{
+	return LinePosition__BackingField;
+}
+
+//@file Assembly-CSharp/CS/PtPlayData.cs
+//@body 0x21B9B78
+{
+	return IsEnd__BackingField;
+}
+//@body 0x21B9B68
+{
+	IsEnd__BackingField = value;
+}
+//@body 0x21B9B80
+{
+	return PlayCnt__BackingField;
+}
+//@body 0x21B9B70
+{
+	PlayCnt__BackingField = value;
+}
+//@body 0x21B9B44
+{
+	IsEnd__BackingField = false;
+	PlayCnt__BackingField = 0;
+}
+
+//@file Assembly-CSharp/CS/RandomOptionChangeWaitStorage.cs
+//@body 0x21BFEE0
+{
+	return SelectedChangeIndex__BackingField;
+}
+//@body 0x21BFEE8
+{
+	SelectedChangeIndex__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/RankerMetaData.cs
+//@body 0x21C0238
+{
+	return Level__BackingField;
+}
+//@body 0x21C0240
+{
+	Level__BackingField = value;
+}
+//@body 0x21C0248
+{
+	return Name__BackingField;
+}
+//@body 0x21C0250
+{
+	Name__BackingField = value;
+}
+//@body 0x21C0258
+{
+	return Score__BackingField;
+}
+//@body 0x21C0260
+{
+	Score__BackingField = value;
+}
+//@body 0x21C0268
+{
+	return ProfileIconID__BackingField;
+}
+//@body 0x21C0270
+{
+	ProfileIconID__BackingField = value;
+}
+//@body 0x21C0278
+{
+	return TItleId__BackingField;
+}
+//@body 0x21C0280
+{
+	TItleId__BackingField = value;
+}
+//@body 0x21C0288
+{
+	return SeasonRecord__BackingField;
+}
+//@body 0x21C0290
+{
+	SeasonRecord__BackingField = value;
+}
+//@body 0x21C0298
+{
+	return Country__BackingField;
+}
+//@body 0x21C02A0
+{
+	Country__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/RankingList.cs
+//@body 0x21C08C0
+{
+	return MatchType__BackingField;
+}
+//@body 0x21C08C8
+{
+	MatchType__BackingField = value;
+}
+//@body 0x21C08D0
+{
+	return Mode__BackingField;
+}
+//@body 0x21C08D8
+{
+	Mode__BackingField = value;
+}
+//@body 0x21C08E0
+{
+	return Season__BackingField;
+}
+//@body 0x21C08E8
+{
+	Season__BackingField = value;
+}
+//@body 0x21C08F0
+{
+	return list__BackingField;
+}
+//@body 0x21C08F8
+{
+	list__BackingField = value;
+}
+//@body 0x21C0900
+{
+	return Page__BackingField;
+}
+//@body 0x21C0908
+{
+	Page__BackingField = value;
+}
+//@body 0x21C0910
+{
+	return ViewCount__BackingField;
+}
+//@body 0x21C0918
+{
+	ViewCount__BackingField = value;
+}
+//@body 0x21C0920
+{
+	return TotalCount__BackingField;
+}
+//@body 0x21C0928
+{
+	TotalCount__BackingField = value;
+}
+//@body 0x21C0930
+{
+	return TopScoreTieCount__BackingField;
+}
+//@body 0x21C0938
+{
+	TopScoreTieCount__BackingField = value;
+}
+//@body 0x21C0940
+{
+	return ViewType__BackingField;
+}
+//@body 0x21C0948
+{
+	ViewType__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/RotationItemSet.cs
+//@body 0x21C32E0
+{
+	return RotationId__BackingField;
+}
+//@body 0x21C32E8
+{
+	RotationId__BackingField = value;
+}
+//@body 0x21C32F0
+{
+	return Current__BackingField;
+}
+//@body 0x21C32F8
+{
+	Current__BackingField = value;
+}
+//@body 0x21C3300
+{
+	return Next__BackingField;
+}
+//@body 0x21C3308
+{
+	Next__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/RotationShopItems.cs
+//@body 0x21C3318
+{
+	return ProductId__BackingField;
+}
+//@body 0x21C3320
+{
+	ProductId__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/SeasonELO.cs
+//@body 0x21C47BC
+{
+	return RankType__BackingField;
+}
+//@body 0x21C46C4
+{
+	RankType__BackingField = value;
+}
+//@body 0x21C47C4
+{
+	return Season__BackingField;
+}
+//@body 0x21C47CC
+{
+	Season__BackingField = value;
+}
+//@body 0x21C47D4
+{
+	return PreviousSeason__BackingField;
+}
+//@body 0x21C47DC
+{
+	PreviousSeason__BackingField = value;
+}
+//@body 0x21C46CC
+{
+	Score__BackingField = value;
+}
+//@body 0x21C469C
+{
+	RankType__BackingField = (RankType)0;
+	Score__BackingField = 1000;
+}
+
+//@file Assembly-CSharp/CS/SeasonRecord.cs
+//@body 0x21C497C
+{
+	return No__BackingField;
+}
+//@body 0x21C4984
+{
+	No__BackingField = value;
+}
+//@body 0x21C498C
+{
+	return Score__BackingField;
+}
+//@body 0x21C4994
+{
+	Score__BackingField = value;
+}
+//@body 0x21C499C
+{
+	return Rank__BackingField;
+}
+//@body 0x21C49A4
+{
+	Rank__BackingField = value;
+}
+//@body 0x21C49AC
+{
+	return RankPer__BackingField;
+}
+//@body 0x21C49B4
+{
+	RankPer__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/ShopContent.cs
+//@body 0x21DF314
+{
+	return IsShowBonusUI__BackingField;
+}
+
+//@file Assembly-CSharp/CS/SkillSpecializationInfo.cs
+//@body 0x21E2608
+{
+	return MaxLevel__BackingField;
+}
+//@body 0x21E2610
+{
+	MaxLevel__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/SkinInfo.cs
+//@body 0x21E297C
+{
+	return isShow__BackingField;
+}
+//@body 0x21E298C
+{
+	return nRarity__BackingField;
+}
+//@body 0x21E2994
+{
+	nRarity__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/StallManager.cs
+//@body 0x21E32D4
+{
+	return AccountId__BackingField;
+}
+//@body 0x21E32DC
+{
+	AccountId__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/TimeStampData.cs
+//@body 0x21E9294
+{
+	return Count__BackingField;
+}
+//@body 0x21E929C
+{
+	Count__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/TripleKey.cs
+//@body 0x21EA08C
+{
+	return Key3__BackingField;
+}
+
+//@file Assembly-CSharp/CS/TripleKeyConverter.cs
+//@body 0x21EA23C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CS/UserDataBase.cs
+//@body 0x21E3128
+{
+	return Name__BackingField;
+}
+//@body 0x21EBB08
+{
+	Name__BackingField = value;
+}
+//@body 0x21DF87C
+{
+	return Level__BackingField;
+}
+//@body 0x21EBB10
+{
+	Level__BackingField = value;
+}
+//@body 0x21EBB18
+{
+	return Exp__BackingField;
+}
+//@body 0x21EBB20
+{
+	Exp__BackingField = value;
+}
+//@body 0x21DF88C
+{
+	return Stamina__BackingField;
+}
+//@body 0x21EBB28
+{
+	Stamina__BackingField = value;
+}
+//@body 0x21DF884
+{
+	return Energy__BackingField;
+}
+//@body 0x21EBE9C
+{
+	Energy__BackingField = value;
+}
+//@body 0x21EC13C
+{
+	return ArenaCoin__BackingField;
+}
+//@body 0x21EC144
+{
+	ArenaCoin__BackingField = value;
+}
+//@body 0x21EC14C
+{
+	return FP__BackingField;
+}
+//@body 0x21EC154
+{
+	FP__BackingField = value;
+}
+//@body 0x21EC15C
+{
+	return ItemInvenSlotCount__BackingField;
+}
+//@body 0x21EBA58
+{
+	ItemInvenSlotCount__BackingField = value;
+}
+//@body 0x21EC164
+{
+	return NewMailCount__BackingField;
+}
+//@body 0x21EC16C
+{
+	NewMailCount__BackingField = value;
+}
+//@body 0x21EC17C
+{
+	ClearMissionStage__BackingField = value;
+}
+//@body 0x21EC184
+{
+	return ClearTicket__BackingField;
+}
+//@body 0x21EC18C
+{
+	ClearTicket__BackingField = value;
+}
+//@body 0x21EC194
+{
+	return FirstRankRewardRecordDictionary__BackingField;
+}
+//@body 0x21EBAC8
+{
+	FirstRankRewardRecordDictionary__BackingField = value;
+}
+//@body 0x21EC19C
+{
+	return TrophyRewardCoolTimePassCount__BackingField;
+}
+//@body 0x21EC1A4
+{
+	TrophyRewardCoolTimePassCount__BackingField = value;
+}
+//@body 0x21EC1D4
+{
+	return TrophyRewardPoint__BackingField;
+}
+//@body 0x21EBAD0
+{
+	TrophyRewardPoint__BackingField = value;
+}
+//@body 0x21EC1DC
+{
+	return ItemBooster__BackingField;
+}
+//@body 0x21EC1E4
+{
+	ItemBooster__BackingField = value;
+}
+//@body 0x21EC1EC
+{
+	return GoldBooster__BackingField;
+}
+//@body 0x21EC1F4
+{
+	GoldBooster__BackingField = value;
+}
+//@body 0x21EC1FC
+{
+	return PromstoneBooster__BackingField;
+}
+//@body 0x21EC204
+{
+	PromstoneBooster__BackingField = value;
+}
+//@body 0x21EC20C
+{
+	return GameSession__BackingField;
+}
+//@body 0x21EC214
+{
+	GameSession__BackingField = value;
+}
+//@body 0x21EC26C
+{
+	return MedalOfHonor__BackingField;
+}
+//@body 0x21EC274
+{
+	MedalOfHonor__BackingField = value;
+}
+//@body 0x21EC27C
+{
+	return CharParty__BackingField;
+}
+//@body 0x21EBA78
+{
+	CharParty__BackingField = value;
+}
+//@body 0x21EC284
+{
+	return MedalOfWarrior__BackingField;
+}
+//@body 0x21EC28C
+{
+	MedalOfWarrior__BackingField = value;
+}
+//@body 0x21EC294
+{
+	return UnlockFeatures__BackingField;
+}
+//@body 0x21EBA60
+{
+	UnlockFeatures__BackingField = value;
+}
+//@body 0x21EC29C
+{
+	return DateStats__BackingField;
+}
+//@body 0x21EC2A4
+{
+	DateStats__BackingField = value;
+}
+//@body 0x21EC2AC
+{
+	return DailyStats__BackingField;
+}
+//@body 0x21EC2B4
+{
+	DailyStats__BackingField = value;
+}
+//@body 0x21EC2BC
+{
+	return TotalStats__BackingField;
+}
+//@body 0x21EC2C4
+{
+	TotalStats__BackingField = value;
+}
+//@body 0x21EC2CC
+{
+	return WeeklyStats__BackingField;
+}
+//@body 0x21EC2D4
+{
+	WeeklyStats__BackingField = value;
+}
+//@body 0x21EC2E4
+{
+	Achievements__BackingField = value;
+}
+//@body 0x21EC2EC
+{
+	return CombatPoint__BackingField;
+}
+//@body 0x21EC2F4
+{
+	CombatPoint__BackingField = value;
+}
+//@body 0x21EC2FC
+{
+	return DailyBox__BackingField;
+}
+//@body 0x21EBA68
+{
+	DailyBox__BackingField = value;
+}
+//@body 0x21E6480
+{
+	return TalentPoint__BackingField;
+}
+//@body 0x21EC33C
+{
+	TalentPoint__BackingField = value;
+}
+//@body 0x21EBA80
+{
+	Talent__BackingField = value;
+}
+//@body 0x21EBA88
+{
+	Relic__BackingField = value;
+}
+//@body 0x21E9778
+{
+	TitleId__BackingField = value;
+}
+//@body 0x21EBA90
+{
+	_Titles = value;
+}
+//@body 0x21EC358
+{
+	_expireList = value;
+}
+//@body 0x21EC400
+{
+	_limitItemPurchaseList = value;
+}
+//@body 0x21EC4B8
+{
+	_rankRewarded = value;
+}
+//@body 0x21EC4C0
+{
+	return IsUseItemBooster__BackingField;
+}
+//@body 0x21EC4C8
+{
+	IsUseItemBooster__BackingField = value;
+}
+//@body 0x21EC4D0
+{
+	return IsUseGoldBooster__BackingField;
+}
+//@body 0x21EC4D8
+{
+	IsUseGoldBooster__BackingField = value;
+}
+//@body 0x21EC4E0
+{
+	return IsUsePromstoneBooster__BackingField;
+}
+//@body 0x21EC4E8
+{
+	IsUsePromstoneBooster__BackingField = value;
+}
+//@body 0x21EC4F0
+{
+	return TimeStamps__BackingField;
+}
+//@body 0x21EBA70
+{
+	TimeStamps__BackingField = value;
+}
+//@body 0x21EC4F8
+{
+	return continuousItems__BackingField;
+}
+//@body 0x21EBAC0
+{
+	continuousItems__BackingField = value;
+}
+//@body 0x21EC500
+{
+	return Elo__BackingField;
+}
+//@body 0x21EBAB0
+{
+	Elo__BackingField = value;
+}
+//@body 0x21EC5B8
+{
+	_rotationItems = value;
+}
+//@body 0x21EC5C0
+{
+	_boughtLimitedGoodsList = value;
+}
+//@body 0x21EC5C8
+{
+	return PromotionWeaponStone__BackingField;
+}
+//@body 0x21EC5D0
+{
+	PromotionWeaponStone__BackingField = value;
+}
+//@body 0x21EC5D8
+{
+	return PromotionArmorStone__BackingField;
+}
+//@body 0x21EC5E0
+{
+	PromotionArmorStone__BackingField = value;
+}
+//@body 0x21EC5E8
+{
+	return PromotionAccessoryStone__BackingField;
+}
+//@body 0x21EC5F0
+{
+	PromotionAccessoryStone__BackingField = value;
+}
+//@body 0x21EC5F8
+{
+	return FreeRevivedCnt__BackingField;
+}
+//@body 0x21EC600
+{
+	FreeRevivedCnt__BackingField = value;
+}
+//@body 0x21EC608
+{
+	return ProfileIconID__BackingField;
+}
+//@body 0x21EBA98
+{
+	ProfileIconID__BackingField = value;
+}
+//@body 0x21EC610
+{
+	return ProfileIcons__BackingField;
+}
+//@body 0x21EBAA0
+{
+	ProfileIcons__BackingField = value;
+}
+//@body 0x21EC630
+{
+	_emoticonSetID = value;
+}
+//@body 0x21EC754
+{
+	_emoticonSets = value;
+}
+//@body 0x21EBAA8
+{
+	Notifications__BackingField = value;
+}
+//@body 0x21EC764
+{
+	return ClanId__BackingField;
+}
+//@body 0x21EC76C
+{
+	ClanId__BackingField = value;
+}
+//@body 0x21EC774
+{
+	return CombatPower__BackingField;
+}
+//@body 0x21EC77C
+{
+	CombatPower__BackingField = value;
+}
+//@body 0x21EC784
+{
+	return PlacementTest__BackingField;
+}
+//@body 0x21EBAD8
+{
+	PlacementTest__BackingField = value;
+}
+//@body 0x21EC78C
+{
+	return PointShopAdvertisementChargeCount__BackingField;
+}
+//@body 0x21EC794
+{
+	PointShopAdvertisementChargeCount__BackingField = value;
+}
+//@body 0x21ECA7C
+{
+	_pandoraHistory = value;
+}
+//@body 0x21ECB24
+{
+	_eventModeClearRecord = value;
+}
+//@body 0x21ED2AC
+{
+	return MannerGood__BackingField;
+}
+//@body 0x21ED2B4
+{
+	MannerGood__BackingField = value;
+}
+//@body 0x21ED2BC
+{
+	return MannerBad__BackingField;
+}
+//@body 0x21ED2C4
+{
+	MannerBad__BackingField = value;
+}
+//@body 0x21ED2CC
+{
+	return MannerPoint__BackingField;
+}
+//@body 0x21ED2D4
+{
+	MannerPoint__BackingField = value;
+}
+//@body 0x21ED37C
+{
+	_mannerRepairInfo = value;
+}
+//@body 0x21ED384
+{
+	return RandomOptionChangeWaitStorage__BackingField;
+}
+//@body 0x21EBAB8
+{
+	RandomOptionChangeWaitStorage__BackingField = value;
+}
+//@body 0x21ED38C
+{
+	return Fatigue__BackingField;
+}
+//@body 0x21ED394
+{
+	Fatigue__BackingField = value;
+}
+//@body 0x21ED39C
+{
+	return AttendanceState__BackingField;
+}
+//@body 0x21ED3A4
+{
+	AttendanceState__BackingField = value;
+}
+//@body 0x21ED3AC
+{
+	return PetId__BackingField;
+}
+//@body 0x21ED3B4
+{
+	PetId__BackingField = value;
+}
+//@body 0x21ED3BC
+{
+	return PetIsNotShowed__BackingField;
+}
+//@body 0x21ED3C4
+{
+	PetIsNotShowed__BackingField = value;
+}
+//@body 0x21ED3CC
+{
+	return UseCPQ__BackingField;
+}
+//@body 0x21EBAE0
+{
+	UseCPQ__BackingField = value;
+}
+//@body 0x21ED3D4
+{
+	return IsTransferReservation__BackingField;
+}
+//@body 0x21EBAE8
+{
+	IsTransferReservation__BackingField = value;
+}
+//@body 0x21ED3DC
+{
+	return IsTransferComplete__BackingField;
+}
+//@body 0x21EBAF0
+{
+	IsTransferComplete__BackingField = value;
+}
+//@body 0x21EBAF8
+{
+	return false;
+}
+//@body 0x21EBB00
+{
+	return false;
+}
+
+//@file Assembly-CSharp/CS/UserIntials.cs
+//@body 0x21EE61C
+{
+	return propertyField;
+}
+//@body 0x21EE624
+{
+	propertyField = value;
+}
+
+//@file Assembly-CSharp/CS/UserIntialsProperty.cs
+//@body 0x21EE634
+{
+	return keyField;
+}
+//@body 0x21EE63C
+{
+	keyField = value;
+}
+//@body 0x21EE644
+{
+	return valueField;
+}
+//@body 0x21EE64C
+{
+	valueField = value;
+}
+
+//@file Assembly-CSharp/CS/UserMetaData.cs
+//@body 0x21EE708
+{
+	return AccountId__BackingField;
+}
+//@body 0x21EE710
+{
+	AccountId__BackingField = value;
+}
+//@body 0x21EE718
+{
+	return Level__BackingField;
+}
+//@body 0x21EE720
+{
+	Level__BackingField = value;
+}
+//@body 0x21EE728
+{
+	return Name__BackingField;
+}
+//@body 0x21EE730
+{
+	Name__BackingField = value;
+}
+//@body 0x21EE738
+{
+	return ProfileIconID__BackingField;
+}
+//@body 0x21EE740
+{
+	ProfileIconID__BackingField = value;
+}
+//@body 0x21EE748
+{
+	return TitleID__BackingField;
+}
+//@body 0x21EE750
+{
+	TitleID__BackingField = value;
+}
+//@body 0x21EE7A8
+{
+	return IsLogin__BackingField;
+}
+//@body 0x21EE7B0
+{
+	IsLogin__BackingField = value;
+}
+//@body 0x21EE7B8
+{
+	return Country__BackingField;
+}
+//@body 0x21EE7C0
+{
+	Country__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/UserMetaData2.cs
+//@body 0x21EE8DC
+{
+	return Name__BackingField;
+}
+//@body 0x21EE8E4
+{
+	Name__BackingField = value;
+}
+//@body 0x21EE8EC
+{
+	return Level__BackingField;
+}
+//@body 0x21EE8F4
+{
+	Level__BackingField = value;
+}
+//@body 0x21EE8FC
+{
+	return CombatPower__BackingField;
+}
+//@body 0x21EE904
+{
+	CombatPower__BackingField = value;
+}
+//@body 0x21EE90C
+{
+	return ProfileIconID__BackingField;
+}
+//@body 0x21EE914
+{
+	ProfileIconID__BackingField = value;
+}
+//@body 0x21EE91C
+{
+	return TitleId__BackingField;
+}
+//@body 0x21EE924
+{
+	TitleId__BackingField = value;
+}
+//@body 0x21EE97C
+{
+	return npacode__BackingField;
+}
+//@body 0x21EE984
+{
+	npacode__BackingField = value;
+}
+//@body 0x21EEAB8
+{
+	return Country__BackingField;
+}
+//@body 0x21EEAC0
+{
+	Country__BackingField = value;
+}
+
+//@file Assembly-CSharp/CS/UserTransferData.cs
+//@body 0x21EEBAC
+{
+	TransferKey = key;
+	this.eMail = eMail;
+}
+
+//@file Assembly-CSharp/CSCharacterSoundInfo.cs
+//@body 0x21F147C
+{
+	return true;
+}
+
+//@file Assembly-CSharp/CSNetCommand_ResetGameTimeStamp.cs
+//@body 0x21F2A9C
+{
+	return false;
+}
+
+//@file Assembly-CSharp/CSProtoInfoManager_CharacterSound.cs
+//@body 0x21F2B28
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CSProtoInfoManager_Emblem.cs
+//@body 0x21F3790
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CSProtoInfoManager_Emoticon.cs
+//@body 0x21F4390
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CSProtoInfoManager_Sector.cs
+//@body 0x21F57B8
+{
+	return from == (ProtoInfoFrom)1;
+}
+
+//@file Assembly-CSharp/CellTree.cs
+//@body 0x20C3BA0
+{
+	return RootNode__BackingField;
+}
+//@body 0x20C3B78
+{
+	RootNode__BackingField = root;
+}
+
+//@file Assembly-CSharp/CellTreeNode.cs
+//@body 0x20C3BB0
+{
+	Id = id;
+	NodeType = nodeType;
+	Parent = parent;
+}
+
+//@file Assembly-CSharp/CharacterComparer.cs
+//@body 0x20C4398
+{
+	m_isAscending = true;
+	m_isAscending = isAscending;
+}
+
+//@file Assembly-CSharp/ChatMessage.cs
+//@body 0x20C549C
+{
+	return m_sender;
+}
+//@body 0x20C54A4
+{
+	return m_message;
+}
+//@body 0x20C54AC
+{
+	return m_profileIconId;
+}
+//@body 0x20C54B4
+{
+	return m_titleId;
+}
+//@body 0x20C5604
+{
+	return m_msgType;
+}
+//@body 0x20C564C
+{
+	m_msgType = (XChatMsgType)99;
+}
+
+//@file Assembly-CSharp/ChatParticipant.cs
+//@body 0x20C531C
+{
+	return mText;
+}
+
+//@file Assembly-CSharp/ClanRankEntry.cs
+//@body 0x20C597C
+{
+	return RankType__BackingField;
+}
+//@body 0x20C5984
+{
+	RankType__BackingField = value;
+}
+//@body 0x20C598C
+{
+	return Season__BackingField;
+}
+//@body 0x20C5994
+{
+	Season__BackingField = value;
+}
+//@body 0x20C599C
+{
+	return Score__BackingField;
+}
+//@body 0x20C59A4
+{
+	Score__BackingField = value;
+}
+//@body 0x20C59AC
+{
+	return EntryKey__BackingField;
+}
+//@body 0x20C59B4
+{
+	EntryKey__BackingField = value;
+}
+
+//@file Assembly-CSharp/CoolTimeEntry.cs
+//@body 0x20D2D5C
+{
+	remain = _remain;
+}
+
+//@file Assembly-CSharp/CooperationUISetter.cs
+//@body 0x20D2F34
+{
+	return false;
+}
+//@body 0x20D320C
+{
+	return false;
+}
+
+//@file Assembly-CSharp/CullArea.cs
+//@body 0x1E5FE9C
+{
+	return CellCount__BackingField;
+}
+//@body 0x1E5FEAC
+{
+	return CellTree__BackingField;
+}
+//@body 0x1E5FEBC
+{
+	return Map__BackingField;
+}
+
+//@file Assembly-CSharp/DTOPhoton/DTOGameSession.cs
+//@body 0x1E66094
+{
+	return TeamList__BackingField;
+}
+
+//@file Assembly-CSharp/DTPartyInfo.cs
+//@body 0x1E66D78
+{
+	return MasterID__BackingField;
+}
+//@body 0x1E66D80
+{
+	MasterID__BackingField = value;
+}
+//@body 0x1E66D88
+{
+	return MasterName__BackingField;
+}
+//@body 0x1E66D90
+{
+	MasterName__BackingField = value;
+}
+//@body 0x1E66D98
+{
+	return PlayerCount__BackingField;
+}
+//@body 0x1E66DA0
+{
+	PlayerCount__BackingField = value;
+}
+//@body 0x1E66DA8
+{
+	return MemberInfo__BackingField;
+}
+//@body 0x1E66D58
+{
+	MemberInfo__BackingField = value;
+}
+//@body 0x1E66DC8
+{
+	return GameMode__BackingField;
+}
+//@body 0x1E66DD0
+{
+	GameMode__BackingField = value;
+}
+
+//@file Assembly-CSharp/DTPartyInfoForChat.cs
+//@body 0x1E673F0
+{
+	return MasterID__BackingField;
+}
+//@body 0x1E671E4
+{
+	MasterID__BackingField = value;
+}
+//@body 0x1E673F8
+{
+	return MasterName__BackingField;
+}
+//@body 0x1E671EC
+{
+	MasterName__BackingField = value;
+}
+//@body 0x1E67400
+{
+	return PlayerCount__BackingField;
+}
+//@body 0x1E671F4
+{
+	PlayerCount__BackingField = value;
+}
+//@body 0x1E67408
+{
+	return MemberInfo__BackingField;
+}
+//@body 0x1E67150
+{
+	MemberInfo__BackingField = value;
+}
+//@body 0x1E67418
+{
+	return GameMode__BackingField;
+}
+//@body 0x1E673E0
+{
+	GameMode__BackingField = value;
+}
+
+//@file Assembly-CSharp/DeathMatchUISetter.cs
+//@body 0x1E63178
+{
+	return false;
+}
+//@body 0x1E63438
+{
+	return false;
+}
+
+//@file Assembly-CSharp/DelayDirectionElement.cs
+//@body 0x1E6369C
+{
+	this.delay = delay;
+}
+//@body 0x1E636BC
+{
+	elapsed = 0.0f;
+	isFinished = false;
+}
+//@body 0x1E63714
+{
+	isFinished = true;
+}
+
+//@file Assembly-CSharp/DuelRecordUISetter.cs
+//@body 0x1E67870
+{
+	ROUND = 3;
+}
+//@body 0x1E67B58
+{
+	return true;
+}
+//@body 0x1E67EBC
+{
+	return true;
+}
+
+//@file Assembly-CSharp/Dustin.cs
+//@body 0x1E68128
+{
+	return Name__BackingField;
+}
+//@body 0x1E68130
+{
+	return Age__BackingField;
+}
+//@body 0x1E68138
+{
+	return Url__BackingField;
+}
+
+//@file Assembly-CSharp/DustinHorne/Json/Examples/JNSimpleObjectModel.cs
+//@body 0x1E69390
+{
+	return IntValue__BackingField;
+}
+//@body 0x1E68920
+{
+	IntValue__BackingField = value;
+}
+//@body 0x1E69398
+{
+	return FloatValue__BackingField;
+}
+//@body 0x1E68928
+{
+	FloatValue__BackingField = value;
+}
+//@body 0x1E68948
+{
+	return StringValue__BackingField;
+}
+//@body 0x1E68930
+{
+	StringValue__BackingField = value;
+}
+//@body 0x1E693A0
+{
+	return IntList__BackingField;
+}
+//@body 0x1E68938
+{
+	IntList__BackingField = value;
+}
+//@body 0x1E69370
+{
+	return ObjectType__BackingField;
+}
+//@body 0x1E68940
+{
+	ObjectType__BackingField = value;
+}
+
+//@file Assembly-CSharp/DustinHorne/Json/Examples/JNSubClassModel.cs
+//@body 0x1E69378
+{
+	return SubClassStringValue__BackingField;
+}
+//@body 0x1E69388
+{
+	SubClassStringValue__BackingField = value;
+}
+
+//@file Assembly-CSharp/EnterRoomParams.cs
+//@body 0x1E6A520
+{
+	OnGameServer = true;
+}
+
+//@file Assembly-CSharp/FreeRotaionInfo.cs
+//@body 0x1F27B18
+{
+	return true;
+}
+
+//@file Assembly-CSharp/FriendInfo.cs
+//@body 0x1F27B28
+{
+	return Name__BackingField;
+}
+//@body 0x1F27B38
+{
+	return IsOnline__BackingField;
+}
+//@body 0x1F27B48
+{
+	return Room__BackingField;
+}
+
+//@file Assembly-CSharp/FriendlyPVPModeElementLogic.cs
+//@body 0x1F27D4C
+{
+	return 0;
+}
+
+//@file Assembly-CSharp/GLinkNaverIdiOS.cs
+//@body 0x1F37B90
+{
+	return false;
+}
+
+//@file Assembly-CSharp/HideAndSeekUISetter.cs
+//@body 0x1F52538
+{
+	return false;
+}
+//@body 0x1F52810
+{
+	return false;
+}
+
+//@file Assembly-CSharp/ITweenDirectionElement.cs
+//@body 0xDCD544
+{
+	isFinished = true;
+}
+
+//@file Assembly-CSharp/InGameRaiseEventContent.cs
+//@body 0xD88D00
+{
+	return ContentCode__BackingField;
+}
+
+//@file Assembly-CSharp/IntList.cs
+//@body 0xD8F2C4
+{
+	this.list = list;
+}
+
+//@file Assembly-CSharp/InterfaceTeamMember.cs
+//@body 0xD8E820
+{
+	m_banButtonClick = banButtonClick;
+}
+//@body 0xD8E828
+{
+	m_spectatorButtonClick = spectatorButtonClick;
+}
+
+//@file Assembly-CSharp/InvEquipment.cs
+//@body 0xD914A4
+{
+	return mItems;
+}
+
+//@file Assembly-CSharp/InvGameItem.cs
+//@body 0xD91C58
+{
+	return mBaseItemID;
+}
+//@body 0xD91E28
+{
+	quality = (Quality)4;
+	itemLevel = 1;
+	mBaseItemID = id;
+}
+//@body 0xD91E5C
+{
+	quality = (Quality)4;
+	itemLevel = 1;
+	mBaseItemID = id;
+	mBaseItem = bi;
+}
+
+//@file Assembly-CSharp/InviteMessageCommand.cs
+//@body 0xD92554
+{
+	return ReciverName__BackingField;
+}
+//@body 0xD9255C
+{
+	return ReciverID__BackingField;
+}
+//@body 0xD92564
+{
+	return InviteKey__BackingField;
+}
+//@body 0xD9250C
+{
+	ReciverName__BackingField = _ReciverName;
+	ReciverID__BackingField = _ReciverID;
+	InviteKey__BackingField = _InviteKey;
+}
+
+//@file Assembly-CSharp/JsonTestScript.cs
+//@body 0xDD0520
+{
+	_text = text;
+}
+
+//@file Assembly-CSharp/LastComboSkillData.cs
+//@body 0xDD5554
+{
+	m_fLastUsedComboSkillTime = 100000000.0f;
+}
+
+//@file Assembly-CSharp/NetData_PlayerTeamSetting.cs
+//@body 0x135DF44
+{
+	liPlayerTeam = _liPlayerTeam;
+}
+
+//@file Assembly-CSharp/NetMatchPlayerInfo.cs
+//@body 0x135DF7C
+{
+	return elo__BackingField;
+}
+//@body 0x135DF84
+{
+	elo__BackingField = value;
+}
+//@body 0x135DF8C
+{
+	return nickname__BackingField;
+}
+//@body 0x135DF94
+{
+	nickname__BackingField = value;
+}
+//@body 0x135DF9C
+{
+	return characters_info__BackingField;
+}
+//@body 0x135DFA4
+{
+	characters_info__BackingField = value;
+}
+//@body 0x135DFAC
+{
+	return relicID__BackingField;
+}
+//@body 0x135DFB4
+{
+	relicID__BackingField = value;
+}
+//@body 0x135DFBC
+{
+	return relicLevel__BackingField;
+}
+//@body 0x135DFC4
+{
+	relicLevel__BackingField = value;
+}
+//@body 0x135DFCC
+{
+	return isReady__BackingField;
+}
+//@body 0x135DFD4
+{
+	isReady__BackingField = value;
+}
+//@body 0x135DFDC
+{
+	return isPlacementTest__BackingField;
+}
+//@body 0x135DFE4
+{
+	isPlacementTest__BackingField = value;
+}
+//@body 0x135DFEC
+{
+	return profileIconId__BackingField;
+}
+//@body 0x135DFF4
+{
+	profileIconId__BackingField = value;
+}
+//@body 0x135DFFC
+{
+	return TitleID__BackingField;
+}
+//@body 0x135E004
+{
+	TitleID__BackingField = value;
+}
+//@body 0x135E00C
+{
+	return clanName__BackingField;
+}
+//@body 0x135E014
+{
+	clanName__BackingField = value;
+}
+//@body 0x135E01C
+{
+	return clanMarkId__BackingField;
+}
+//@body 0x135E024
+{
+	clanMarkId__BackingField = value;
+}
+//@body 0x135E02C
+{
+	return clanColorId__BackingField;
+}
+//@body 0x135E034
+{
+	clanColorId__BackingField = value;
+}
+
+//@file Assembly-CSharp/NetMatchPlayerInfoForChat.cs
+//@body 0x135E1AC
+{
+	return elo__BackingField;
+}
+//@body 0x135E14C
+{
+	elo__BackingField = value;
+}
+//@body 0x135E1B4
+{
+	return nickname__BackingField;
+}
+//@body 0x135E154
+{
+	nickname__BackingField = value;
+}
+//@body 0x135E1BC
+{
+	return characters_info__BackingField;
+}
+//@body 0x135E15C
+{
+	characters_info__BackingField = value;
+}
+//@body 0x135E1C4
+{
+	return relicID__BackingField;
+}
+//@body 0x135E164
+{
+	relicID__BackingField = value;
+}
+//@body 0x135E1CC
+{
+	return relicLevel__BackingField;
+}
+//@body 0x135E16C
+{
+	relicLevel__BackingField = value;
+}
+//@body 0x135E1D4
+{
+	return isReady__BackingField;
+}
+//@body 0x135E174
+{
+	isReady__BackingField = value;
+}
+//@body 0x135E1DC
+{
+	return isPlacementTest__BackingField;
+}
+//@body 0x135E17C
+{
+	isPlacementTest__BackingField = value;
+}
+//@body 0x135E1E4
+{
+	return profileIconId__BackingField;
+}
+//@body 0x135E184
+{
+	profileIconId__BackingField = value;
+}
+//@body 0x135E1EC
+{
+	return TitleID__BackingField;
+}
+//@body 0x135E18C
+{
+	TitleID__BackingField = value;
+}
+//@body 0x135E1F4
+{
+	return clanName__BackingField;
+}
+//@body 0x135E194
+{
+	clanName__BackingField = value;
+}
+//@body 0x135E1FC
+{
+	return clanMarkId__BackingField;
+}
+//@body 0x135E19C
+{
+	clanMarkId__BackingField = value;
+}
+//@body 0x135E204
+{
+	return clanColorId__BackingField;
+}
+//@body 0x135E1A4
+{
+	clanColorId__BackingField = value;
+}
+
+//@file Assembly-CSharp/NetworkingPeer.cs
+//@body 0x13601C8
+{
+	return AuthValues__BackingField;
+}
+//@body 0x13601D0
+{
+	AuthValues__BackingField = value;
+}
+//@body 0x13601FC
+{
+	return IsUsingNameServer__BackingField;
+}
+//@body 0x1360444
+{
+	return MasterServerAddress__BackingField;
+}
+//@body 0x1360454
+{
+	return GameServerAddress__BackingField;
+}
+//@body 0x1360464
+{
+	return Server__BackingField;
+}
+//@body 0x1360474
+{
+	return State__BackingField;
+}
+//@body 0x136047C
+{
+	return lobby__BackingField;
+}
+//@body 0x135FB94
+{
+	lobby__BackingField = value;
+}
+//@body 0x1360548
+{
+	return playername;
+}
+//@body 0x135FCD4
+{
+	return LocalPlayer__BackingField;
+}
+//@body 0x13606EC
+{
+	return PlayersOnMasterCount__BackingField;
+}
+//@body 0x13606FC
+{
+	return PlayersInRoomsCount__BackingField;
+}
+//@body 0x136070C
+{
+	return RoomsCount__BackingField;
+}
+//@body 0x1360828
+{
+	return AvailableRegions__BackingField;
+}
+//@body 0x1360838
+{
+	return CloudRegion__BackingField;
+}

@@ -1,0 +1,13 @@
+{{Relic
+|name=Wind Spirit Bottle
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Wind_Spirit_Bottle.png|150x150px|link=]]
+|lore=A bottle that holds a Wind Spirit.  Open the bottle to release its power and push enemies away.
+|relicskillname=Wind Spirit's Breath
+|relicCD=30
+|relicskilldesc=Unleash a gust of wind that deals DMG to enemies and pushes them back.
+|reliceffect=DMG <font color="yellow">100%</font>, Push <font color="yellow">4m</font>
+|reliceffect2=DMG <font color="yellow">?%</font>, Push <font color="yellow">?m</font>
+}}
+[[Category:Relic]]

@@ -1,0 +1,25 @@
+{| style="{{Gradient|dir=top|#fff|#fff}}; border:1px solid #fff; width:auto; border-radius:6px" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Reina.png|150px|alt=Alt text|Reina|link=Reina]]
+|[[Image:Windy.png|150px|alt=Alt text|Windy|link=Windy]]
+|[[Image:Hyungseok_Park.png|150px|alt=Alt text|Hyungseok_Park|link=Hyungseok_Park]]
+|[[Image:Nori.png|150px|alt=Alt text|Nori|link=Nori]]
+|[[Image:Freddy.png|150px|alt=Alt text|Freddy|link=Freddy]]
+|-
+|[[Image:Vasco.png|150px|alt=Alt text|Vasco|link=Vasco]]
+|[[Image:Oz.png|150px|alt=Alt text|Oz|link=Oz]]
+|[[Image:BeoBear.png|150px|alt=Alt text|BeoBear|link=BeoBear]]
+|[[Image:Axie.png|150px|alt=Alt text|Axie|link=Axie]]
+|[[Image:Seager.png|150px|alt=Alt text|Seager|link=Seager]]
+|-
+|[[Image:Ryoku.png|150px|alt=Alt text|Ryoku|link=Ryoku]]
+|[[Image:Pyros.png|150px|alt=Alt text|Pyros|link=Pyros]]
+|[[Image:Espina.png|150px|alt=Alt text|Espina|link=Espina]]
+|[[Image:Ren.png|150px|alt=Alt text|Ren|link=Ren]]
+|[[Image:Dora.png|150px|alt=Alt text|Dora|link=Dora]]
+<!----TEMPLATE FOR LINK
+|[[Image:.png|150px|alt=Alt text||link=]]
+---->
+|}
+[[Category:Backup]]

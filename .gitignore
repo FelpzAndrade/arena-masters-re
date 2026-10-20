@@ -1,0 +1,34 @@
+# Lista do que entra no git: ignora tudo e libera so codigo, scripts, anotacoes e configuracoes.
+# (pastas grandes ficam de fora: APK extraido, dumps, Ghidra, Library do Unity, copia de teste, assets da Asset Store)
+/*
+!/.gitignore
+!/CLAUDE.md
+
+!/tools/
+/tools/*
+!/tools/*.py
+!/tools/*.sh
+!/tools/*.ps1
+!/tools/ghidra_scripts/
+
+!/decomp/
+/decomp/*
+!/decomp/*.md
+
+!/recon/
+!/wiki/
+
+!/unity6-project/
+/unity6-project/*
+!/unity6-project/ProjectSettings/
+!/unity6-project/Packages/
+!/unity6-project/Assets/
+/unity6-project/Assets/*
+!/unity6-project/Assets/Prototype/
+!/unity6-project/Assets/Prototype.meta
+!/unity6-project/Assets/Editor/
+!/unity6-project/Assets/Editor.meta
+!/unity6-project/Assets/ArenaMastersViewer/
+!/unity6-project/Assets/ArenaMastersViewer.meta
+!/unity6-project/Assets/Scripts/
+!/unity6-project/Assets/Scripts.meta

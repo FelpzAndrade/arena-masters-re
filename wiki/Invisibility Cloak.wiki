@@ -1,0 +1,13 @@
+{{Relic
+|name=Invisibility Cloak
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Invisibility_Cloak.png|150x150px|link=]]
+|lore=A cloak powered by deceptive magic.  Become invisible to enemies as soon as you put it on.
+|relicskillname=Invisibility
+|relicCD=45
+|relicskilldesc=Increase Evade and temporarily makes you invisible to enemies.  Visibility returns if you are attacked.
+|reliceffect=Invisibility Duration <font color="yellow">2 sec</font>, Evade <font color="yellow">15%</font>
+|reliceffect2=Invisibility Duration <font color="yellow">2.25 sec</font>, Evade <font color="yellow">20%</font>
+}}
+[[Category:Relic]]

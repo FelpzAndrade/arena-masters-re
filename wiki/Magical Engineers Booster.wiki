@@ -1,0 +1,13 @@
+{{Relic
+|name=Magical Engineer's Booster
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Magical_Engineers_Booster.png|150x150px|link=]]
+|lore=The Magical Engineer's Booster is cutting-edge.  Greatly enhances MOV SPD.
+|relicskillname=Ignition Booster
+|relicCD=35
+|relicskilldesc=Moving speed dramatically increases for 1.5 sec, then gradually decreases.  When decreasing, it does not have much effect.
+|reliceffect=Moving Speed <font color="yellow">40%</font>
+|reliceffect2=Moving Speed <font color="yellow">?%</font>
+}}
+[[Category:Relic]]

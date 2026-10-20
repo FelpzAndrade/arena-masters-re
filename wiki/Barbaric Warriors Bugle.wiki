@@ -1,0 +1,13 @@
+{{Relic
+|name=Barbaric Warrior's Bugle
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Barbaric_Warriors_Bugle.png|150x150px|link=]]
+|lore=A bugle used by barbaric warriors.  It holds the power to muster allies to fight on.
+|relicskillname=Inspiring Bugle
+|relicCD=45
+|relicskilldesc=Blow a bugle that increases nearby ally DEF and MOV SPD for 5 sec.
+|reliceffect=DEF Rate <font color="yellow">6%</font>, Moving Speed <font color="yellow">20%</font>
+|reliceffect2=DEF Rate <font color="yellow">?%</font>, Moving Speed <font color="yellow">?%</font>
+}}
+[[Category:Relic]]

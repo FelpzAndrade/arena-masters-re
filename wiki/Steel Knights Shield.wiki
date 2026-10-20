@@ -1,0 +1,13 @@
+{{Relic
+|name=Steel Knight's Shield
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Steel_Knights_Shield.png|150x150px|link=]]
+|lore=A shield that was held by the legendary Steel Knight himself.  Imbued with magic, it has the ability to protect the bearer's allies.
+|relicskillname=Steel Knight's Protection
+|relicCD=45
+|relicskilldesc=Generate a barrier that absorbs DMG dealt to you and nearby allies for 5 sec.  DEF increases while the barrier is maintained.
+|reliceffect=Absorb DMG equal to <font color="yellow">6%</font> of Max HP, DEF Rate <font color="yellow">3%</font>
+|reliceffect2=Absorb DMG equal to <font color="yellow">7%</font> of Max HP, DEF Rate <font color="yellow">3.5%</font>
+}}
+[[Category:Relic]]

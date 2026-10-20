@@ -1,0 +1,13 @@
+{{Relic
+|name=Ice Queen's Second Ring
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Ice_Queens_Second_Ring.png|150x150px|link=]]
+|lore=The legendary ring that froze the entire kingdom when the queen lost control of her magic power.  A massive castle was constructed after she tamed the ring's power.
+|relicskillname=Pillar of Ice
+|relicCD=40
+|relicskilldesc=Generate a pillar of ice that disrupts MOV SPD of all nearby enemies.
+|reliceffect=Duration <font color="yellow">4 sec</font>, Moving Speed <font color="yellow">-20%</font>
+|reliceffect2=Duration <font color="yellow">5 sec</font>, Moving Speed <font color="yellow">-30%</font>
+}}
+[[Category:Relic]]

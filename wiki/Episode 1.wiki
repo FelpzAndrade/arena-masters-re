@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 1-1 Sky Garden Sweep 1
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 1-2 Sky Garden Sweep 2
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 1-3 Team Deathmatch 1st Preliminary
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 1-4 Deathmatch 1st Preliminary
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 1-5 Mark of Courage 1
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 1-6 Deathmatch 2nd Preliminary
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 1-7 Team Deathmatch 2nd Preliminary
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 1-8 Mark of Courage 2
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 1-9 Sky Garden Sweep 3
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 1-10 Guardians of the Garden
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 1-11 Monster Cleanup
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

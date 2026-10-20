@@ -1,0 +1,13 @@
+{{Relic
+|name=Elijah's Chalice
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Elijahs_Chalice.png|150x150px|link=]]
+|lore=A chalice once used by a legendary healer.  It is said that the water from the chalice has the power to heal wounds.
+|relicskillname=Sacred Healing
+|relicCD=50
+|relicskilldesc=Restores your HP and that of nearby allies in proportion to Max HP.
+|reliceffect=Recover <font color="yellow">6%</font> of Max HP
+|reliceffect2=Recover <font color="yellow">7%</font> of Max HP
+}}
+[[Category:Relic]]

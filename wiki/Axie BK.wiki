@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Axie.png]]
+|class=Tank
+|type=Melee
+|rating=13,270
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=80,640
+|physdef=3,600
+|magdef=3,600
+|physdefrate=22%
+|magdefrate=22%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=7.2
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Combat Support (4s CD)
+|passiveskill1desc=When DEF Rate is increased by 5% and an attack successfully hits, the CD for Battlefield Bugle Skill is reduced by 1 sec.
+|attackskill=Barbaric Warrior's Axe
+|attackskilldesc=Rapidly swing an axe to attack enemies.  DMG 110%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly.  When using a skill, you can dodge enemy's attack.
+|skilla=Terra Strike (3s CD)
+|skilladesc=Attack the enemy by striking the ground with your axe.  Triggers the Terra Strength Effect (stackable up to 2 times) for 3 sec, which increases DEF Rate by 5% and Moving Speed.  Temporarily decreases enemy Moving Speed.  DMG 400%
+|skillb=Buffalo Charge (8s CD)
+|skillbdesc=Charge at full speed toward the enemy and crash into them with your horned helmet.  Knocks enemies Unconscious for 1 sec.  DMG 300%
+|skillc=Battlefield Bugle (12s CD)
+|skillbcdesc=Blow a bugle to apply a Barrier Effect to allies for 3 sec.  The barrier absorbs DMG equal to 10% of Max HP.
+|ultimateskill=Terra Splitter
+|ultimateskilldesc=Strike the ground hard with the heavy swing of an axe.  It will have harsh DMG by launching a powerful shockwave straight ahead, pushing enemies side by side.  It will generate a line of rocks that will disrupt enemy's movement.  DMG 1,500%
+}}
+[[Category:Backup]]

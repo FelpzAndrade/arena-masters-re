@@ -1,0 +1,240 @@
+## Axie | Tank Melee | HP 80,640 ATK 3,200 / 3,200 DEF 3,600 22% spd 7.2 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Combat Support (4s CD)
+  - attackskill : Barbaric Warrior's Axe
+  - moveskill : Roll (4s CD)
+  - skilla : Terra Strike (3s CD)
+  - skillb : Buffalo Charge (8s CD)
+  - skillc : Battlefield Bugle (12s CD)
+  - ultimateskill : Terra Splitter
+      passiveskill1desc : When DEF Rate is increased by 5% and an attack successfully hits, the CD for Battlefield Bugle Skill is reduced by 1 sec.
+      attackskilldesc : Rapidly swing an axe to attack enemies.  DMG 110%
+      moveskilldesc : Move forward quickly.  When using a skill, you can dodge enemy's attack.
+      skilladesc : Attack the enemy by striking the ground with your axe.  Triggers the Terra Strength Effect (stackable up to 2 times) for 3 sec, which increases DEF Rate by 5% and Moving Speed.  Temporarily decreases enemy Moving Speed.  DMG 400%
+      skillbdesc : Charge at full speed toward the enemy and crash into them with your horned helmet.  Knocks enemies Unconscious for 1 sec.  DMG 300%
+      skillbcdesc : Blow a bugle to apply a Barrier Effect to allies for 3 sec.  The barrier absorbs DMG equal to 10% of Max HP.
+      ultimateskilldesc : Strike the ground hard with the heavy swing of an axe.  It will have harsh DMG by launching a powerful shockwave straight ahead, pushing enemies side by side.  It will generate a line of rocks that will disrupt enemy's movement.  DMG 1,500%
+## BeoBear | Tank Melee | HP 83,160 ATK 3,200 / 3,200 DEF 3,600 22.5% spd 6.6 rage 10,000 crit 0% tough 0% w 11
+  - passiveskill : Bearskin
+  - attackskill : Steel-Fisted Werebear
+  - moveskill : Roll (4s CD)
+  - skilla : Spinning Advance (3s CD)
+  - skillb : Ground Roll (10s CD)
+  - skillc : Leap (6s CD)
+  - ultimateskill : Ground Strike
+      passiveskill1desc : DEF Rate increases by 2.5%, and Max SP increases by 5%.
+      attackskilldesc : Use fists of steel to attack the enemy.  DMG 130%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Spin forward and hit the enemy 3 times.  DMG 200% x3
+      skillbdesc : Tumble on the ground until you hit an enemy.  MOV SPD is temporarily reduced, then gradually increases.  While tumbling, DEF Rate increases by 15%.  Hitting an enemy triggers the Bestial Strength Effect, which increases DMG by 20% and pushes enemies.  DMG 420%
+      skillbcdesc : Jump forward and strike the ground.  Temporarily decreases the target's MOV SPD.  DMG 420%
+      ultimateskilldesc : Gather energy in your right hand and strike the ground, sending out a shockwave that knocks the target Unconcious for 2.5sec.  DMG 900%
+## Dora |  Ranged | HP  ATK  /  DEF   spd  rage  crit  tough  w 
+  - passiveskill : Bomb Maniac (30s CD)
+  - attackskill : Bouncing Bomb
+  - moveskill : Roll (4s CD)
+  - skilla : Time Bomb (7s CD)
+  - skillb : Rocket Gloves (7s CD)
+  - skillc : Smoke Bomb (10s CD)
+  - ultimateskill : Explosive Delivery
+      passiveskill1desc : Drops a bomb onto the ground when HP falls below 30%.  Bomb explodes after 2 sec to deal heavy DMG to enemies and launch them into the air.  DMG 600%
+      attackskilldesc : Launch a bouncing bomb at the enemy.  DMG 150%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Installs a time bomb that explodes after 2 sec.  Deals heavy DMG to enemies caught in the blast and launches them into the air.  DMG 600%
+      skillbdesc : Launches rocket gloves that pulls and Slows the enemy.  DMG 330%
+      skillbcdesc : Throw a smoke bomb to deal DMG and apply a smoke screen to the area for 4 sec.  The smoke screen reduces visual range, inflicts continuous DMG, and reduces MOV SPD (max of 3 times).  Temporarily increases MOV SPD.  DMG 440%, Smoke Screen DMG 60% x3
+      ultimateskilldesc : Charge forward wearing a giant bomb that explodes and pushes enemies back.  Provides increased DEF (30%) and immunity to control Effects while charging.  DMG 1,700%
+## Espina | Attack Melee | HP 74,160 ATK 3,200 / 3,200 DEF 3,600 8% spd 7.2 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Duelist
+  - attackskill : Feather Sword
+  - moveskill : Dash (4s CD)
+  - skilla : Piercing Strike (2s CD)
+  - skillb : Stab (7s CD)
+  - skillc : Flowing Petals (7s CD)
+  - ultimateskill : Lotus Fury
+      passiveskill1desc : Upon hit triggers the Duelist Effect (stackable up to 5 times), which increases PHYS DMG by 3% and PHYS PEN Rate by 3% for 3 sec.
+      attackskilldesc : Swing a sharp sword to attack enemies.  DMG 110%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Stretches the sword forward dealing a striking blow.  DMG 460%
+      skillbdesc : Quickly stab enemies before dashing away.  Temporarily increases your MOV SPD (20%, 1.5 sec) and decreases enemy MOVE SPD.  DMG 330%
+      skillbcdesc : Evade the attacks of nearby enemies.  When Evade is triggered, nearby enemies are stabbed 3 times and the nearest enemy is knocked Unconscious.  Increases ATK DMG by 10% for 2 sec.  DMG 200% x3
+      ultimateskilldesc : Charge forward and stab enemies multiple times.  Pushes enemies back upon hit.  DMG 330% x5
+## Freddy | Tank Melee | HP 80,640 ATK 3,200 / 3,200 DEF 3,600 20% spd 6.6 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Bloddy Saw (2s CD)
+  - attackskill : Saw Slash
+  - moveskill : Roll (4s CD)
+  - skilla : Saw Snatch (7s CD)
+  - skillb : Spinning Saw (3s CD)
+  - skillc : Saw Sunder Slash (8s CD)
+  - ultimateskill : Bloody Frenzy
+      passiveskill1desc : Triggers the Bloodthirts Effect for 5 sec upon hit.  If stacked 4 times, triggers an HP Absorb Effect, which restores some HP for every attack you deliver over 8 sec.  Also reduces the CD of Saw Snatch by 1 sec when you get hit.
+      attackskilldesc : Swing a spinning saw to attack enemies.  DMG 150%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Reach out with your saw and drag a target towards you.  Decreases dragged enemy's PHYS DMG by -15% and reduces MOV SPD for 1.5 sec.  Additionally triggers a barrier that absorbs DMG by 8% of Max HP for 3 sec.  DMG 250%
+      skillbdesc : Thrust a spinning saw to deal continuous DMG (4 times per sec).  Reduces MOV SPD of struck enemies.  DMG 120%
+      skillbcdesc : Spin in place with a saw.  Pushes enemies back and increases DEF by 15% for 1.5 sec after skill use.  DMG 560%
+      ultimateskilldesc : Grants immunity to Control Effects and increases MOV SPD.  Increases PHYS DMG by 30% and HP Absorb Rate by 50% for 5 sec.  Effect is removed after Tagging.
+## Hyungseok Park | Attack Melee | HP 74,160 ATK 3,200 / 3,200 DEF 3,600 8% spd 7.2 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Overflowing Power
+  - attackskill : The Ol' One-Two-Three-Four
+  - moveskill : Dash (4s CD)
+  - skilla : Devastation Punch
+  - skillb : Brazilian Kick (7s CD)
+  - skillc : Ultimate Evasion (7s CD)
+  - ultimateskill : Running Man
+      passiveskill1desc : Upon hit, triggers the Overflowing Power Effect (stackable up to 5 times), which increases PHYS DMG by 3% and PHYS PEN Rate by 3% for 3 sec.
+      attackskilldesc : Use your fists and feet to pummel the enemy.  DMG 110%
+      moveskilldesc : Move forward quickly.  When using a skill, you can dodge enemy's attack.
+      skilladesc : Release the power in your fist to launch a long-range punch.  DMG 460%
+      skillbdesc : Slide forward and attack with a spinning kick.  Temporarily increases your moving speed (20%, 1.5 sec) and reduces target's moving speed.  DMG 330%
+      skillbcdesc : Evade the attacks of nearby enemies.  When Evade is triggered successfully, nearby enemies are punched 3 times and the nearest enemy is knocked Unconscious.  Increases PHYS DMG by 10% for 2 sec.  DMG 200% x3
+      ultimateskilldesc : Charge forward and deliver multiple punches.  Pushes enemies back upon hit.  DMG 330% x5
+## Nori | Tank Melee | HP 80,640 ATK 3,200 / 3,200 DEF 3,600 17% spd 7 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Guardian Angel (40s CD)
+  - attackskill : Knight's Hammer
+  - moveskill : Roll (4s CD)
+  - skilla : Spinning Hammer (3s CD)
+  - skillb : Hammer of Justice (9s CD)
+  - skillc : Hammer of Light (9s CD)
+  - ultimateskill : Heavenly Protection
+      passiveskill1desc : Create a barrier that prevents DMG equal to 15% of Max HP for 5 sec when HP falls below 30%
+      attackskilldesc : Swings a hammer to attack enemies.  DMG 130%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Swing a hammer to deal DMG and temporarily reduce enemy MOV SPD.  If you connect with the Spinning Hammer 3 times, the next Spinning Hammer attack restores HP of nearby allies for 10% of their Max HP.  DMG 400%
+      skillbdesc : Jump forward and strike the ground to deal DMG and temporarily reduce the MOV SPD of nearby enemies.  Using this skill increases DEF Rate by 15% for 3 sec and increases MOV SPD.  DMG 500%
+      skillbcdesc : Throw the Hammer of Light to knock enemies Unconcious for 1.25 sec.  DMG 200%
+      ultimateskilldesc : Create a holy barrier around nearby allies that grants the Invincible Effect for 3 sec.  Negative Effects such as Transform and Slow are removed, and MOV SPD slightly increases.
+## Oz | Support Ranged | HP 72,00 ATK 3,200 / 3,200 DEF 3,600 5% spd 7 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Mana Recharge (2s CD)
+  - attackskill : Magic Arrow
+  - moveskill : Dash (4s CD)
+  - skilla : Arcane Orb (3.5s CD)
+  - skillb : Whirlwind (10s CD)
+  - skillc : Mana Shockwave (15s CD)
+  - ultimateskill : Total Transformation
+      passiveskill1desc : Decreases CD of the 'Mana Shockwave' Skill by 1 sec upon hit.
+      attackskilldesc : Shoot a magic arrow.  DMG 100%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Shoot piercing magic orbs to deal DMG and reduce enemy Moving Speed.  Targets hit with this skill receive the Arcane Mark Effect (stackable up to 2 times), which reduces their DEF Rate by -4% for 5 sec.  DMG 420%
+      skillbdesc : Shoot a slowly moving whirlwind that launches enemies into the air.  Increases your MOV SPD by 20% for 2 sec.  DMG 300%
+      skillbcdesc : Gather and ignite powerful energy to deal DMG to enemies and push them back.  DMG 700%
+      ultimateskilldesc : Transform enemies in the target area into animals to prevent them from using Skills for 3 sec.  Reduces DEF Rate by -10% and drastically reduces MOV SPD.
+## Pyros |  Melee | HP  ATK  /  DEF   spd  rage  crit  tough  w 
+  - passiveskill : Berserker (3s CD)
+  - attackskill : Berserker's Broadsword
+  - moveskill : Roll (4s CD)
+  - skilla : Cuclone (4s CD)
+  - skillb : Broadsword Stab (8s CD)
+  - skillc : Roar of Madness (15s CD)
+  - ultimateskill : Rage Cyclone
+      passiveskill1desc : Increases Crit Rate by 7.5%.  Grants additional Rage for using an Ultimate Skill when you hit enemies with a Crit.
+      attackskilldesc : Swing a broadsword to attack enemies.  DMG 140%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Move forward while spinning your Broadsword to strike enemies 3 times.  DMG 260% x3
+      skillbdesc : Stab the enemy with your broadsword to deal DMG and launch them into the air.  Triggers the Pierce Effect, which increases PHYS Penetration Rate by 10% for 5 sec.  DMG 300%
+      skillbcdesc : Let out a savage roar.  Triggers the Roar of Madness Effect, which increases nearby ally Crit Rate by 10% for 8 sec.  Also temporarily increases MOV SPD.
+      ultimateskilldesc : Spin a broadsword that strikes the enemy multiple times (2 times per sec).  Pierces the enemy, grants immunity to control Effects, and increases DEF Rate (10%.  DMG 440%
+## Reina | Attack Melee | HP 72,000 ATK 3,200 / 3,200 DEF 3,600 5% spd 7.4 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Blade Dancer
+  - attackskill : Swift Sword
+  - moveskill : Roll (4s CD)
+  - skilla : Blade Dance (4s CD)
+  - skillb : Twin Blade Slash (CD 7s)
+  - skillc : Moonlight Strike (10s CD)
+  - ultimateskill : Spiral Slash
+      passiveskill1desc : Increases Evade Rate by 7.5%.  After a successful evasion, triggers the Blade Dancer Effect (stackable up to 4 times) for 4 sec, which increases your Crit Rate by 5%
+      attackskilldesc : Rapidly swing a sword to attack enemies.  DMG 110%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Spin to attack nearby enemies twice.  Decreases CD (1sec) and triggers the Spinning Blade Effect (stacks up to 4 times, 5 sec), which increases PHYS ATK (7%) upon hit.  DMG 240% x2
+      skillbdesc : Charge at enemies and slice them open with a sword to reduce their MOV SPD.  DMG 300%
+      skillbcdesc : Throw a blade that pushes enemies back.  Allows you to dodge enemy attacks.  DMG 500%
+      ultimateskilldesc : Gather energy to attack nearby enemies (5 times) and hit them into the air.  Enemy attacks can be evaded while you gather energy.  DMG 320% x5
+## Ren |  Ranged | HP  ATK  /  DEF   spd  rage  crit  tough  w 
+  - passiveskill : Magic Rush
+  - attackskill : Exorcistic Talisman
+  - moveskill : Roll (4s CD)
+  - skilla : Draw Talisman (2.5s CD)
+  - skillb : Talisman:  Squall (9s CD)
+  - skillc : Talisman Blockade (5s CD)
+  - ultimateskill : Flame Blockade
+      passiveskill1desc : Triggers the Magic Stack Effect for 4 sec upon hit.  Triggers the Magic Rush Effect if stacked 3 times, which increases MAG DMG by 7.5% and Moving Speed by 30% for 3 sec.
+      attackskilldesc : Throw a talisman that deals DMG to enemies.  DMG 100%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Move forward and summon a talisman that temporarily enhances MAG DMG Increase (30%, 3 sec).
+      skillbdesc : Summon a magic blast.  Reduces target MOV SPD and pushes an adjacent enemy back.  DMG 440%
+      skillbcdesc : Summon a blockade that charges forward.  Inflicts the Energy Reduction Effect (3 sec), which temporarily decreases DMG (-20%) and MOV SPD of enemies who make it through.  Increases your MOV SPD (20%, 1.5 sec).  DMG 530%
+      ultimateskilldesc : Generate a circle of fire that pulls in enemies (8 sec).  Deals DMG to enemies and knocks them Unconscious (2 sec).  DMG 600%
+## Ryoku |   | HP  ATK  /  DEF   spd  rage  crit  tough  w 
+  - passiveskill : Assassin
+  - attackskill : Giant Dagger
+  - moveskill : Roll (4s CD)
+  - skilla : Fanning Blades (3s CD)
+  - skillb : Piercing Blade (7s CD)
+  - skillc : Morph Log (8s CD)
+  - ultimateskill : Morph:  Bomb
+      passiveskill1desc : Increases DMG 10% to targets with HP at 30% or lower.  Decreases CD for Fanning Blades by 0.5 sec when using a basic Skill (Giant Dagger).  Resets CD for Morph:  Log when an enemy is killed.
+      attackskilldesc : Attack enemies with a giant dagger.  DMG 110%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Throw a dagger that splits into 6 seperate pieces and hits nearby enemies 6 times.  DMG 130% x6
+      skillbdesc : Charge forward with a dagger to deal DMG and temporarily reduce enemy MOV SPD.  Triggers the Determination Effect after Skill use, which increases PHYS DMG by 20% for 1.5 sec and increases MOV SPD.  DMG 270%
+      skillbcdesc : Transform into a log and temporarily become invisible.  Triggers the Ambush Effect when Invisibility wears off, which increases Crit Rate and Crit DMG by 15% for 1 sec.
+      ultimateskilldesc : Transform into a bomb to Invisible, then explode to deal DMG to nearby enemies and launch them into the air.  Triggers the Assassination Effect when Invisibility wears off, which increases Crit Rate by 100% and Crit DMG by 5% for 1 sec.  DMG 500%
+## Seager | Tank Melee | HP 80,640 ATK 3,200 / 3,200 DEF 3,600 20% spd 6.8 rage 10,000 crit 0% tough 0% w 11
+  - passiveskill : Vengeful Bullet (2s CD)
+  - attackskill : Pirate Sword
+  - moveskill : Roll (4s CD)
+  - skilla : Shockwave Stomp (5s CD)
+  - skillb : Raging Waters (CD 6s)
+  - skillc : Buckshot (5s CD)
+  - ultimateskill : Exploding Barrel
+      passiveskill1desc : Decreases CD time for 'Buckshot' by 1 sec when activated.
+      attackskilldesc : Swing a sword to attack enemies.  DMG 110%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Stomp the ground to launch a shockwave that deals DMG and temporarily reduces enemy MOV SPD.  Triggers a barrier that absorbs DMG by 6% of Max HP for 3 sec.  DMG 220%
+      skillbdesc : Call forth pillars of water that launch enemies into the air.  DMG 400%
+      skillbcdesc : Fire piercing buckshot to deal DMG and temporarily reduce enemy MOV SPD.  Struck enemies are inflicted with the Bemused Effect (stackable up to 2 times), which reduces DMG by -10% for 2 sec.  Nearby enemies are hit twice.  DMG 370% x2
+      ultimateskilldesc : Launch an exploding barrel that pushes nearby enemies away from the explosion.  Decreases the targets' ACCY by -80% for 3 sec.  Inflicts the Drunk status, which greatly decreases MOV SPD.  DMG 900%
+## Spark | Attack Ranged | HP 72,000 ATK 3,200 / 3,200 DEF 3,600 5% spd 7 rage 10,000 crit 7.5% tough 0% w 10
+  - passiveskill : Electrocution
+  - attackskill : Chaos Lightning
+  - moveskill : Dash (4s CD)
+  - skilla : Penetrating Lightning (3.5s CD)
+  - skillb : Thunderbolt (5s CD)
+  - skillc : Lightning Wave (10s CD)
+  - ultimateskill : Chaotic Rupture
+      passiveskill1desc : Increases CRIT Rate by 7.5% and greatly decreases MOV SPD of targets struck by Penetrating Lightning, Thunderbolt, or Lightning Wave.
+      attackskilldesc : Fires red lightning straight ahead.  DMG 100%
+      moveskilldesc : Move forward quickly while evading enemy attacks.
+      skilladesc : Fires streaks of lightning straight ahead that pierce enemies and deal DMG.  DMG 440%
+      skillbdesc : Launches a bolt of lightning at the target area 3 times and increases your MOV SPD.  Receive the Power Charge effect (stacks up to 3 times), which increases MAG DMG by 10% for 4 sec when the skill has a target.  DMG 280% x3
+      skillbcdesc : Unleash waves of lightning that push enemies back.  Increases your MOV SPD.  DMG 260%
+      ultimateskilldesc : Creates a Chaotic Rupture toward the front.  Nearby enemies are sucked into the center of the rupture where they receive continuous DMG (3.33 times per sec).  DMG 90%
+## Vasco | Tank Melee | HP 83,160 ATK 3,200 / 3,200 DEF 3,600 22.5% spd 6.6 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Seeing Red
+  - attackskill : Knuckle Storm
+  - moveskill : Roll (4s CD)
+  - skilla : Meet the Feet (3s CD)
+  - skillb : Gentleman's Headbutt (10s CD)
+  - skillc : Leap (6s CD)
+  - ultimateskill : Powerknuckle
+      passiveskill1desc : DEF Rate increases by 2.5%, and Max HP increases by 5%.
+      attackskilldesc : Swing your fists rapidly to attack enemies.  DMG 130%
+      moveskilldesc : Move forward quickly.  When using a skill, you can dodge enemy's attack.
+      skilladesc : Launch yourself at the enemy and deliver 3 consecutive kicks.  DMG 200% x3
+      skillbdesc : Charge until you collide with an enemy.  MOV SPD slows down before gradually increasing.  While charging, DEF Rate increases by 15%, and hitting an enemy triggers Bravado Effect, which increases DMG by 20% and pushes enemies back for 4 sec.  DMG 420%
+      skillbcdesc : Jump forward and strike the ground.  Temporarily decreases the targets' MOV SPD.  DMG 420%
+      ultimateskilldesc : Leap in place and strike the ground with your fist to launch a shockwave that knocks enemies Unconscious for 2.5 secs.  DMG 900%
+## Windy | Support Ranged | HP 72,000 ATK 3,200 / 3,200 DEF 3,600 5% spd 6.8 rage 10,000 crit 0% tough 0% w 10
+  - passiveskill : Precise Aim (20s CD)
+  - attackskill : Giant Crossbow
+  - moveskill : Roll (4s CD)
+  - skilla : Precise Shot (3.5s CD)
+  - skillb : Retreating Shot (10s CD)
+  - skillc : Exploding Trap (10s CD)
+  - ultimateskill : Rapid Fire
+      passiveskill1desc : Upon hit, triggers the Dead Shot Effect, which increases PHYS ATK by 10% and ACCY by 20% for 2 sec.
+      attackskilldesc : Shoot a crossbow at the enemy.  DMG 100%
+      moveskilldesc : Move forward quickly.  When using a skill, you can dodge enemy's attack.
+      skilladesc : Take aim and fire at the enemy.  DMG to enemy increases upon hit.  DMG 550%
+      skillbdesc : Fire 3 arrows in a cone shape as you dash backwards.  When using a skill, CD for Precise Shot resets.  DMG 180% x3
+      skillbcdesc : Install an exploding trap that knocks enemies Unconcious for 1.25 sec when stepped on.  DMG 200%
+      ultimateskilldesc : Rain a storm of arrows to deal DMG over 5 times.  DMG 570% x5

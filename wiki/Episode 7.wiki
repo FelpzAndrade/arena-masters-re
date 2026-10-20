@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 7-1 Team Deathmatch Finals Round 3
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 7-2 Deathmatch Finals Round 3
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 7-3 Mark of Courage 18
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 7-4 Sky Garden Sweep 1
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 7-5 Sky Garden Sweep 2
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 7-6 Deathmatch Finals Round 4
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 7-7 Team Deathmatch Finals Round 4
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 7-8 Mark of Courage 19
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 7-9 Sky Garden Sweep 3
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 7-10 Punish the Protector
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 7-11 Defeat the Wealthy Mage
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

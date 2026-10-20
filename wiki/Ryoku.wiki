@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Ryoku.png]]
+|class=
+|type=
+|rating=
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=
+|magatk=
+|physpenrate=
+|magpenrate=
+|critrate=
+|critatk=
+|accuracy=
+<!-------->
+|maxhp=
+|physdef=
+|magdef=
+|physdefrate=
+|magdefrate=
+|critevaderate=
+|critdefrate=
+|evade=
+<!-------->
+|movespd=
+|rage=
+|tag=
+|skillcd=
+<!-------->
+|toughness=
+|weight=
+<!----Skill Descriptions Start---->
+|passiveskill=Assassin
+|passiveskill1desc=Increases DMG 10% to targets with HP at 30% or lower.  Decreases CD for Fanning Blades by 0.5 sec when using a basic Skill (Giant Dagger).  Resets CD for Morph:  Log when an enemy is killed.
+|attackskill=Giant Dagger
+|attackskilldesc=Attack enemies with a giant dagger.  DMG 110%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Fanning Blades (3s CD)
+|skilladesc=Throw a dagger that splits into 6 seperate pieces and hits nearby enemies 6 times.  DMG 130% x6
+|skillb=Piercing Blade (7s CD)
+|skillbdesc=Charge forward with a dagger to deal DMG and temporarily reduce enemy MOV SPD.  Triggers the Determination Effect after Skill use, which increases PHYS DMG by 20% for 1.5 sec and increases MOV SPD.  DMG 270%
+|skillc=Morph Log (8s CD)
+|skillbcdesc=Transform into a log and temporarily become invisible.  Triggers the Ambush Effect when Invisibility wears off, which increases Crit Rate and Crit DMG by 15% for 1 sec.
+|ultimateskill=Morph:  Bomb
+|ultimateskilldesc=Transform into a bomb to Invisible, then explode to deal DMG to nearby enemies and launch them into the air.  Triggers the Assassination Effect when Invisibility wears off, which increases Crit Rate by 100% and Crit DMG by 5% for 1 sec.  DMG 500%
+}}
+[[Category:Hero]]

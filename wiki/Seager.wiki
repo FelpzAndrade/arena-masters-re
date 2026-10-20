@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Seager.png]]
+|class=Tank
+|type=Melee
+|rating=13,108
+|obtained=1,000[[File:gems.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=80,640
+|physdef=3,600
+|magdef=3,600
+|physdefrate=20%
+|magdefrate=20%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=6.8
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=11
+<!----Skill Descriptions Start---->
+|passiveskill=Vengeful Bullet (2s CD)
+|passiveskill1desc=Decreases CD time for 'Buckshot' by 1 sec when activated.
+|attackskill=Pirate Sword
+|attackskilldesc=Swing a sword to attack enemies.  DMG 110%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Shockwave Stomp (5s CD)
+|skilladesc=Stomp the ground to launch a shockwave that deals DMG and temporarily reduces enemy MOV SPD.  Triggers a barrier that absorbs DMG by 6% of Max HP for 3 sec.  DMG 220%
+|skillb=Raging Waters (CD 6s)
+|skillbdesc=Call forth pillars of water that launch enemies into the air.  DMG 400%
+|skillc=Buckshot (5s CD)
+|skillbcdesc=Fire piercing buckshot to deal DMG and temporarily reduce enemy MOV SPD.  Struck enemies are inflicted with the Bemused Effect (stackable up to 2 times), which reduces DMG by -10% for 2 sec.  Nearby enemies are hit twice.  DMG 370% x2
+|ultimateskill=Exploding Barrel
+|ultimateskilldesc=Launch an exploding barrel that pushes nearby enemies away from the explosion.  Decreases the targets' ACCY by -80% for 3 sec.  Inflicts the Drunk status, which greatly decreases MOV SPD.  DMG 900%
+}}
+[[Category:Hero]]

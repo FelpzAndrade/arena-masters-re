@@ -1,0 +1,13 @@
+{{Relic
+|name=Jungle Hunter's Bolas
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Jungle_Hunters_Bolas.png|150x150px|link=]]
+|lore=A hunting tool used by primitive hunters.  A heavy stone tied to the end of a sturdy rope that wraps around and binds the enemy.
+|relicskillname=Throw Trap
+|relicCD=25
+|relicskilldesc=Throw a trap that deals DMG and temporarily reduces the enemy's moving speed.
+|reliceffect=DMG <font color="yellow">100%</font>, MOV SPD Decrease Duration <font color="yellow">1.5 sec</font>
+|reliceffect2=DMG <font color="yellow">125%</font>, MOV SPD Decrease Duration <font color="yellow">1.75 sec</font>
+}}
+[[Category:Relic]]

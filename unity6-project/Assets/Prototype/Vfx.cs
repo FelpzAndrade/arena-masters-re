@@ -1,0 +1,572 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+// Efeitos de skill com o ParticleSystem do Unity e texturas do Kenney Particle Pack (CC0, Resources/VFX).
+public static class Vfx
+{
+	private struct Live
+	{
+		public ParticleSystem ps;
+		public LineRenderer line;
+		public GameObject prefab;
+		public ParticleSystem[] systems;
+		public float life;
+		public float total;
+	}
+
+	private static readonly List<Live> s_live = new List<Live>();
+	private static readonly Dictionary<string, Material> s_materials = new Dictionary<string, Material>();
+
+	private static readonly Dictionary<string, GameObject> s_prefabs = new Dictionary<string, GameObject>();
+
+	public static int LiveCount => s_live.Count;
+
+	// prefabs do Cartoon FX Remaster (atribuidos pelo PrototypeSetup); sem eles fica so o efeito proprio
+	public static void Register(GameObject[] prefabs)
+	{
+		s_prefabs.Clear();
+		if (prefabs == null)
+		{
+			return;
+		}
+		foreach (GameObject p in prefabs)
+		{
+			if (p != null)
+			{
+				s_prefabs[p.name] = p;
+			}
+		}
+	}
+
+	private static bool Cfx(string name, Vector3 pos, float scale, float life, float yaw = 0f)
+	{
+		if (!s_prefabs.TryGetValue(name, out GameObject prefab))
+		{
+			return false;
+		}
+		GameObject go = Object.Instantiate(prefab, pos, Quaternion.Euler(0f, yaw, 0f));
+		go.transform.localScale = Vector3.one * scale;
+		ParticleSystem[] systems = go.GetComponentsInChildren<ParticleSystem>();
+		foreach (ParticleSystem ps in systems)
+		{
+			ParticleSystem.MainModule main = ps.main;
+			main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+		}
+		if (!Application.isPlaying)
+		{
+			foreach (ParticleSystem ps in systems)
+			{
+				ps.Simulate(0f, false, true, false);
+			}
+		}
+		s_live.Add(new Live { prefab = go, systems = systems, life = life, total = life });
+		return true;
+	}
+
+	public static void Clear()
+	{
+		s_live.Clear();
+		s_materials.Clear();
+		s_rocks.Clear();
+	}
+
+	// ---------- efeitos de skill ----------
+
+	public static void Slash(Vector3 pos, Vector3 facing, Color color, float radius)
+	{
+		Cfx("CFXR _SLASH_", pos + facing * radius * 0.5f + Vector3.up * 0.6f, 0.7f, 1f);
+		ParticleSystem ps = Single("slash_02", pos + facing * radius * 0.45f, color, radius * 2f, 0.22f, true, Angle(facing) + 90f);
+		Grow(ps, 0.7f, 1.15f);
+		Sparks(pos + facing * radius * 0.6f, color, 14, 5f, 0.35f);
+	}
+
+	public static void Spin(Vector3 pos, Color color, float radius, bool magic)
+	{
+		Cfx(magic ? "CFXR4 Sword Trail ICE (360 Spiral)" : "CFXR4 Sword Trail PLAIN (360 Spiral)", pos, radius * 0.55f, 1.2f);
+		ParticleSystem ps = Single(magic ? "twirl_02" : "twirl_01", pos, color, radius * 2.2f, 0.45f, true, 0f);
+		ParticleSystem.RotationOverLifetimeModule rot = ps.rotationOverLifetime;
+		rot.enabled = true;
+		rot.z = new ParticleSystem.MinMaxCurve(-12f);
+		Grow(ps, 0.5f, 1.1f);
+		ParticleSystem ring = Burst(magic ? "star_01" : "spark_04", pos, color, 24, 0.5f, 0.25f, 0.5f, true);
+		ParticleSystem.ShapeModule shape = ring.shape;
+		shape.shapeType = ParticleSystemShapeType.Circle;
+		shape.radius = radius * 0.6f;
+		shape.rotation = new Vector3(90f, 0f, 0f);
+		ParticleSystem.MainModule main = ring.main;
+		main.startSpeed = new ParticleSystem.MinMaxCurve(3f, 6f);
+	}
+
+	public static void Slam(Vector3 groundPos, Color color, float radius)
+	{
+		Cfx("CFXR2 Ground Hit", groundPos, radius * 0.6f, 2f);
+		Cfx("CFXR _BOOM_", groundPos + Vector3.up * 1.4f, 0.8f, 1.2f);
+		ParticleSystem wave = Single("circle_05", groundPos + Vector3.up * 0.08f, color, radius * 2.6f, 0.4f, true, 0f);
+		Grow(wave, 0.2f, 1f);
+		Decal("scorch_01", groundPos + Vector3.up * 0.04f, new Color(0.15f, 0.1f, 0.08f, 0.85f), radius * 1.6f, 3f);
+		ParticleSystem dust = Burst("smoke_03", groundPos + Vector3.up * 0.3f, new Color(0.65f, 0.55f, 0.45f, 0.8f), 18, 0.8f, 0.8f, 1.6f, false);
+		ParticleSystem.ShapeModule shape = dust.shape;
+		shape.shapeType = ParticleSystemShapeType.Circle;
+		shape.radius = radius * 0.5f;
+		shape.rotation = new Vector3(90f, 0f, 0f);
+		Sparks(groundPos + Vector3.up * 0.5f, color, 20, 7f, 0.5f);
+	}
+
+	public static void Beam(Vector3 from, Vector3 dir, float length, Color color)
+	{
+		LineRenderer line = new GameObject("vfx_beam").AddComponent<LineRenderer>();
+		line.material = Mat("trace_01", true);
+		line.textureMode = LineTextureMode.Stretch;
+		line.positionCount = 2;
+		line.SetPosition(0, from);
+		line.SetPosition(1, from + dir * length);
+		line.widthMultiplier = 0.9f;
+		line.startColor = line.endColor = color;
+		s_live.Add(new Live { line = line, life = 0.25f, total = 0.25f });
+		ParticleSystem sparkle = Burst("magic_02", from + dir * length * 0.5f, color, 22, 0.45f, 0.15f, 0.4f, true);
+		ParticleSystem.ShapeModule shape = sparkle.shape;
+		shape.shapeType = ParticleSystemShapeType.SingleSidedEdge;
+		shape.radius = length * 0.5f;
+		shape.rotation = new Vector3(0f, Angle(dir) - 90f, 0f);
+		Flash(from + dir * length, color, 1.6f);
+	}
+
+	public static void MagicBurst(Vector3 groundPos, Color color, float radius)
+	{
+		Cfx("CFXR4 Firework 1 Cyan-Purple (HDR)", groundPos + Vector3.up * 0.5f, radius * 0.3f, 2f);
+		ParticleSystem circle = Single("symbol_02", groundPos + Vector3.up * 0.06f, color, radius * 2.4f, 0.5f, true, 0f);
+		Grow(circle, 1f, 1.25f);
+		Flash(groundPos + Vector3.up * 1f, color, radius * 1.8f);
+		ParticleSystem up = Burst("magic_04", groundPos + Vector3.up * 0.3f, color, 30, 0.7f, 0.25f, 0.6f, true);
+		ParticleSystem.MainModule main = up.main;
+		main.startSpeed = new ParticleSystem.MinMaxCurve(2f, 7f);
+		ParticleSystem.ShapeModule shape = up.shape;
+		shape.shapeType = ParticleSystemShapeType.Cone;
+		shape.angle = 35f;
+		shape.radius = radius * 0.5f;
+		shape.rotation = new Vector3(-90f, 0f, 0f);
+		Burst("smoke_07", groundPos + Vector3.up * 0.8f, new Color(0.5f, 0.35f, 0.6f, 0.6f), 10, 1f, 1f, 2f, false);
+	}
+
+	// ---------- herois da wiki ----------
+
+	public static void Barrier(Vector3 pos, Color color)
+	{
+		Cfx("CFXR3 Shield Leaves A (Lit)", pos + Vector3.down * 0.9f, 1.2f, 1.5f);
+		ParticleSystem ring = Single("circle_03", pos + Vector3.down * 0.9f, color, 3f, 0.6f, true, 0f);
+		Grow(ring, 0.4f, 1.2f);
+		Burst("star_06", pos + Vector3.up * 0.5f, color, 14, 0.7f, 0.2f, 0.5f, true);
+	}
+
+	public static void Lightning(Vector3 groundPos, Color color, float radius)
+	{
+		Cfx("CFXR3 Hit Electric C (Air)", groundPos + Vector3.up * 0.5f, 1.3f, 1.2f);
+		LineRenderer line = new GameObject("vfx_raio").AddComponent<LineRenderer>();
+		line.material = Mat("trace_01", true);
+		line.positionCount = 6;
+		for (int i = 0; i < 6; i++)
+		{
+			Vector2 r = Random.insideUnitCircle * 0.35f;
+			line.SetPosition(i, groundPos + new Vector3(r.x, 9f - i * 1.8f, r.y));
+		}
+		line.widthMultiplier = 0.7f;
+		line.startColor = line.endColor = color;
+		s_live.Add(new Live { line = line, life = 0.2f, total = 0.2f });
+		Flash(groundPos + Vector3.up * 0.6f, color, radius * 1.6f);
+		Sparks(groundPos + Vector3.up * 0.3f, color, 16, 6f, 0.35f);
+	}
+
+	public static void Wave(Vector3 pos, Vector3 facing, Color color, float range)
+	{
+		Cfx("CFXR Electrified 3", pos + facing * range * 0.5f, 1.2f, 1.2f);
+		ParticleSystem ps = Single("trace_06", pos + facing * range * 0.5f, color, range * 1.8f, 0.3f, true, Angle(facing) + 90f);
+		Grow(ps, 0.5f, 1.2f);
+		Sparks(pos + facing * range * 0.6f, color, 20, 7f, 0.4f);
+	}
+
+	public static void Rupture(Vector3 groundPos, Color color, float radius)
+	{
+		Cfx("CFXR3 Hit Electric C (Air)", groundPos + Vector3.up * 0.7f, 1f, 1f);
+		ParticleSystem ps = Single("twirl_02", groundPos + Vector3.up * 0.1f, color, radius * 2.2f, 0.35f, true, Random.Range(0f, 360f));
+		ParticleSystem.RotationOverLifetimeModule rot = ps.rotationOverLifetime;
+		rot.enabled = true;
+		rot.z = new ParticleSystem.MinMaxCurve(8f);
+		Grow(ps, 1.1f, 0.4f);   // encolhe: suga para o centro
+	}
+
+	public static void TerraSplitter(Vector3 groundPos, Vector3 facing, Color color, float range)
+	{
+		for (float d = 1.2f; d <= range; d += 1.6f)
+		{
+			Vector3 p = groundPos + facing * d;
+			Cfx("CFXR2 Ground Hit", p, 0.7f, 1.5f);
+			Rock(p, 4f);
+		}
+		Cfx("CFXR _BOOM_", groundPos + facing * 2f + Vector3.up * 1.6f, 0.9f, 1.2f);
+	}
+
+	// pedra que sobe do chao e afunda no fim (visual do obstaculo do Arena.blockers)
+	private static readonly List<(Transform t, float life, float total, float height, float groundY)> s_rocks = new List<(Transform, float, float, float, float)>();
+
+	private static void Rock(Vector3 groundPos, float life)
+	{
+		GameObject rock = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		Object.DestroyImmediate(rock.GetComponent<Collider>());
+		rock.name = "pedra";
+		float h = Random.Range(1.1f, 1.6f);
+		rock.transform.position = groundPos + Vector3.down * h;
+		rock.transform.rotation = Quaternion.Euler(Random.Range(-15f, 15f), Random.Range(0f, 360f), Random.Range(-15f, 15f));
+		rock.transform.localScale = new Vector3(Random.Range(0.9f, 1.3f), h, Random.Range(0.9f, 1.3f));
+		rock.GetComponent<Renderer>().material = Arena.MakeMaterial(new Color(0.42f, 0.36f, 0.3f));
+		s_rocks.Add((rock.transform, life, life, h, groundPos.y));
+	}
+
+	// sobe rapido (0,15s) e afunda nos ultimos 0,4s
+	private static void UpdateRocks(float dt)
+	{
+		for (int i = s_rocks.Count - 1; i >= 0; i--)
+		{
+			(Transform t, float life, float total, float height, float groundY) r = s_rocks[i];
+			r.life -= dt;
+			if (r.t == null || r.life <= 0f)
+			{
+				if (r.t != null)
+				{
+					if (Application.isPlaying)
+					{
+						Object.Destroy(r.t.gameObject);
+					}
+					else
+					{
+						Object.DestroyImmediate(r.t.gameObject);
+					}
+				}
+				s_rocks.RemoveAt(i);
+				continue;
+			}
+			float up = Mathf.Clamp01((r.total - r.life) / 0.15f) * Mathf.Clamp01(r.life / 0.4f);
+			Vector3 p = r.t.position;
+			r.t.position = new Vector3(p.x, r.groundY + up * r.height - r.height * 0.5f, p.z);
+			s_rocks[i] = r;
+		}
+	}
+
+	// aviso no chao durante a preparacao da skill (o jogo original tambem marcava areas)
+	public static void Telegraph(Vector3 groundPos, Color color, float radius, float duration, bool magic)
+	{
+		color.a = 0.55f;
+		ParticleSystem ps = Single(magic ? "symbol_01" : "circle_01", groundPos + Vector3.up * 0.05f, color, radius * 2f, duration, true, 0f);
+		Grow(ps, 0.3f, 1f);
+		if (magic)
+		{
+			ParticleSystem.RotationOverLifetimeModule rot = ps.rotationOverLifetime;
+			rot.enabled = true;
+			rot.z = new ParticleSystem.MinMaxCurve(2f);
+		}
+	}
+
+	public static void Dust(Vector3 groundPos)
+	{
+		Burst("smoke_01", groundPos + Vector3.up * 0.3f, new Color(0.7f, 0.65f, 0.55f, 0.7f), 8, 0.6f, 0.5f, 1f, false);
+	}
+
+	public static void Teleport(Vector3 pos, Color color)
+	{
+		Cfx("CFXR Magic Poof", pos, 1f, 1.5f);
+		Burst("magic_05", pos, color, 20, 0.5f, 0.2f, 0.5f, true);
+		Burst("smoke_07", pos, new Color(0.6f, 0.5f, 0.7f, 0.6f), 6, 0.6f, 0.8f, 1.4f, false);
+		Flash(pos, color, 1.4f);
+	}
+
+	public static void Hit(Vector3 pos, Color color, bool critical, bool magic = false)
+	{
+		Cfx(magic ? "CFXR Impact Glowing HDR (Blue)" : "CFXR4 Sword Hit PLAIN (Cross)", pos, magic ? 0.8f : 1f, 1.2f);
+		if (critical)
+		{
+			Cfx("CFXR _POW_", pos + Vector3.up * 1.2f, 0.7f, 1.2f);
+		}
+		Sparks(pos, critical ? new Color(1f, 0.85f, 0.2f) : color, critical ? 26 : 12, critical ? 8f : 5f, 0.3f);
+		Flash(pos, critical ? new Color(1f, 0.9f, 0.4f) : Color.white, critical ? 2.4f : 1.1f);
+		if (critical)
+		{
+			ParticleSystem star = Single("star_04", pos, new Color(1f, 0.9f, 0.3f), 2.2f, 0.3f, false, 0f);
+			Grow(star, 0.4f, 1.3f);
+		}
+	}
+
+	public static void Death(Vector3 pos)
+	{
+		Cfx("CFXR2 Souls Escape", pos, 1f, 2.5f);
+		Burst("smoke_03", pos, new Color(0.4f, 0.4f, 0.45f, 0.8f), 16, 1.2f, 1.2f, 2.2f, false);
+		Burst("star_01", pos + Vector3.up, new Color(1f, 0.9f, 0.5f), 12, 0.8f, 0.3f, 0.6f, true);
+	}
+
+	// projetil: nucleo brilhante + rastro de particulas (seguem o objeto do projetil)
+	public static void ProjectileVisual(GameObject owner, Color color)
+	{
+		ParticleSystem core = Create("light_01", owner.transform.position, true, 9999f);
+		core.transform.SetParent(owner.transform, false);
+		core.transform.localPosition = Vector3.zero;
+		ParticleSystem.MainModule main = core.main;
+		main.loop = true;
+		main.duration = 1f;
+		main.startLifetime = 0.12f;
+		main.startSize = 1.1f;
+		main.startColor = color;
+		main.simulationSpace = ParticleSystemSimulationSpace.Local;
+		ParticleSystem.EmissionModule em = core.emission;
+		em.rateOverTime = 40f;
+		core.Play();
+		ParticleSystem trail = Create("magic_02", owner.transform.position, true, 9999f);
+		trail.transform.SetParent(owner.transform, false);
+		trail.transform.localPosition = Vector3.zero;
+		ParticleSystem.MainModule tm = trail.main;
+		tm.loop = true;
+		tm.duration = 1f;
+		tm.startLifetime = new ParticleSystem.MinMaxCurve(0.2f, 0.35f);
+		tm.startSize = new ParticleSystem.MinMaxCurve(0.2f, 0.45f);
+		tm.startColor = color;
+		tm.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+		ParticleSystem.EmissionModule tem = trail.emission;
+		tem.rateOverTime = 0f;
+		tem.rateOverDistance = 12f;
+		trail.Play();
+	}
+
+	public static void ReleaseProjectileVisual(GameObject owner)
+	{
+		foreach (ParticleSystem ps in owner.GetComponentsInChildren<ParticleSystem>())
+		{
+			DestroyAura(ps.gameObject);
+		}
+	}
+
+	public static void Muzzle(Vector3 pos, Color color)
+	{
+		Flash(pos, color, 1.2f);
+		Burst("magic_04", pos, color, 8, 0.25f, 0.1f, 0.3f, true);
+	}
+
+	public static void Impact(Vector3 pos, Color color)
+	{
+		Cfx("CFXR3 Hit Light B (Air)", pos, 0.7f, 1f);
+		Flash(pos, color, 1.8f);
+		Burst("spark_04", pos, color, 14, 0.3f, 0.15f, 0.4f, true);
+	}
+
+	// aura em volta do lutador enquanto o buff durar (removida em DestroyAura)
+	public static GameObject Aura(Transform owner, string tex, Color color, bool overHead)
+	{
+		ParticleSystem ps = Create(tex, owner.position, true, 9999f);
+		ps.transform.SetParent(owner, true);
+		ps.transform.localPosition = overHead ? new Vector3(0f, 1.5f, 0f) : new Vector3(0f, -0.4f, 0f);
+		ParticleSystem.MainModule main = ps.main;
+		main.loop = true;
+		main.duration = 1f;
+		main.startLifetime = new ParticleSystem.MinMaxCurve(0.5f, 0.9f);
+		main.startSize = new ParticleSystem.MinMaxCurve(overHead ? 0.3f : 0.25f, overHead ? 0.5f : 0.6f);
+		color.a = 0.85f;
+		main.startColor = color;
+		main.startSpeed = new ParticleSystem.MinMaxCurve(0.2f, overHead ? 0.4f : 1.2f);
+		main.simulationSpace = overHead ? ParticleSystemSimulationSpace.Local : ParticleSystemSimulationSpace.World;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverTime = overHead ? 6f : 14f;
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = true;
+		shape.shapeType = ParticleSystemShapeType.Circle;
+		shape.radius = overHead ? 0.35f : 0.55f;
+		shape.rotation = new Vector3(overHead ? 90f : -90f, 0f, 0f);
+		if (overHead)
+		{
+			ParticleSystem.RotationOverLifetimeModule rot = ps.rotationOverLifetime;
+			rot.enabled = true;
+			rot.z = new ParticleSystem.MinMaxCurve(4f);
+		}
+		ps.Play();
+		return ps.gameObject;
+	}
+
+	public static void DestroyAura(GameObject aura)
+	{
+		if (aura == null)
+		{
+			return;
+		}
+		int i = s_live.FindIndex(l => l.ps != null && l.ps.gameObject == aura);
+		if (i >= 0)
+		{
+			s_live.RemoveAt(i);
+		}
+		if (Application.isPlaying)
+		{
+			Object.Destroy(aura);
+		}
+		else
+		{
+			Object.DestroyImmediate(aura);
+		}
+	}
+
+	// ---------- base ----------
+
+	public static void Update(float dt)
+	{
+		UpdateRocks(dt);
+		for (int i = s_live.Count - 1; i >= 0; i--)
+		{
+			Live l = s_live[i];
+			l.life -= dt;
+			if (l.ps != null && !Application.isPlaying)
+			{
+				l.ps.Simulate(dt, true, false, false);
+			}
+			if (l.systems != null && l.prefab != null && !Application.isPlaying)
+			{
+				foreach (ParticleSystem ps in l.systems)
+				{
+					if (ps != null)
+					{
+						ps.Simulate(dt, false, false, false);
+					}
+				}
+			}
+			if (l.line != null)
+			{
+				float a = Mathf.Clamp01(l.life / l.total);
+				Color c = l.line.startColor;
+				c.a = a;
+				l.line.startColor = l.line.endColor = c;
+				l.line.widthMultiplier = 0.9f * (0.4f + a * 0.6f);
+			}
+			if (l.life <= 0f)
+			{
+				Object go = l.prefab != null ? l.prefab : l.ps != null ? (Object)l.ps.gameObject : (l.line != null ? l.line.gameObject : null);
+				if (go != null)
+				{
+					if (Application.isPlaying)
+					{
+						Object.Destroy(go);
+					}
+					else
+					{
+						Object.DestroyImmediate(go);
+					}
+				}
+				s_live.RemoveAt(i);
+				continue;
+			}
+			s_live[i] = l;
+		}
+	}
+
+	private static float Angle(Vector3 dir) => Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+
+	private static Material Mat(string tex, bool additive)
+	{
+		string key = tex + (additive ? "+" : "a");
+		if (!s_materials.TryGetValue(key, out Material m))
+		{
+			Shader shader = Shader.Find(additive ? "Legacy Shaders/Particles/Additive" : "Legacy Shaders/Particles/Alpha Blended")
+				?? Shader.Find("Particles/Standard Unlit");
+			m = new Material(shader) { mainTexture = Resources.Load<Texture2D>("VFX/" + tex) };
+			s_materials[key] = m;
+		}
+		return m;
+	}
+
+	private static ParticleSystem Create(string tex, Vector3 pos, bool additive, float life)
+	{
+		GameObject go = new GameObject("vfx_" + tex);
+		go.transform.position = pos;
+		ParticleSystem ps = go.AddComponent<ParticleSystem>();
+		ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+		ParticleSystem.MainModule main = ps.main;
+		main.loop = false;
+		main.playOnAwake = false;
+		main.duration = 0.1f;
+		main.simulationSpace = ParticleSystemSimulationSpace.World;
+		main.startSpeed = 0f;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverTime = 0f;
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = false;
+		ParticleSystem.ColorOverLifetimeModule col = ps.colorOverLifetime;
+		col.enabled = true;
+		Gradient g = new Gradient();
+		g.SetKeys(new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+			new[] { new GradientAlphaKey(1f, 0f), new GradientAlphaKey(1f, 0.6f), new GradientAlphaKey(0f, 1f) });
+		col.color = g;
+		ParticleSystemRenderer r = go.GetComponent<ParticleSystemRenderer>();
+		r.material = Mat(tex, additive);
+		s_live.Add(new Live { ps = ps, life = life + 0.1f, total = life });
+		return ps;
+	}
+
+	// um unico sprite grande (corte, redemoinho, onda de choque, circulo magico)
+	private static ParticleSystem Single(string tex, Vector3 pos, Color color, float size, float life, bool horizontal, float yaw)
+	{
+		ParticleSystem ps = Create(tex, pos, true, life);
+		ParticleSystem.MainModule main = ps.main;
+		main.startLifetime = life;
+		main.startSize = size;
+		main.startColor = color;
+		main.startRotation = yaw * Mathf.Deg2Rad;
+		ps.GetComponent<ParticleSystemRenderer>().renderMode = horizontal ? ParticleSystemRenderMode.HorizontalBillboard : ParticleSystemRenderMode.Billboard;
+		ps.Emit(1);
+		return ps;
+	}
+
+	private static ParticleSystem Burst(string tex, Vector3 pos, Color color, int count, float life, float minSize, float maxSize, bool additive)
+	{
+		ParticleSystem ps = Create(tex, pos, additive, life);
+		ParticleSystem.MainModule main = ps.main;
+		main.startLifetime = new ParticleSystem.MinMaxCurve(life * 0.6f, life);
+		main.startSize = new ParticleSystem.MinMaxCurve(minSize, maxSize);
+		main.startColor = color;
+		main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 2.5f);
+		main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = true;
+		shape.shapeType = ParticleSystemShapeType.Sphere;
+		shape.radius = 0.3f;
+		ps.Emit(count);
+		return ps;
+	}
+
+	private static void Sparks(Vector3 pos, Color color, int count, float speed, float life)
+	{
+		ParticleSystem ps = Burst("spark_01", pos, color, count, life, 0.15f, 0.4f, true);
+		ParticleSystem.MainModule main = ps.main;
+		main.startSpeed = new ParticleSystem.MinMaxCurve(speed * 0.5f, speed);
+		main.gravityModifier = 1.2f;
+		ps.GetComponent<ParticleSystemRenderer>().renderMode = ParticleSystemRenderMode.Stretch;
+		ps.GetComponent<ParticleSystemRenderer>().velocityScale = 0.08f;
+		ps.Clear();
+		ps.Emit(count);
+	}
+
+	private static void Flash(Vector3 pos, Color color, float size)
+	{
+		ParticleSystem ps = Single("light_01", pos, color, size, 0.15f, false, 0f);
+		Grow(ps, 0.6f, 1.2f);
+	}
+
+	private static void Decal(string tex, Vector3 pos, Color color, float size, float life)
+	{
+		ParticleSystem ps = Create(tex, pos, false, life);
+		ParticleSystem.MainModule main = ps.main;
+		main.startLifetime = life;
+		main.startSize = size;
+		main.startColor = color;
+		main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+		ps.GetComponent<ParticleSystemRenderer>().renderMode = ParticleSystemRenderMode.HorizontalBillboard;
+		ps.Emit(1);
+	}
+
+	private static void Grow(ParticleSystem ps, float from, float to)
+	{
+		ParticleSystem.SizeOverLifetimeModule size = ps.sizeOverLifetime;
+		size.enabled = true;
+		size.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.Linear(0f, from, 1f, to));
+	}
+}

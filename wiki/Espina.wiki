@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Espina.png]]
+|class=Attack
+|type=Melee
+|rating=12,069
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=74,160
+|physdef=3,600
+|magdef=3,600
+|physdefrate=8%
+|magdefrate=8%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=7.2
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Duelist
+|passiveskill1desc=Upon hit triggers the Duelist Effect (stackable up to 5 times), which increases PHYS DMG by 3% and PHYS PEN Rate by 3% for 3 sec.
+|attackskill=Feather Sword
+|attackskilldesc=Swing a sharp sword to attack enemies.  DMG 110%
+|moveskill=Dash (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Piercing Strike (2s CD)
+|skilladesc=Stretches the sword forward dealing a striking blow.  DMG 460%
+|skillb=Stab (7s CD)
+|skillbdesc=Quickly stab enemies before dashing away.  Temporarily increases your MOV SPD (20%, 1.5 sec) and decreases enemy MOVE SPD.  DMG 330%
+|skillc=Flowing Petals (7s CD)
+|skillbcdesc=Evade the attacks of nearby enemies.  When Evade is triggered, nearby enemies are stabbed 3 times and the nearest enemy is knocked Unconscious.  Increases ATK DMG by 10% for 2 sec.  DMG 200% x3
+|ultimateskill=Lotus Fury
+|ultimateskilldesc=Charge forward and stab enemies multiple times.  Pushes enemies back upon hit.  DMG 330% x5
+}}
+[[Category:Hero]]

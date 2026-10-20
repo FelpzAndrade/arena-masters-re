@@ -1,0 +1,294 @@
+<!----
+<tabber>[[File:Weapon_Tab.png|thumb|40x80px|center]]
+---->
+{|
+|-
+| width="22.5%" |
+|
+<tabber>Weapon=&nbsp;[[Image:Weapon_Tab.png|125px|link=]]
+{| style="background:radial-gradient(#395A8E,#1D365F); width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Adventurers_Sword.png|100px|alt=Adventurer's Sword.png|Adventurer's Sword|link=Template:Adventurers_Sword]]
+|[[Image:Annihilation_Blade.png|100px|alt=Annihilation Blade.png|Annihilation Blade|link=Template:Annihilation_Blade]]
+|[[Image:Assassins_Blade.png|100px|alt=Assassin's Blade.png|Assassin's Blade|link=Template:Assassins_Blade]]
+|[[Image:Assault_Captians_Broadsword.png|100px|alt=Assault Captain's Broadsword.png|Assault Captain's Broadsword|link=Template:Assault_Captains_Broadsword]]
+|[[Image:Benevolence_Staff.png|100px|alt=Benevolence Staff.png|Benevolence Staff|link=Template:Benevolence_Staff]]
+|-
+|[[Image:Commanders_Broadsword.png|100px|alt=Commander's Broadsword.png|Commander's Broadsword|link=Template:Commanders_Broadsword]]
+|[[Image:Cursed_Book.png|100px|alt=Cursed Book.png|Cursed Book|link=Template:Cursed_Book]]
+|[[Image:Dark_Broadsword.png|100px|alt=Dark Broadsword.png|Dark Broadsword|link=Template:Dark_Broadsword]]
+|[[Image:Dark_Enchanters_Staff.png|100px|alt=Dark Enchanter's Staff.png|Dark Enchanter's Staff|link=Template:Dark_Enchanters_Staff]]
+|[[Image:Divine_Dragon_Rapier.png|100px|alt=Divine Dragon Rapier.png|Divine Dragon Rapier|link=Template:Divine_Dragon_Rapier]]
+|-
+|[[Image:Fearless_Harp.png|100px|alt=Fearless Harp.png|Fearless Harp|link=Template:Fearless_Harp]]
+|[[Image:Great_Axe_of_the_Pegasus.png|100px|alt=Great Axe of the Pegasus.png|Great Axe of the Pegasus|link=Template:Great_Axe_of_the_Pegasus]]
+|[[Image:Harmony_Staff.png|100px|alt=Harmony Staff.png|Harmony Staff|link=Template:Harmony_Staff]]
+|[[Image:Ice_Mages_Staff.png|100px|alt=Ice Mage's Staff.png|Ice Mage's Staff|link=Template:Ice_Mages_Staff]]
+|[[Image:Infantry_Sword.png|100px|alt=Infantry Sword.png|Infantry Sword|link=Template:Infantry_Sword]]
+|-
+|[[Image:Infernal_Broadsword.png|100px|alt=Infernal Broadsword.png|Infernal Broadsword|link=Template:Infernal_Broadsword]]
+|[[Image:Judges_Orb.png|100px|alt=Judge's Orb.png|Judge's Orb|link=Template:Judges_Orb]]
+|[[Image:Mages_Staff.png|100px|alt=Mage's Staff.png|Mage's Staff|link=Template:Mages_Staff]]
+|[[Image:Magic_Bow.png|100px|alt=Magic Bow.png|Magic Bow|link=Template:Magic_Bow]]
+|[[Image:Magic_Frost_Sword.png|100px|alt=Magic Frost Sword.png|Magic Frost Sword|link=Template:Magic_Frost_Sword]]
+|-
+|[[Image:Magic_Rifle.png|100px|alt=Magic Rifle.png|Magic Rifle|link=Template:Magic_Rifle]]
+|[[Image:Magic_Spear_of_Heaven.png|100px|alt=Magic Spear of Heaven.png|Magic Spear of Heaven|link=Template:Magic_Spear_of_Heaven]]
+|[[Image:Mercenary_Captains_Lance.png|100px|alt=Mercenary Captain's Lance.png|Mercenary Captain's Lance|link=Template:Mercenary_Captains_Lance]]
+|[[Image:Minervas_Staff.png|100px|alt=Minerva's Staff.png|Minerva's Staff|link=Template:Minervas_Staff]]
+|[[Image:Nightmare_Staff.png|100px|alt=Nightmare Staff.png|Nightmare Staff|link=Template:Nightmare_Staff]]
+|-
+|[[Image:Phantom_Dagger.png|100px|alt=Phantom Dagger.png|Phantom Dagger|link=Template:Phantom_Dagger]]
+|[[Image:Pilgrims_Staff.png|100px|alt=Pilgrim's Staff.png|Pilgrim's Staff|link=Template:Pilgrims_Staff]]
+|[[Image:Pirates_Saber.png|100px|alt=Pirate's Saber.png|Pirate's Saber|link=Template:Pirates_Saber]]
+|[[Image:Protectors_Divine_Hammer.png|100px|alt=Protector's Divine Hammer.png|Protector's Divine Hammer|link=Template:Protectors_Divine_Hammer]]
+|[[Image:Rapier_of_Brilliance.png|100px|alt=Rapier of Brilliance.png|Rapier of Brilliance|link=Template:Rapier_of_Brilliance]]
+|-
+|[[Image:Red_Knights_Longsword.png|100px|alt=Red Knight's Longsword.png|Red Knight's Longsword|link=Template:Red_Knights_Longsword]]
+|[[Image:Scorching_Spear.png|100px|alt=Scorching Spear.png|Scorching Spear|link=Template:Scorching_Spear]]
+|[[Image:Scorching_Talisman.png|100px|alt=Scorching Talisman.png|Scorching Talisman|link=Template:Scorching_Talisman]]
+|[[Image:Skeleton_Staff.png|100px|alt=Skeleton Staff.png|Skeleton Staff|link=Template:Skeleton_Staff]]
+|[[Image:Sorcerers_Flute.png|100px|alt=Sorcerer's Flute.png|Sorcerer's Flute|link=Template:Sorcerers_Flute]]
+|-
+|[[Image:Spirit_Mages_Staff.png|100px|alt=Spirit Mage's Staff.png|Spirit Mage's Staff|link=Template:Spirit_Mages_Staff]]
+|[[Image:Spirit_Orb.png|100px|alt=Spirit Orb.png|Spirit Orb|link=Template:Spirit_Orb]]
+|[[Image:Storm_Dagger.png|100px|alt=Storm Dagger.png|Storm Dagger|link=Template:Storm_Dagger]]
+|[[Image:Sylphic_Orb.png|100px|alt=Sylphic Orb.png|Sylphic Orb|link=Template:Sylphic_Orb]]
+|[[Image:Technicians_Catapult.png|100px|alt=Technician's Catapult.png|Technician's Catapult|link=Template:Technicians_Catapult]]
+|-
+|[[Image:Tempest_Axe.png|100px|alt=Tempest Axe.png|Tempest Axe|link=Template:Tempest_Axe]]
+|[[Image:Trackers_Sword.png|100px|alt=Tracker's Sword.png|Tracker's Sword|link=Template:Trackers_Sword]]
+|}
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------->
+|-|Chest=&nbsp;[[Image:Chest_Tab.png|125px|link=]]
+{| style="background-color:#1D365F; width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Adventurers_Armor.png|100px|alt=Adventurer's Armor.png|Adventurer's Armor|link=Template:Adventurers_Armor]]
+|[[Image:Annihilation Armor.png|100px|alt=Annihilation Armor.png|Annihilation Armor|link=Template:Annihilation Armor]]
+|[[Image:Armor_of_Brilliance.png|100px|alt=Armor of Brilliance.png|Armor of Brilliance|link=Template:Armor_of_Brilliance]]
+|[[Image:Assassins_Hood.png|100px|alt=Assassin's Hood.png|Assassin's Hood|link=Template:Assassins_Hood]]
+|[[Image:Assault_Captains_Breastplate.png|100px|alt=Assault Captain's Breastplate.png|Assault Captain's Breastplate|link=Template:Assault_Captains_Breastplate]]
+|-
+|[[Image:Barbarian_Kings_Armor.png|100px|alt=Barbarian King's Armor.png|Barbarian King's Armor|link=Template:Barbarian_Kings_Armor]]
+|[[Image:Benevolance_Robe.png|100px|alt=Benevolence Robe.png|Benevolence Robe|link=Template:Benevolence_Robe]]
+|[[Image:Berzerkers_Armor.png|100px|alt=Berzerker's Armor.png|Berzerker's Armor|link=Template:Berzerkers_Armor]]
+|[[Image:Commanders_Plate_Armor.png|100px|alt=Commander's Plate Armor.png|Commander's Plate Armor|link=Template:Commanders_Plate_Armor]]
+|[[Image:Conquest_Armor.png|100px|alt=Conquest Armor.png|Conquest Armor|link=Template:Conquest_Armor]]
+|-
+|[[Image:Dark_Enchanters_Robe.png|100px|alt=Dark Enchanter's Robe.png|Dark Enchanter's Robe|link=Template:Dark_Enchanters_Robe]]
+|[[Image:Dark_Plate_Armor.png|100px|alt=Dark Plate Armor.png|Dark Plate Armor|link=Template:Dark_Plate_Armor]]
+|[[Image:Divine_Dragon_Armor.png|100px|alt=Divine Dragon Armor.png|Divine Dragon Armor|link=Template:Divine_Dragon_Armor]]
+|[[Image:Dragon_Scale_Armor.png|100px|alt=Dragon Scale Armor.png|Dragon Scale Armor|link=Template:Dragon_Scale_Armor]]
+|[[Image:Fearless_Robe.png|100px|alt=Fearless Robe.png|Fearless Robe|link=Template:Fearless_Robe]]
+|-
+|[[Image:Fog_Garment.png|100px|alt=Fog Garment.png|Fog Garment|link=Template:Fog_Garment]]
+|[[Image:Harmonious_Gown.png|100px|alt=Harmonious Gown.png|Harmonious Gown|link=Template:Harmonious_Gown]]
+|[[Image:Heavenly_Armor.png|100px|alt=Heavenly Armor.png|Heavenly Armor|link=Template:Heavenly_Armor]]
+|[[Image:Ice_Mages_Robe.png|100px|alt=Ice Mage's Robe.png|Ice Mage's Robe|link=Template:Ice_Mages_Robe]]
+|[[Image:Infantry_Armor.png|100px|alt=Infantry Armor.png|Infantry Armor|link=Template:Infantry_Armor]]
+|-
+|[[Image:Infernal_Armor.png|100px|alt=Infernal Armor.png|Infernal Armor|link=Template:Infernal_Armor]]
+|[[Image:Judges_Robe.png|100px|alt=Judge's Robe.png|Judge's Robe|link=Template:Judges_Robe]]
+|[[Image:Lich_Robe.png|100px|alt=Lich Robe.png|Lich Robe|link=Template:Lich_Robe]]
+|[[Image:Mages_Robe.png|100px|alt=Mage's Robe.png|Mage's Robe|link=Template:Mages_Robe]]
+|[[Image:Magic_Frost_Armor.png|100px|alt=Magic Frost Armor.png|Magic Frost Armor|link=Template:Magic_Frost_Armor]]
+|-
+|[[Image:Mercenary_Captains_Steel_Armor.png|100px|alt=Mercenary Captain's Steel Armor.png|Mercenary Captain's Steel Armor|link=Template:Mercenary_Captains_Steel_Armor]]
+|[[Image:Minervas_Robe.png|100px|alt=Minerva's Robe.png|Minerva's Robe|link=Template:Minervas_Robe]]
+|[[Image:Nightmare Robe.png|100px|alt=Nightmare Robe.png|Nightmare Robe|link=Template:Nightmare_Robe]]
+|[[Image:Phantom_Armor.png|100px|alt=Phantom Armor.png|Phantom Armor|link=Template:Phantom_Armor]]
+|[[Image:Pilgrims_Robe.png|100px|alt=Pilgrim's Robe.png|Pilgrim's Robe|link=Template:Pilgrims_Robe]]
+|-
+|[[Image:Pirates_Coat.png|100px|alt=Pirate's Coat.png|Pirate's Coat|link=Template:Pirates_Coat]]
+|[[Image:Protectors_Divine_Armor.png|100px|alt=Protector's Divine Armor.png|Protector's Divine Armor|link=Template:Protectors_Divine_Armor]]
+|[[Image:Red_Knights_Armor.png|100px|alt=Red Knight's Armor.png|Red Knight's Armor|link=Template:Red_Knights_Armor]]
+|[[Image:Sorcerers_Clothes.png|100px|alt=Sorcerer's Clothes.png|Sorcerer's Clothes|link=Template:Sorcerers_Clothes]]
+|[[Image:Spector_Robe.png|100px|alt=Specter Robe.png|Specter Robe|link=Template:Specter_Robe]]
+|-
+|[[Image:Spirit_Mages_Robe.png|100px|alt=Spirit Mage's Robe.png|Spirit Mage's Robe|link=Template:Spirit_Mages_Robe]]
+|[[Image:Spirit_Robe.png|100px|alt=Spirit Robe.png|Spirit Robe|link=Template:Spirit_Robe]]
+|[[Image:Steel_Armor_of_the_Pegasus.png|100px|alt=Steel Armor of the Pegasus.png|Steel Armor of the Pegasus|link=Template:Steel_Armor_of_the_Pegasus]]
+|[[Image:Storm_Armor.png|100px|alt=Storm Armor.png|Storm Armor|link=Template:Storm_Armor]]
+|[[Image:Sylphic_Robe.png|100px|alt=Sylphic Robe.png|Sylphic Robe|link=Template:Sylphic_Robe]]
+|-
+|[[Image:Technicians_Plate_Vest.png|100px|alt=Technician's Plate Vest.png|Technician's Plate Vest|link=Template:Technicians_Plate_Vest]]
+|[[Image:Trackers_Chain_Vest.png|100px|alt=Tracker's Chain Vest.png|Tracker's Chain Vest|link=Template:Trackers_Chain_Vest]]
+|}
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------->
+|-|Boots=&nbsp;[[Image:Boots_Tab.png|125px|link=]]
+{| style="background-color:#1D365F; width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Adventurers_Boots.png|100px|alt=Adventurer's Boots.png|Adventurer's Boots|link=Template:Adventurers_Boots]]
+|[[Image:Annihilation_Shoes.png|100px|alt=Annihilation Shoes.png|Annihilation Shoes|link=Template:Annihilation_Shoes]]
+|[[Image:Assault_Captains_Steel_Boots.png|100px|alt=Assault Captain's Steel Boots.png|Assault Captain's Steel Boots|link=Template:Assault_Captains_Steel_Boots]]
+|[[Image:Attack_Boots.png|100px|alt=Attack Boots.png|Attack Boots|link=Template:Attack_Boots]]
+|[[Image:Benevolence_Shoes.png|100px|alt=Benevolence Shoes.png|Benevolence Shoes|link=Template:Benevolence_Shoes]]
+|-
+|[[Image:Boots_of_Brilliance.png|100px|alt=Boots of Brilliance.png|Boots of Brilliance|link=Template:Boots_of_Brilliance]]
+|[[Image:Commanders_Plate_Boots.png|100px|alt=Commander's Plate Boots.png|Commander's Plate Boots|link=Template:Commanders_Plate_Boots]]
+|[[Image:Dark_Enchanters_Sandals.png|100px|alt=Dark Enchanter's Sandals.png|Dark Enchanter's Sandals|link=Template:Dark_Enchanters_Sandals]]
+|[[Image:Dark_Enchanters_Shoes.png|100px|alt=Dark Enchanter's Shoes.png|Dark Enchanter's Shoes|link=Template:Dark_Enchanters_Shoes]]
+|[[Image:Dark_Plate_Boots.png|100px|alt=Dark Plate Boots.png|Dark Plate Boots|link=Template:Dark_Plate_Boots]]
+|-
+|[[Image:Divine_Dragon_boots.png|100px|alt=Divine Dragon Boots.png|Divine Dragon Boots|link=Template:Divine_Dragon_Boots]]
+|[[Image:Dragon_Scale_Boots.png|100px|alt=Dragon Scale Boots.png|Dragon Scale Boots|link=Template:Dragon_Scale_Boots]]
+|[[Image:Fairy_Boots.png|100px|alt=Fairy Boots.png|Fairy Boots|link=Template:Fairy_Boots]]
+|[[Image:Fearless_Shoes.png|100px|alt=Fearless Shoes.png|Fearless Shoes|link=Template:Fearless_Shoes]]
+|[[Image:Flurry_Boots.png|100px|alt=Flurry Boots.png|Flurry Boots|link=Template:Flurry_Boots]]
+|-
+|[[Image:Ghost_Shoes.png|100px|alt=Ghost Shoes.png|Ghost Shoes|link=Template:Ghost_Shoes]]
+|[[Image:Gold_Boots.png|100px|alt=Gold Boots.png|Gold Boots|link=Template:Gold_Boots]]
+|[[Image:Ice_Mages_Shoes.png|100px|alt=Ice Mage's Shoes.png|Ice Mage's Shoes|link=Template:Ice_Mages_Shoes]]
+|[[Image:Infantry_Boots.png|100px|alt=Infantry Boots.png|Infantry Boots|link=Template:Infantry_Boots]]
+|[[Image:Infernal_Shoes.png|100px|alt=Infernal Shoes.png|Infernal Shoes|link=Template:Infernal_Shoes]]
+|-
+|[[Image:Judges_Shoes.png|100px|alt=Judge's Shoes.png|Judge's Shoes|link=Template:Judges_Shoes]]
+|[[Image:Mages_Boots.png|100px|alt=Mage's Boots.png|Mage's Boots|link=Template:Mages_Boots]]
+|[[Image:Magic_Frost_Boots.png|100px|alt=Magic Frost Boots.png|Magic Frost Boots|link=Template:Magic_Frost_Boots]]
+|[[Image:Mercenary_Captains_Steel_Boots.png|100px|alt=Mercenary Captain's Steel Boots.png|Mercenary Captain's Steel Boots|link=Template:Mercenary_Captains_Steel_Boots]]
+|[[Image:Minervas_Boots.png|100px|alt=Minerva's Boots.png|Minerva's Boots|link=Template:Minervas_Boots]]
+|-
+|[[Image:Nightmare_Shoes.png|100px|alt=Nightmare Shoes.png|Nightmare Shoes|link=Template:Nightmare_Shoes]]
+|[[Image:Phantom_Boots.png|100px|alt=Phantom Boots.png|Phantom Boots|link=Template:Phantom_Boots]]
+|[[Image:Pilgrim_Boots.png|100px|alt=Pilgrim's Boots.png|Pilgrim's Boots|link=Template:Pilgrims_Boots]]
+|[[Image:Pirates_Boots.png|100px|alt=Pirate's Boots.png|Pirate's Boots|link=Template:Pirates_Boots]]
+|[[Image:Priests_Boots.png|100px|alt=Priest's Boots.png|Priest's Boots|link=Template:Priests_Boots]]
+|-
+|[[Image:Protectors_Divine_Boots.png|100px|alt=Protector's Divine Boots.png|Protector's Divine Boots|link=Template:Protectors_Divine_Boots]]
+|[[Image:Red_Knights_Boots.png|100px|alt=Red Knight's Boots.png|Red Knight's Boots|link=Template:Red_Knights_Boots]]
+|[[Image:Silver_Boots.png|100px|alt=Silver Boots.png|Silver Boots|link=Template:Silver_Boots]]
+|[[Image:Sorcerers_Boots.png|100px|alt=Sorcerer's Boots.png|Sorcerer's Boots|link=Template:Sorcerers_Boots]]
+|[[Image:Spirit_Mages_Shoes.png|100px|alt=Spirit Mage's Shoes.png|Spirit Mage's Shoes|link=Template:Spirit_Mages_Shoes]]
+|-
+|[[Image:Spirit_Shoes.png|100px|alt=Spirit Shoes.png|Spirit Shoes|link=Template:Spirit_Shoes]]
+|[[Image:Steel_Boots_of_the_Pegasus.png|100px|alt=Steel Boots of the Pegasus.png|Steel Boots of the Pegasus|link=Template:Steel_Boots_of_the_Pegasus]]
+|[[Image:Storm_Boots.png|100px|alt=Storm Boots.png|Storm Boots|link=Template:Storm_Boots]]
+|[[Image:Sylphic_Shoes.png|100px|alt=Sylphic Shoes.png|Sylphic Shoes|link=Template:Sylphic_Shoes]]
+|[[Image:Technicians_Shoes.png|100px|alt=Technician's Shoes.png|Technician's Shoes|link=Template:Technicians_Shoes]]
+|-
+|[[Image:Trackers_Chain_Boots.png|100px|alt=Tracker's Chain Boots.png|Tracker's Chain Boots|link=Template:Trackers_Chain_Boots]]
+|[[Image:Warriors_Boots.png|100px|alt=Warrior's Boots.png|Warrior's Boots|link=Template:Warriors_Boots]]
+|}
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------->
+|-|Gloves=&nbsp;[[Image:Gloves_Tab.png|125px|link=]]
+{| style="background-color:#1D365F; width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Adventurers_Gloves.png|100px|alt=Adventurer's Gloves.png|Adventurer's Gloves|link=Template:Adventurers_Gloves]]
+|[[Image:Ancient_Thimble.png|100px|alt=Ancient Thimble.png|Ancient Thimble|link=Template:Ancient_Thimble]]
+|[[Image:Annihilation_Gloves.png|100px|alt=Annihilation Gloves.png|Annihilation Gloves|link=Template:Annihilation_Gloves]]
+|[[Image:Assault_Captains_Steel_Gloves.png|100px|alt=Assault Captain's Steel Gloves.png|Assault Captain's Steel Gloves|link=Template:Assault_Captains_Steel_Gloves]]
+|[[Image:Benevolance_Gloves.png|100px|alt=Benevolence Gloves.png|Benevolence Gloves|link=Template:Benevolence_Gloves]]
+|-
+|[[Image:Commanders_Plate_Gloves.png|100px|alt=Commander's Plate Gloves.png|Commander's Plate Gloves|link=Template:Commanders_Plate_Gloves]]
+|[[Image:Dark_Enchanters_Gloves.png|100px|alt=Dark Enchanter's Gloves.png|Dark Enchanter's Gloves|link=Template:Dark_Enchanters_Gloves]]
+|[[Image:Dark_Plate_Gloves.png|100px|alt=Dark Plate Gloves.png|Dark Plate Gloves|link=Template:Dark_Plate_Gloves]]
+|[[Image:Divine_Dragon_Gloves.png|100px|alt=Divine Dragon Gloves.png|Divine Dragon Gloves|link=Template:Divine_Dragon_Gloves]]
+|[[Image:Dominator_Gloves.png|100px|alt=Dominator Gloves.png|Dominator Gloves|link=Template:Dominator_Gloves]]
+|-
+|[[Image:Enchanter_Gloves.png|100px|alt=Enchanter Gloves.png|Enchanter Gloves|link=Template:Enchanter_Gloves]]
+|[[Image:Exterminator_Gloves.png|100px|alt=Exterminator Gloves.png|Exterminator Gloves|link=Template:Exterminator_Gloves]]
+|[[Image:Fearless_Gloves.png|100px|alt=Fearless Gloves.png|Fearless Gloves|link=Template:Fearless_Gloves]]
+|[[Image:Flame_Gloves.png|100px|alt=Flame Gloves.png|Flame Gloves|link=Template:Flame_Gloves]]
+|[[Image:Gloves_of_Brilliance.png|100px|alt=Gloves of Brilliance.png|Gloves of Brilliance|link=Template:Gloves_of_Brilliance]]
+|-
+|[[Image:Ice_Mages_Gloves.png|100px|alt=Ice Mage's Gloves.png|Ice Mage's Gloves|link=Template:Ice_Mages_Gloves]]
+|[[Image:Infantry_Gloves.png|100px|alt=Infantry Gloves.png|Infantry Gloves|link=Template:Infantry_Gloves]]
+|[[Image:Infernal_Gloves.png|100px|alt=Infernal Gloves.png|Infernal Gloves|link=Template:Infernal_Gloves]]
+|[[Image:Judges_Gloves.png|100px|alt=Judge's Gloves.png|Judge's Gloves|link=Template:Judges_Gloves]]
+|[[Image:Mages_Gloves.png|100px|alt=Mage's Gloves.png|Mage's Gloves|link=Template:Mages_Gloves]]
+|-
+|[[Image:Magic_Frost_Gloves.png|100px|alt=Magic Frost Gloves.png|Magic Frost Gloves|link=Template:Magic_Frost_Gloves]]
+|[[Image:Massacre_Gloves.png|100px|alt=Massacre Gloves.png|Massacre Gloves|link=Template:Massacre_Gloves]]
+|[[Image:Mercenary_Captains_Steel_Gloves.png|100px|alt=Mercenary Captain's Steel Gloves.png|Mercenary Captain's Steel Gloves|link=Template:Mercenary_Captains_Steel_Gloves]]
+|[[Image:Minervas_Gloves.png|100px|alt=Minerva's Gloves.png|Minerva's Gloves|link=Template:Minervas_Gloves]]
+|[[Image:Monarchs_Gloves.png|100px|alt=Monarch's Gloves.png|Monarch's Gloves|link=Template:Monarchs_Gloves]]
+|-
+|[[Image:Nightmare_Gloves.png|100px|alt=Nightmare Gloves.png|Nightmare Gloves|link=Template:Nightmare_Gloves]]
+|[[Image:Phantom_Gloves.png|100px|alt=Phantom Gloves.png|Phantom Gloves|link=Template:Phantom_Gloves]]
+|[[Image:Pilgrim_Gloves.png|100px|alt=Pilgrim's Gloves.png|Pilgrim's Gloves|link=Template:Pilgrims_Gloves]]
+|[[Image:Pirates_Gloves.png|100px|alt=Pirate's Gloves.png|Pirate's Gloves|link=Template:Pirates_Gloves]]
+|[[Image:Predator_Gloves.png|100px|alt=Predator Gloves.png|Predator Gloves|link=Template:Predator_Gloves]]
+|-
+|[[Image:Protectors_Divine_Gloves.png|100px|alt=Protector's Divine Gloves.png|Protector's Divine Gloves|link=Template:Protectors_Divine_Gloves]]
+|[[Image:Red_Knights_Gloves.png|100px|alt=Red Knight's Gloves.png|Red Knight's Gloves|link=Template:Red_Knights_Gloves]]
+|[[Image:Spirit_Gloves.png|100px|alt=Spirit Gloves.png|Spirit Gloves|link=Template:Spirit_Gloves]]
+|[[Image:Sorcerers_Gloves.png|100px|alt=Sorcerer's Gloves.png|Sorcerer's Gloves|link=Template:Sorcerers_Gloves]]
+|[[Image:Spirit_Mages_Gloves.png|100px|alt=Spirit Mage's Gloves.png|Spirit Mage's Gloves|link=Template:Spirit_Mages_Gloves]]
+|-
+|[[Image:Steel_Knuckles.png|100px|alt=Steel Knuckles.png|Steel Knuckles|link=Template:Steel_Knuckles]]
+|[[Image:Steel_Knuckles_of_the_Pegasus.png|100px|alt=Steel Knuckles of the Pegasus.png|Steel Knuckles of the Pegasus|link=Template:Steel_Knuckles_of_the_Pegasus]]
+|[[Image:Storm_Gloves.png|100px|alt=Storm Gloves.png|Storm Gloves|link=Template:Storm_Gloves]]
+|[[Image:Sylphic_Gloves.png|100px|alt=Sylphic Gloves.png|Sylphic Gloves|link=Template:Sylphic_Gloves]]
+|[[Image:Technicians_Gloves.png|100px|alt=Technician's Gloves.png|Technician's Gloves|link=Template:Technicians_Gloves]]
+|-
+|[[Image:Trackers_Chain_Gloves.png|100px|alt=Tracker's Chain Gloves.png|Tracker's Chain Gloves|link=Template:Trackers_Chain_Gloves]]
+|[[Image:Wind_Gloves.png|100px|alt=Wind Gloves.png|Wind Gloves|link=Template:Wind_Gloves]]
+|}
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------->
+|-|Ring=&nbsp;[[Image:Ring_Tab.png|125px|link=]]
+{| style="background-color:#1D365F; width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Dismantled_Ring.png|100px|alt=Dismantled Ring.png|Dismantled Ring|link=Template:Dismantled_Ring]]
+|[[Image:Endurance_Ring.png|100px|alt=Endurance Ring.png|Endurance Ring|link=Template:Endurance_Ring]]
+|[[Image:Enhanced_Dismantled_Ring.png|100px|alt=Enhanced Dismantled Ring.png|Enhanced Dismantled Ring|link=Template:Enhanced_Dismantled_Ring]]
+|[[Image:Enhanced_Endurance_Ring.png|100px|alt=Enhanced Endurance Ring.png|Enhanced Endurance Ring|link=Template:Enhanced_Endurance_Ring]]
+|[[Image:Enhanced_Exorcists_Ring.png|100px|alt=Enhanced Exorcist's Ring.png|Enhanced Exorcist's Ring|link=Template:Enhanced_Exorcists_Ring]]
+|-
+|[[Image:Enhanced_Explosion_Ring.png|100px|alt=Enhanced Explosion Ring.png|Enhanced Explosion Ring|link=Template:Enhanced_Explosion_Ring]]
+|[[Image:Enhanced_Focus_Ring.png|100px|alt=Enhanced Focus Ring.png|Enhanced Focus Ring|link=Template:Enhanced_Focus_Ring]]
+|[[Image:Enhanced_Fog_Ring.png|100px|alt=Enhanced Fog Ring.png|Enhanced Fog Ring|link=Template:Enhanced_Fog_Ring]]
+|[[Image:Enhanced_Mirage_Ring.png|100px|alt=Enhanced Mirage Ring.png|Enhanced Mirage Ring|link=Template:Enhanced_Mirage_Ring]]
+|[[Image:Enhanced_Resistance_Ring.png|100px|alt=Enhanced Resistance Ring.png|Enhanced Resistance Ring|link=Template:Enhanced_Resistance_Ring]]
+|-
+|[[Image:Enhanced_Ring_of_Aiming.png|100px|alt=Enhanced Ring of Aiming.png|Enhanced Ring of Aiming|link=Template:Enhanced_Ring_of_Aiming]]
+|[[Image:Enhanced_Ring_of_Madness.png|100px|alt=Enhanced Ring of Madness.png|Enhanced Ring of Madness|link=Template:Enhanced_Ring_of_Madness]]
+|[[Image:Exorcists_Ring.png|100px|alt=Exorcist's Ring.png|Exorcist's Ring|link=Template:Exorcists_Ring]]
+|[[Image:Explosion_Ring.png|100px|alt=Explosion Ring.png|Explosion Ring|link=Template:Explosion_Ring]]
+|[[Image:Focus_Ring.png|100px|alt=Focus Ring.png|Focus Ring|link=Template:Focus_Ring]]
+|-
+|[[Image:Fog_Ring.png|100px|alt=Fog Ring.png|Fog Ring|link=Template:Fog_Ring]]
+|[[Image:Mirage_Ring.png|100px|alt=Mirage Ring.png|Mirage Ring|link=Template:Mirage_Ring]]
+|[[Image:Resistance_Ring.png|100px|alt=Resistance Ring.png|Resistance Ring|link=Template:Resistance_Ring]]
+|[[Image:Ring_of_Aiming.png|100px|alt=Ring of Aiming.png|Ring of Aiming|link=Template:Ring_of_Aiming]]
+|[[Image:Ring_of_Madness.png|100px|alt=Ring of Madness.png|Ring of Madness|link=Template:Ring_of_Madness]]
+|-
+|[[Image:Ring_of_Protection.png|100px|alt=Ring of Protection.png|Ring of Protection|link=Template:Ring_of_Protection]]
+|}
+<!--------------------------------------------------------------------------------------------------------------------------------------------------------------->
+|-|Necklace=&nbsp;[[Image:Necklace_Tab.png|125px|link=]]
+{| style="background-color:#1D365F; width:auto;" align="center"
+|- style="text-align:center;"
+|-
+|[[Image:Dismantled_Necklace.png|100px|alt=Dismantled Necklace.png|Dismantled Necklace|link=Template:Dismantled_Necklace]]
+|[[Image:Endurance_Necklace.png|100px|alt=Endurance Necklace.png|Endurance Necklace|link=Template:Endurance_Necklace]]
+|[[Image:Enhanced_Dismantled_Necklace.png|100px|alt=Enhanced Dismantled Necklace.png|Enhanced Dismantled Necklace|link=Template:Enhanced_Dismantled_Necklace]]
+|[[Image:Enhanced_Endurance_Necklace.png|100px|alt=Enhanced Endurance Necklace.png|Enhanced Endurance Necklace|link=Template:Enhanced_Endurance_Necklace]]
+|[[Image:Enhanced_Exorcists_Necklace.png|100px|alt=Enhanced Exorcist's Necklace.png|Enhanced Exorcist's Necklace|link=Template:Enhanced_Exorcists_Necklace]]
+|-
+|[[Image:Enhanced_Explosion_Necklace.png|100px|alt=Enhanced Explosion Necklace.png|Enhanced Explosion Necklace|link=Template:Enhanced_Explosion_Necklace]]
+|[[Image:Enhanced_Focus_Necklace.png|100px|alt=Enhanced Focus Necklace.png|Enhanced Focus Necklace|link=Template:Enhanced_Focus_Necklace]]
+|[[Image:Enhanced_Fog_Necklace.png|100px|alt=Enhanced Fog Necklace.png|Enhanced Fog Necklace|link=Template:Enhanced_Fog_Necklace]]
+|[[Image:Enhanced_Mirage_Necklace.png|100px|alt=Enhanced Mirage Necklace.png|Enhanced Mirage Necklace|link=Template:Enhanced_Mirage_Necklace]]
+|[[Image:Enhanced_Necklace_of_Aiming.png|100px|alt=Enhanced Necklace of Aiming.png|Enhanced Necklace of Aiming|link=Template:Enhanced_Necklace_of_Aiming]]
+|-
+|[[Image:Enhanced_Necklace_of_Madness.png|100px|alt=Enhanced Necklace of Madness.png|Enhanced Necklace of Madness|link=Template:Enhanced_Necklace_of_Madness]]
+|[[Image:Enhanced_Resistance_Necklace.png|100px|alt=Enhanced Resistance Necklace.png|Enhanced Resistance Necklace|link=Template:Enhanced_Resistance_Necklace]]
+|[[Image:Exorcists_Necklace.png|100px|alt=Exorcist's Necklace.png|Exorcist's Necklace|link=Template:Exorcists_Necklace]]
+|[[Image:Explosion_Necklace.png|100px|alt=Explosion Necklace.png|Explosion Necklace|link=Template:Explosion_Necklace]]
+|[[Image:Focus_Necklace.png|100px|alt=Focus Necklace.png|Focus Necklace|link=Template:Focus_Necklace]]
+|-
+|[[Image:Fog_Necklace.png|100px|alt=Fog Necklace.png|Fog Necklace|link=Template:Fog_Necklace]]
+|[[Image:Mirage_Necklace.png|100px|alt=Mirage Necklace.png|Mirage Necklace|link=Template:Mirage_Necklace]]
+|[[Image:Necklace_of_Aiming.png|100px|alt=Necklace of Aiming.png|Necklace of Aiming|link=Template:Necklace_of_Aiming]]
+|[[Image:Necklace_of_Madness.png|100px|alt=Necklace of Madness.png|Necklace of Madness|link=Template:Necklace_of_Madness]]
+|[[Image:Necklace_of_Protection.png|100px|alt=Necklace of Protection.png|Necklace of Protection|link=Template:Necklace_of_Protection]]
+|-
+|[[Image:Resistance_Necklace.png|100px|alt=Resistance Necklace.png|Resistance Necklace|link=Template:Resistance_Necklace]]
+|}
+</tabber>
+|}

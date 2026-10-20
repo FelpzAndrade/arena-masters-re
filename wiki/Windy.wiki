@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Windy.png]]
+|class=Support
+|type=Ranged
+|rating=11,852
+|obtained=Tutorial<br />or<br/>200,000 [[File:gold.png|20x20px|link=]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=72,000
+|physdef=3,600
+|magdef=3,600
+|physdefrate=5%
+|magdefrate=5%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=6.8
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Precise Aim (20s CD)
+|passiveskill1desc=Upon hit, triggers the Dead Shot Effect, which increases PHYS ATK by 10% and ACCY by 20% for 2 sec.
+|attackskill=Giant Crossbow
+|attackskilldesc=Shoot a crossbow at the enemy.  DMG 100%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly.  When using a skill, you can dodge enemy's attack.
+|skilla=Precise Shot (3.5s CD)
+|skilladesc=Take aim and fire at the enemy.  DMG to enemy increases upon hit.  DMG 550%
+|skillb=Retreating Shot (10s CD)
+|skillbdesc=Fire 3 arrows in a cone shape as you dash backwards.  When using a skill, CD for Precise Shot resets.  DMG 180% x3
+|skillc=Exploding Trap (10s CD)
+|skillbcdesc=Install an exploding trap that knocks enemies Unconcious for 1.25 sec when stepped on.  DMG 200%
+|ultimateskill=Rapid Fire
+|ultimateskilldesc=Rain a storm of arrows to deal DMG over 5 times.  DMG 570% x5
+}}
+[[Category:Hero]]

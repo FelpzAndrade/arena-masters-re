@@ -1,0 +1,13 @@
+{{Relic
+|name=Invisibility Potion
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Invisibility_Potion.png|150x150px|link=]]
+|lore=A mysterious magic potion, the recipe of which is known by only a select few individuals.  Drink it to temporarily become invisible to enemies.
+|relicskillname=Temporary Invisibility
+|relicCD=30
+|relicskilldesc=Temporarily makes you invisible to enemies.  Visibility returns if you are attacked.
+|reliceffect=Invisibility Duration <font color="yellow">1.5 sec</font>
+|reliceffect2=Invisibility Duration <font color="yellow">1.75 sec</font>
+}}
+[[Category:Relic]]

@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 2-1 Team Deathmatch 3rd Preliminary
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 2-2 Mark of Courage 3
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 2-3 Quranbas Forest Reconnaissance
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 2-4 Magical Reagents
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 2-5 King of the Hill 1st Preliminary
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 2-6 Mark of Courage 4
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 2-7 A Not-So-Boaring Hunt
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 2-8 Mark of Courage 5
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 2-9 Deathmatch 3rd Preliminary
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 2-10 Werewolf Extermination
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 2-11 BeoBear's Snack Attack
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

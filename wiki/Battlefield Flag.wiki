@@ -1,0 +1,13 @@
+{{Relic
+|name=Battlefield Flag
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Battlefield_Flag.png|150x150px|link=]]
+|lore=A flag that was once used in the Liberation War.  Embedded with the energy of the battlefield, it inspires everybody around it.
+|relicskillname=Battle Flag
+|relicCD=45
+|relicskilldesc=Plant a flag that increases nearby allies' DMG to enemies for 8 sec.
+|reliceffect=DMG Increase <font color="yellow">5%</font>
+|reliceffect2=DMG Increase <font color="yellow">7.5%</font>
+}}
+[[Category:Relic]]

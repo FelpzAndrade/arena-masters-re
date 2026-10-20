@@ -1,0 +1,13 @@
+{{Relic
+|name=Magical Engineer's Land Mine
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Magical_Engineers_Land_Mine.png|150x150px|link=]]
+|lore=A land mine crafted at the Windmill Workshop.  Plant it on the ground and it will explode when an enemy gets too close, knocking them Unconscious.
+|relicskillname=Land Mine
+|relicCD=30
+|relicskilldesc=Install an exploding trap that deals DMG and temporarily knocks enemies Unconscious when stepped on.
+|reliceffect=DMG <font color="yellow">100%</font>, Unconscious <font color="yellow">1 sec</font>
+|reliceffect2=DMG <font color="yellow">125%</font>, Unconscious <font color="yellow">1.125 sec</font>
+}}
+[[Category:Relic]]

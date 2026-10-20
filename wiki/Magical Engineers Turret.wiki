@@ -1,0 +1,13 @@
+{{Relic
+|name=Magical Engineer's Turret
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Magical_Engineers_Turret.png|150x150px|link=]]
+|lore=A boardable turret installed on the floor to lay down suppressive fire at long distances.  It looks like it might be a recycled military turret from some old war.
+|relicskillname=Install Turret
+|relicCD=55
+|relicskilldesc=Install the Magical Engineer's Turret, which performs ranged attacks and increases ATK.  You cannot move or be launched into the air when using the turret.
+|reliceffect=DMG Increase <font color="yellow">5%</font>
+|reliceffect2=DMG Increase <font color="yellow">10%</font>
+}}
+[[Category:Relic]]

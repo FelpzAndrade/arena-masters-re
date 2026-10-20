@@ -1,0 +1,13 @@
+{{Relic
+|name=Vampire Fang Talisman
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Vampire_Fang_Talisman.png|150x150px|link=]]
+|lore=A talisman crafted with the fangs of a vampire who was burned to death.  It still holds the vampire's dark power.
+|relicskillname=Bloodthirsty
+|relicCD=30
+|relicskilldesc=A strong thirst for blood takes over.  PHY DMG increase for 8 sec, and a portion of the DMG dealt is converted into HP when you deal a PHYS attack.
+|reliceffect=PHYS DMG Increase <font color="yellow">3%</font>, PHYS Absorbtion Rate <font color="yellow">0%</font>
+|reliceffect2=PHYS DMG Increase <font color="yellow">6%</font>, PHYS Absorbtion Rate <font color="yellow">0% (15% at lv3)</font>
+}}
+[[Category:Relic]]

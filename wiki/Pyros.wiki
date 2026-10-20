@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Pyros.png]]
+|class=
+|type=Melee
+|rating=
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=
+|magatk=
+|physpenrate=
+|magpenrate=
+|critrate=
+|critatk=
+|accuracy=
+<!-------->
+|maxhp=
+|physdef=
+|magdef=
+|physdefrate=
+|magdefrate=
+|critevaderate=
+|critdefrate=
+|evade=
+<!-------->
+|movespd=
+|rage=
+|tag=
+|skillcd=
+<!-------->
+|toughness=
+|weight=
+<!----Skill Descriptions Start---->
+|passiveskill=Berserker (3s CD)
+|passiveskill1desc=Increases Crit Rate by 7.5%.  Grants additional Rage for using an Ultimate Skill when you hit enemies with a Crit.
+|attackskill=Berserker's Broadsword
+|attackskilldesc=Swing a broadsword to attack enemies.  DMG 140%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Cuclone (4s CD)
+|skilladesc=Move forward while spinning your Broadsword to strike enemies 3 times.  DMG 260% x3
+|skillb=Broadsword Stab (8s CD)
+|skillbdesc=Stab the enemy with your broadsword to deal DMG and launch them into the air.  Triggers the Pierce Effect, which increases PHYS Penetration Rate by 10% for 5 sec.  DMG 300%
+|skillc=Roar of Madness (15s CD)
+|skillbcdesc=Let out a savage roar.  Triggers the Roar of Madness Effect, which increases nearby ally Crit Rate by 10% for 8 sec.  Also temporarily increases MOV SPD.
+|ultimateskill=Rage Cyclone
+|ultimateskilldesc=Spin a broadsword that strikes the enemy multiple times (2 times per sec).  Pierces the enemy, grants immunity to control Effects, and increases DEF Rate (10%.  DMG 440%
+}}
+[[Category:Hero]]

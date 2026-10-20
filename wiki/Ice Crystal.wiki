@@ -1,0 +1,13 @@
+{{Relic
+|name=Ice Crystal
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Ice_Crystal.png|150x150px|link=]]
+|lore=A crystal formed in the bitter cold of the snowy mountains.  Refined with magic power and used as an amulet that protects its owner.
+|relicskillname=Ice Shield
+|relicCD=50
+|relicskilldesc=Protect yourself from enemy attacks with a barrier of ice.  Temporarily increases DEF once the ice shatters.
+|reliceffect=Invincible Duration <font color="yellow">2 sec</font> DEF Rate <font color="yellow">2%</font>
+|reliceffect2=Invincible Duration <font color="yellow">2 sec</font> DEF Rate <font color="yellow">4%</font>
+}}
+[[Category:Relic]]

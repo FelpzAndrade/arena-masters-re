@@ -1,0 +1,13 @@
+{{Relic
+|name=Ice Queen's First Ring
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Ice_Queens_First_Ring.png|150x150px|link=]]
+|lore=The legendary ring that froze the entire kingdom when the queen lost control of her magic power.  A massive ice castle was constructed after she tamed the ring's power.
+|relicskillname=Ice Blockade
+|relicCD=30
+|relicskilldesc=Summon a temporary wall of ice that prevents enemies from entering the area.
+|reliceffect=Duration <font color="yellow">3 sec</font>
+|reliceffect2=Duration <font color="yellow">? sec</font>
+}}
+[[Category:Relic]]

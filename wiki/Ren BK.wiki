@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Ren.png]]
+|class=
+|type=Ranged
+|rating=
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=
+|magatk=
+|physpenrate=
+|magpenrate=
+|critrate=
+|critatk=
+|accuracy=
+<!-------->
+|maxhp=
+|physdef=
+|magdef=
+|physdefrate=
+|magdefrate=
+|critevaderate=
+|critdefrate=
+|evade=
+<!-------->
+|movespd=
+|rage=
+|tag=
+|skillcd=
+<!-------->
+|toughness=
+|weight=
+<!----Skill Descriptions Start---->
+|passiveskill=Magic Rush
+|passiveskill1desc=Triggers the Magic Stack Effect for 4 sec upon hit.  Triggers the Magic Rush Effect if stacked 3 times, which increases MAG DMG by 7.5% and Moving Speed by 30% for 3 sec.
+|attackskill=Exorcistic Talisman
+|attackskilldesc=Throw a talisman that deals DMG to enemies.  DMG 100%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Draw Talisman (2.5s CD)
+|skilladesc=Move forward and summon a talisman that temporarily enhances MAG DMG Increase (30%, 3 sec).
+|skillb=Talisman:  Squall (9s CD)
+|skillbdesc=Summon a magic blast.  Reduces target MOV SPD and pushes an adjacent enemy back.  DMG 440%
+|skillc=Talisman Blockade (5s CD)
+|skillbcdesc=Summon a blockade that charges forward.  Inflicts the Energy Reduction Effect (3 sec), which temporarily decreases DMG (-20%) and MOV SPD of enemies who make it through.  Increases your MOV SPD (20%, 1.5 sec).  DMG 530%
+|ultimateskill=Flame Blockade
+|ultimateskilldesc=Generate a circle of fire that pulls in enemies (8 sec).  Deals DMG to enemies and knocks them Unconscious (2 sec).  DMG 600%
+}}
+[[Category:Backup]]

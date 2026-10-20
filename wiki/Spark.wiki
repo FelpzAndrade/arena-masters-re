@@ -1,0 +1,48 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Spark.png]]
+|class=Attack
+|type=Ranged
+|rating=12,515
+|obtained=Event<br/>or<br/>1,000[[File:Gems.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=7.5%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=72,000
+|physdef=3,600
+|magdef=3,600
+|physdefrate=5%
+|magdefrate=5%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=7
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Electrocution
+|passiveskill1desc=Increases CRIT Rate by 7.5% and greatly decreases MOV SPD of targets struck by Penetrating Lightning, Thunderbolt, or Lightning Wave.
+|attackskill=Chaos Lightning
+|attackskilldesc=Fires red lightning straight ahead.  DMG 100%
+|moveskill=Dash (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Penetrating Lightning (3.5s CD)
+|skilladesc=Fires streaks of lightning straight ahead that pierce enemies and deal DMG.  DMG 440%
+|skillb=Thunderbolt (5s CD)
+|skillbdesc=Launches a bolt of lightning at the target area 3 times and increases your MOV SPD.  Receive the Power Charge effect (stacks up to 3 times), which increases MAG DMG by 10% for 4 sec when the skill has a target.  DMG 280% x3
+|skillc=Lightning Wave (10s CD)
+|skillbcdesc=Unleash waves of lightning that push enemies back.  Increases your MOV SPD.  DMG 260%
+|ultimateskill=Chaotic Rupture
+|ultimateskilldesc=Creates a Chaotic Rupture toward the front.  Nearby enemies are sucked into the center of the rupture where they receive continuous DMG (3.33 times per sec).  DMG 90%
+}}

@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Reina.png]]
+|class=Attack
+|type=Melee
+|rating=12,102
+|obtained=Tutorial
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=72,000
+|physdef=3,600
+|magdef=3,600
+|physdefrate=5%
+|magdefrate=5%
+|critevaderate=0%
+|critdefrate=0%
+|evade=7.5%
+<!-------->
+|movespd=7.4
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Blade Dancer
+|passiveskill1desc=Increases Evade Rate by 7.5%.  After a successful evasion, triggers the Blade Dancer Effect (stackable up to 4 times) for 4 sec, which increases your Crit Rate by 5%
+|attackskill=Swift Sword
+|attackskilldesc=Rapidly swing a sword to attack enemies.  DMG 110%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Blade Dance (4s CD)
+|skilladesc=Spin to attack nearby enemies twice.  Decreases CD (1sec) and triggers the Spinning Blade Effect (stacks up to 4 times, 5 sec), which increases PHYS ATK (7%) upon hit.  DMG 240% x2
+|skillb=Twin Blade Slash (CD 7s)
+|skillbdesc=Charge at enemies and slice them open with a sword to reduce their MOV SPD.  DMG 300%
+|skillc=Moonlight Strike (10s CD)
+|skillbcdesc=Throw a blade that pushes enemies back.  Allows you to dodge enemy attacks.  DMG 500%
+|ultimateskill=Spiral Slash
+|ultimateskilldesc=Gather energy to attack nearby enemies (5 times) and hit them into the air.  Enemy attacks can be evaded while you gather energy.  DMG 320% x5
+}}
+[[Category:Hero]]

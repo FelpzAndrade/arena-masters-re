@@ -1,0 +1,13 @@
+{{Relic
+|name=Cursed Staff
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Cursed_Staff.png|150x150px|link=]]
+|lore=A dirty, smelly staff used by the Bog Conjurers.  You don't want to know where it's been...
+|relicskillname=Hazardous Waste
+|relicCD=40
+|relicskilldesc=Drop a filthy clump of sewage on the target area.  Deals DMG equal to 1% of Max HP every 2 sec and reduces MOV SPD.
+|reliceffect=Duration <font color="yellow">2 sec</font>
+|reliceffect2=Duration <font color="yellow">? sec</font>
+}}
+[[Category:Relic]]

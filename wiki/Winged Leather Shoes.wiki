@@ -1,0 +1,13 @@
+{{Relic
+|name=Winged Leather Shoes
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Winged_Leather_Shoes.png|150x150px|link=]]
+|lore=Old leather shoes decorated with the feathers of a Pegasus.  Legend has it that the wearer of the shoes can soar through the skies.
+|relicskillname=Pegasus Wings
+|relicCD=20
+|relicskilldesc=Moving speed increases for 1 sec, then gradually decreases.  When decreasing, it does not have much effect.
+|reliceffect=Moving Speed <font color="yellow">30%</font>
+|reliceffect2=Moving Speed <font color="yellow">?%</font>
+}}
+[[Category:Relic]]

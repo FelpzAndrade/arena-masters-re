@@ -1,0 +1,341 @@
+// Fatia 3: nucleo de combate - atributos (CharStatus/CharStatusAttr) e formula de dano (XCalculator).
+// Fonte: decomp/calc_clean.c, decomp/stat_clean.c, decomp/calcdeps_out.c (exportacao em massa do Ghidra).
+// Constantes lidas do binario: DiceRate de acerto/critico multiplica por 100.0 (DAT_01aab270/DAT_01aaba34).
+
+//@file Assembly-CSharp/CS/CharStatusAttr.cs
+//@body 0x23EA2D4
+{
+	value = 0f;
+	ratio = 0f;
+	multiplier = 1f;
+}
+//@body 0x23E9868
+{
+	value = 0f;
+	ratio = 0f;
+	multiplier = 1f;
+}
+//@body 0x23E96AC
+{
+	return value != 0f || ratio != 0f || multiplier != 1f;
+}
+//@body 0x23EA300
+{
+	return ratio != 0f;
+}
+//@body 0x23EA318
+{
+	return multiplier != 1f;
+}
+//@body 0x23EA334
+{
+	return value != 0f;
+}
+//@body 0x23EA34C
+{
+	if (value != 0f)
+	{
+		return value;
+	}
+	if (ratio != 0f)
+	{
+		return ratio;
+	}
+	return multiplier;
+}
+//@body 0x23EA374
+{
+	if (value != 0f)
+	{
+		return value;
+	}
+	if (ratio != 0f)
+	{
+		return ratio;
+	}
+	return multiplier - 1f;
+}
+//@body 0x23EA3A4
+{
+	if (multiplier != 0f)
+	{
+		return multiplier;
+	}
+	if (value != 0f)
+	{
+		return value;
+	}
+	return ratio;
+}
+//@body 0x23E9A14
+{
+	return value == 0f && ratio == 0f && multiplier == 1f;
+}
+//@body 0x23EA3CC
+{
+	return value == 0f && ratio == 0f && multiplier == 0f;
+}
+//@body 0x23EA40C
+{
+	return multiplier * value * (ratio + 1f);
+}
+//@body 0x23EA430
+{
+	value = other.value;
+	ratio = other.ratio;
+	multiplier = other.multiplier;
+}
+//@body 0x23E9E5C
+{
+	ratio += other.ratio * multiply;
+	value += other.value * multiply;
+	multiplier += (other.multiplier - 1f) * multiply;
+}
+
+//@file Assembly-CSharp/CS/CharStatus.cs
+//@using System.Linq
+//@using System.Reflection
+//@body 0x23E915C
+{
+	return m_attrs;
+}
+//@body 0x23E87F8
+{
+	// cada campo CharStatusAttr e criado por reflexao e indexado pelo hash do nome
+	m_attrs = new Dictionary<int, CharStatusAttr>();
+	foreach (FieldInfo field in m_charStatusAttrfields)
+	{
+		CharStatusAttr attr = (CharStatusAttr)Activator.CreateInstance(field.FieldType);
+		field.SetValue(this, attr);
+		m_attrs.Add(field.Name.GetHashCode(), attr);
+	}
+}
+//@body 0x23E8AF0
+{
+	StatDesc = new Dictionary<int, StatDesc>();
+	HashCodeToString = new Dictionary<int, string>();
+	m_charStatusAttrfields = new List<FieldInfo>();
+	foreach (FieldInfo field in typeof(CharStatus).GetFields())
+	{
+		if (field.FieldType != typeof(CharStatusAttr))
+		{
+			continue;
+		}
+		m_charStatusAttrfields.Add(field);
+		HashCodeToString[field.Name.GetHashCode()] = field.Name;
+		// StatDesc vem de atributos customizados nos campos, que o IL2CPP nao preserva com argumentos
+	}
+}
+//@body 0x23E9164
+{
+	return m_attrs[hashcode];
+}
+//@body 0x23E96F0
+{
+	foreach (KeyValuePair<int, CharStatusAttr> pair in m_attrs)
+	{
+		pair.Value.Clear();
+	}
+}
+//@body 0x23E9880
+{
+	foreach (KeyValuePair<int, CharStatusAttr> pair in m_attrs)
+	{
+		if (!pair.Value.IsEmpty())
+		{
+			return false;
+		}
+	}
+	return true;
+}
+//@body 0x23E9A58
+{
+	// o original mescla os 40 campos em sequencia; a ordem nao altera o resultado
+	if (rhs == null)
+	{
+		return;
+	}
+	foreach (FieldInfo field in m_charStatusAttrfields)
+	{
+		((CharStatusAttr)field.GetValue(this)).Merge((CharStatusAttr)field.GetValue(rhs), multiply);
+	}
+}
+//@body 0x23E9EC0
+{
+	foreach (KeyValuePair<int, CharStatusAttr> pair in m_attrs)
+	{
+		pair.Value.Set(rhs.GetAttr(pair.Key));
+	}
+}
+//@body 0x23EA098
+{
+	Clear();
+}
+//@body 0x23EA09C
+{
+	ObjectRepository<CharStatus>.Release(this);
+}
+//@body 0x23EA15C
+{
+	return ObjectRepository<CharStatus>.New();
+}
+//@body 0x23EA214
+{
+	ObjectRepository<CharStatus>.Release(status);
+}
+
+//@file Assembly-CSharp/XHelper.cs
+//@body 0x1D1A7FC
+{
+	return UnityEngine.Random.Range(1, 101) <= nRate;
+}
+//@body 0x1D1A830
+{
+	return UnityEngine.Random.Range(0f, 100f) <= fDice;
+}
+
+//@file Assembly-CSharp/XCalculator.cs
+//@using System
+//@using UnityEngine
+//@body 0x1A9CF30
+{
+	gameModeDamageMod = 1f;
+}
+//@body 0x1A9B27C
+{
+	CharStatus modifier = CharStatus.New();
+	if (skillInfo == null || attacker == null)
+	{
+		return modifier;
+	}
+	modifier.Merge(attacker.Status, 1f);
+	modifier.Merge(skillInfo, 1f);
+	XModuleActor.CharacterStatus original = attacker.OriginalStatus;
+	if (original == null || original.SkillSpecialized == null)
+	{
+		return modifier;
+	}
+	// especializacao de skill so vale nos modos que a habilitam
+	GameModeInstanceInfo instanceInfo = XGlobal.GameData.GameModeInstanceInfo;
+	Room room = XGlobal.PhotonManager.instance.room;
+	if (!XGameHelper.UseSkillSpecialize(instanceInfo, room))
+	{
+		return modifier;
+	}
+	XGlobal.proto.SkillSpecialization.MergeTotalSpecializeStatusGrowth_Skill(modifier, skillInfo, attacker.OriginalStatus.SkillSpecialized);
+	return modifier;
+}
+//@body 0x1A9CA94
+{
+	XModuleActor.CharacterStatus original = attacker.OriginalStatus;
+	if (original.SkillSpecialized == null)
+	{
+		return 0f;
+	}
+	return XGlobal.proto.SkillSpecialization.GetTotalDamageRatio(skillInfo, attacker.OriginalStatus.SkillSpecialized, (SpecializeType)0);
+}
+//@body 0x1A9AF88
+{
+	CharStatus modifier = param.MakeAttackerSkillModifier();
+	float accuracy = param.attacker == null ? 1f : modifier.Accuracy.Calc() + 1f;
+	float agility = param.victim.Status.Agility.Calc();
+	bool hit = XHelper.DiceRate((accuracy - agility) * 100f);
+	modifier?.Dispose();
+	return hit;
+}
+//@body 0x1A9B740
+{
+	if (param.attacker == null)
+	{
+		return false;
+	}
+	CharStatus modifier = param.MakeAttackerSkillModifier();
+	float critical = modifier.Critical.Calc();
+	float flexibility = param.victim.Status.Flexibility.Calc();
+	bool result = XHelper.DiceRate((critical - flexibility) * 100f);
+	modifier?.Dispose();
+	return result;
+}
+//@body 0x1A9BA40
+{
+	CharStatus modifier = param.MakeAttackerSkillModifier();
+	float criticalDamage = param.attacker == null ? 2f : modifier.CriticalDamage.Calc() + 2f;
+	float defense = param.victim.Status.CriticalDamageDefense.Calc();
+	float ratio = Mathf.Max(criticalDamage - defense, 0f);
+	modifier?.Dispose();
+	return Mathf.Max(minCriticaDamage, ratio);
+}
+//@body 0x1A9BD70
+{
+	return (int)(actor.FinalMaxHP * healPercent);
+}
+//@body 0x1A9BDB8
+{
+	pureAttackDmg = 0f;
+	CSSkillInfo skill = param.skillInfo;
+	if (skill.damageRatio == 0f || param.attacker == null)
+	{
+		return 0;
+	}
+	CharStatus modifier = param.MakeAttackerSkillModifier();
+	float defenseOnDeathsDoor = param.victim.Status.AmplyDefenseOnDeathsDoor.Calc();
+	float damageOnDeathsDoor = param.attacker.Status.AmplyDamageOnDeathsDoor.Calc();
+	float attack;
+	float amp;
+	float defense;
+	float penetration;
+	float fixedDefense;
+	int result = 0;
+	switch (skill.DamageType)
+	{
+		case (SkillDamageTypes)1:
+			attack = modifier.PhysicalDamage.Calc();
+			amp = modifier.PhysicalDamageAmp.Calc();
+			defense = param.victim.Status.PhysicalDefense.Calc();
+			penetration = modifier.PhysicalPenetration.Calc();
+			fixedDefense = param.victim.Status.PhysicalDefense_Fix.Calc();
+			break;
+		case (SkillDamageTypes)2:
+			attack = modifier.MagicalDamage.Calc();
+			amp = modifier.MagicalDamageAmp.Calc();
+			defense = param.victim.Status.MagicalDefense.Calc();
+			penetration = modifier.MagicalPenetration.Calc();
+			fixedDefense = param.victim.Status.MagicalDefense_Fix.Calc();
+			break;
+		default:
+			CSLog.Error("invalid skill damage type : " + skill.DamageType + " / " + skill.nID);
+			modifier?.Dispose();
+			return 0;
+	}
+	// alvo "a beira da morte": soma os bonus de defesa (alvo) e de dano (atacante)
+	if (param.victim.IsDeathDoor())
+	{
+		defense = defenseOnDeathsDoor + defense;
+		amp = damageOnDeathsDoor + amp;
+	}
+	pureAttackDmg = attack;
+	float totalDamageRatio = param.GetTotalDamageRatio();
+	if (pureAttackDmg != 0f)
+	{
+		float defenseRate = Math.Min(0.8f, Math.Max(0f, defense - penetration));
+		// o ARM (VFP) arredonda cada operacao para float; os casts reproduzem o resultado bit a bit
+		float damage = (float)((float)((float)((float)(totalDamageRatio + skill.damageRatio) * (float)(attack - (float)(fixedDefense * correctFactor))) * (float)(amp + 1f)) * (float)(1f - defenseRate));
+		damage = (float)(damage * param.gameModeDamageMod);
+		result = damage > 0f ? (int)damage : 1;
+	}
+	modifier?.Dispose();
+	return result;
+}
+//@body 0x1A9CD08
+{
+	return Math.Min(200f, (1f - fToughness) * fTime);
+}
+//@body 0x1A9CD34
+{
+	float time = Math.Min(20f, (fWeight / -10f + 2f) * fHeight) / XGameConst.AIRBORNE_SPEED;
+	return time + time;
+}
+//@body 0x1A9CE34
+{
+	return Math.Min(50f, (fWeight / -10f + 2f) * fDistance) / XGameConst.KNOCKBACK_SPEED;
+}

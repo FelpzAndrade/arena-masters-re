@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 3-1 A Ghostly Ship Appears
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 3-2 Deathmatch 4th Preliminary
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 3-3 Team Deathmatch 4th Preliminary
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 3-4 Mark of Courage 6
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 3-5 Cursed Jar
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 3-6 Mark of Courage 7
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 3-7 King of the Hill 2nd Preliminary
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 3-8 Mark of Courage 8
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 3-9 Foolhardy Exploration
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 3-10 Mage of the Ghost Ship
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 3-11 Request Help
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

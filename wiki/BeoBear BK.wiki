@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:BeoBear.png]]
+|class=Tank
+|type=Melee
+|rating=13,508
+|obtained=Tutorial<br />or<br />200,000 [[File:gold.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=83,160
+|physdef=3,600
+|magdef=3,600
+|physdefrate=22.5%
+|magdefrate=22.5%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=6.6
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=11
+<!----Skill Descriptions Start---->
+|passiveskill=Bearskin
+|passiveskill1desc=DEF Rate increases by 2.5%, and Max SP increases by 5%.
+|attackskill=Steel-Fisted Werebear
+|attackskilldesc=Use fists of steel to attack the enemy.  DMG 130%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Spinning Advance (3s CD)
+|skilladesc=Spin forward and hit the enemy 3 times.  DMG 200% x3
+|skillb=Ground Roll (10s CD)
+|skillbdesc=Tumble on the ground until you hit an enemy.  MOV SPD is temporarily reduced, then gradually increases.  While tumbling, DEF Rate increases by 15%.  Hitting an enemy triggers the Bestial Strength Effect, which increases DMG by 20% and pushes enemies.  DMG 420%
+|skillc=Leap (6s CD)
+|skillbcdesc=Jump forward and strike the ground.  Temporarily decreases the target's MOV SPD.  DMG 420%
+|ultimateskill=Ground Strike
+|ultimateskilldesc=Gather energy in your right hand and strike the ground, sending out a shockwave that knocks the target Unconcious for 2.5sec.  DMG 900%
+}}
+[[Category:Backup]]

@@ -1,0 +1,49 @@
+{{Character
+<!----Portrait Start---->
+|image=[[File:Freddy.png]]
+|class=Tank
+|type=Melee
+|rating=13,108
+|obtained=1,000 [[File:gems.png]]
+<!----Statistics Start---->
+|physatk=3,200
+|magatk=3,200
+|physpenrate=0%
+|magpenrate=0%
+|critrate=0%
+|critatk=0%
+|accuracy=0%
+<!-------->
+|maxhp=80,640
+|physdef=3,600
+|magdef=3,600
+|physdefrate=20%
+|magdefrate=20%
+|critevaderate=0%
+|critdefrate=0%
+|evade=0%
+<!-------->
+|movespd=6.6
+|rage=10,000
+|tag=12s
+|skillcd=0%
+<!-------->
+|toughness=0%
+|weight=10
+<!----Skill Descriptions Start---->
+|passiveskill=Bloddy Saw (2s CD)
+|passiveskill1desc=Triggers the Bloodthirts Effect for 5 sec upon hit.  If stacked 4 times, triggers an HP Absorb Effect, which restores some HP for every attack you deliver over 8 sec.  Also reduces the CD of Saw Snatch by 1 sec when you get hit.
+|attackskill=Saw Slash
+|attackskilldesc=Swing a spinning saw to attack enemies.  DMG 150%
+|moveskill=Roll (4s CD)
+|moveskilldesc=Move forward quickly while evading enemy attacks.
+|skilla=Saw Snatch (7s CD)
+|skilladesc=Reach out with your saw and drag a target towards you.  Decreases dragged enemy's PHYS DMG by -15% and reduces MOV SPD for 1.5 sec.  Additionally triggers a barrier that absorbs DMG by 8% of Max HP for 3 sec.  DMG 250%
+|skillb=Spinning Saw (3s CD)
+|skillbdesc=Thrust a spinning saw to deal continuous DMG (4 times per sec).  Reduces MOV SPD of struck enemies.  DMG 120%
+|skillc=Saw Sunder Slash (8s CD)
+|skillbcdesc=Spin in place with a saw.  Pushes enemies back and increases DEF by 15% for 1.5 sec after skill use.  DMG 560%
+|ultimateskill=Bloody Frenzy
+|ultimateskilldesc=Grants immunity to Control Effects and increases MOV SPD.  Increases PHYS DMG by 30% and HP Absorb Rate by 50% for 5 sec.  Effect is removed after Tagging.
+}}
+[[Category:Backup]]

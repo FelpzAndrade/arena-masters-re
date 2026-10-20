@@ -1,0 +1,13 @@
+{{Relic
+|name=Hailstorm Staff
+|atrcolor=cyan
+|attribute=MAG
+|image=[[Image:Hailstorm_Staff.png|150x150px|link=]]
+|lore=A magic staff used by Sky Garden mages.  It has the power to summon a hailstorm.
+|relicskillname=Ice Storm
+|relicCD=30
+|relicskilldesc=Summon a slowly moving ice storm that deals MAG DMG to all enemies in its path and decreases their MOV SPD.
+|reliceffect=DMG <font color="yellow">100%</font>, Slow Duration <font color="yellow">2 sec</font>, Moving Speed <font color="yellow">-30%</font>
+|reliceffect2=DMG <font color="yellow">125%</font>, Slow Duration <font color="yellow">2.125 sec</font>, Moving Speed <font color="yellow">-?%</font>
+}}
+[[Category:Relic]]

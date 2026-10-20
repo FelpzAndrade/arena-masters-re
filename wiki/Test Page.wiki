@@ -1,0 +1,65 @@
+{|style="background-color:transparent; border:none; " align="center"
+|-
+  | width="15%" |
+  | width="70%" |
+    {{
+      {{#switch:{{{Relic_Fetch|}}}
+      | Elijahs_Chalice = Elijahs_Chalice
+      | Steel_Knights_Shield = Steel_Knights_Shield
+      | Barbaric_Warriors_Bugle = Barbaric_Warriors_Bugle
+      | Ice_Crystal = Ice_Crystal
+      | Jungle_Hunters_Bolas = Jungle_Hunters_Bolas
+      | Winged_Leather_Shoes = Winged_Leather_Shoes
+      | Fairy_Dust_Pouch = Fairy_Dust_Pouch
+      | Royal_Knights_Charm = Royal_Knights_Charm
+      | Vampire_Fang_Talisman = Vampire_Fang_Talisman
+      | Magical_Engineers_Land_Mine = Magical_Engineers_Land_Mine
+      | Vampire_Skull = Vampire_Skull
+      | Battlefield_Flag = Battlefield_Flag
+      | Magical_Engineers_Booster = Magical_Engineers_Booster
+      | Invisibility_Potion = Invisibility_Potion
+      | Invisibility_Cloak = Invisibility_Cloak
+      | Hailstorm_Staff = Hailstorm_Staff
+      | Wind_Spirit_Bottle = Wind_Spirit_Bottle
+      | Ice_Queens_First_Ring = Ice_Queens_First_Ring
+      | Totem_of_Madness = Totem_of_Madness
+      | Cursed_Staff = Cursed_Staff
+      | Hercheys_Chocolate_Milk = Hercheys_Chocolate_Milk
+      | Bog_Conjurers_Amulet = Bog_Conjurers_Amulet
+      | Magical_Engineers_Turret = Magical_Engineers_Turret
+      | Ice_Queens_Second_Ring = Ice_Queens_Second_Ring
+      | #default = Elijahs_Chalice
+      }}
+    }}
+  | width="15%" |
+|}
+
+{| style="background-color:#fff; border:1px solid #fff; width:auto;" align="center"
+|-
+|[[Image:Elijahs_Chalice.png|100px|alt=Alt text|Elijah's Chalice|link=Template:Elijahs_Chalice]]
+|[[Image:Steel_Knights_Shield.png|100px|alt=Alt text|Steel Knight's Shield|link=Template:Steel_Knights_Shield]]
+|[[Image:Barbaric_Warriors_Bugle.png|100px|alt=Alt text|Barbaric Warrior's Bugle|link=Template:Barbaric_Warriors_Bugle]]
+|[[Image:Ice_Crystal.png|100px|alt=Alt text|Ice Crystal|link=Template:Ice_Crystal]]
+|[[Image:Jungle_Hunters_Bolas.png|100px|alt=Alt text|Jungle Hunter's Bolas|link=Template:Jungle_Hunters_Bolas]]
+|[[Image:Winged_Leather_Shoes.png|100px|alt=Alt text|Winged Leather Shoes|link=Template:Winged_Leather_Shoes]]
+|[[Image:Fairy_Dust_Pouch.png|100px|alt=Alt text|Fairy Dust Pouch|link=Template:Fairy_Dust_Pouch]]
+|[[Image:Royal_Knights_Charm.png|100px|alt=Alt text|Royal Knight's Charm|link=Template:Royal_Knights_Charm]]
+|-
+|[[Image:Vampire_Fang_Talisman.png|100px|alt=Alt text|Vampire Fang Talisman|link=Template:Vampire_Fang_Talisman]]
+|[[Image:Magical_Engineers_Land_Mine.png|100px|alt=Alt text|Magical Engineer's Land Mine|link=Template:Magical_Engineers_Land_Mine]]
+|[[Image:Vampire_Skull.png|100px|alt=Alt text|Vampire Skull|link=Template:Vampire_Skull]]
+|[[Image:Battlefield_Flag.png|100px|alt=Alt text|Battlefield Flag|link=Template:Battlefield_Flag]]
+|[[Image:Magical_Engineers_Booster.png|100px|alt=Alt text|Magical Engineer's Booster|link=Template:Magical_Engineers_Booster]]
+|[[Image:Invisibility_Potion.png|100px|alt=Alt text|Invisibility Potion|link=Template:Invisibility_Potion]]
+|[[Image:Invisibility_Cloak.png|100px|alt=Alt text|Invisibility Cloak|link=Template:Invisibility_Cloak]]
+|[[Image:Hailstorm_Staff.png|100px|alt=Alt text|Hailstorm Staff|link=Template:Hailstorm_Staff]]
+|-
+|[[Image:Wind_Spirit_Bottle.png|100px|alt=Alt text|Wind Spirit Bottle|link=Template:Wind_Spirit_Bottle]]
+|[[Image:Ice_Queens_First_Ring.png|100px|alt=Alt text|Ice Queen's First Ring|link=Template:Ice_Queens_First_Ring]]
+|[[Image:Totem_of_Madness.png|100px|alt=Alt text|Totem of Madness|link=Template:Totem_of_Madness]]
+|[[Image:Cursed_Staff.png|100px|alt=Alt text|Cursed Staff|link=Template:Cursed_Staff]]
+|[[Image:Hercheys_Chocolate_Milk.png|100px|alt=Alt text|Herchey's Chocolate Milk|link=Template:Hercheys_Chocolate_Milk]]
+|[[Image:Bog_Conjurers_Amulet.png|100px|alt=Alt text|Bog Conjurer's Amulet|link=Template:Bog_Conjurers_Amulet]]
+|[[Image:Magical_Engineers_Turret.png|100px|alt=Alt text|Magical Engineer's Turret|link=Template:Magical_Engineers_Turret]]
+|[[Image:Ice_Queens_Second_Ring.png|100px|alt=Alt text|Ice Queen's Second Ring|link=Template:Ice_Queens_Second_Ring]]
+|}

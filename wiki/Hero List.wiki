@@ -1,0 +1,27 @@
+{| style="background:radial-gradient(#1D365F,#3d66a8); border:1px solid #fff; width:auto; border-radius:6px" align="center"
+|- style="text-align:center;"
+|-
+|style="border:3.5px solid #fff"|[[Image:Reina.png|150px|alt=Reina|Reina|link=Reina]]
+|style="border:3.5px solid #fff"|[[Image:Windy.png|150px|alt=Windy|Windy|link=Windy]]
+|style="border:3.5px solid #fff"|[[Image:Hyungseok_Park.png|150px|alt=Hyungseok|Hyungseok_Park|link=Hyungseok_Park]]
+|style="border:3.5px solid #fff"|[[Image:Nori.png|150px|alt=Nori|Nori|link=Nori]]
+|style="border:3.5px solid #fff"|[[Image:Freddy.png|150px|alt=Freddy|Freddy|link=Freddy]]
+|-
+|style="border:3.5px solid #fff"|[[Image:Vasco.png|150px|alt=Vasco|Vasco|link=Vasco]]
+|style="border:3.5px solid #fff"|[[Image:Oz.png|150px|alt=Oz|Oz|link=Oz]]
+|style="border:3.5px solid #fff"|[[Image:BeoBear.png|150px|alt=BeoBear|BeoBear|link=BeoBear]]
+|style="border:3.5px solid #fff"|[[Image:Axie.png|150px|alt=Axie|Axie|link=Axie]]
+|style="border:3.5px solid #fff"|[[Image:Seager.png|150px|alt=Seager|Seager|link=Seager]]
+|-
+|style="border:3.5px solid #fff"|[[Image:Ryoku.png|150px|alt=Ryoku|Ryoku|link=Ryoku]]
+|style="border:3.5px solid #fff"|[[Image:Pyros.png|150px|alt=Pyros|Pyros|link=Pyros]]
+|style="border:3.5px solid #fff"|[[Image:Espina.png|150px|alt=Espina|Espina|link=Espina]]
+|style="border:3.5px solid #fff"|[[Image:Ren.png|150px|alt=Ren|Ren|link=Ren]]
+|style="border:3.5px solid #fff"|[[Image:Dora.png|150px|alt=Dora|Dora|link=Dora]]
+|-
+|style="border:3px solid #fff"|[[Image:Spark.png|150px|alt=Spark|Spark|link=Spark]]
+<!----TEMPLATE FOR LINK
+|[[Image:.png|150px|alt=Alt text||link=]]
+---->
+|}
+[[Category:Hero]]

@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 6-1 Team Deathmatch Finals Round 2
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 6-2 Deathmatch Finals Round 2
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 6-3 Mad Mandragora Disease
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 6-4 Ancient Burial
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 6-5 Mark of Courage 15
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 6-6 Mark of Courage 16
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 6-7 Monster Supplies
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 6-8 Mark of Courage 17
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 6-9 King of the Hill Finals Round 2
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 6-10 Invasion of the Lizardmen
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 6-11 Homeward Bound
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

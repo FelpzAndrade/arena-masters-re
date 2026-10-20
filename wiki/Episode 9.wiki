@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 9-1 Exploring the Shipwreck
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 9-2 Deathmatch Octofinals 16
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 9-3 Team Deathmatch Octofinals 16
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 9-4 Mark of Courage 23
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 9-5 Exploring the Shipwreck
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 9-6 Mark of Courage 24
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 9-7 King of the Hill Octofinals 16
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 9-8 Exploring the Shipwreck
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 9-9 Mark of Courage 25
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 9-10 Disrupted Demolition
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 9-11 Stealing Cargo
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

@@ -1,0 +1,56 @@
+{{Episode
+|Stage1 = 10-1 Team Deathmatch Octofinals 8
+|Description1 = 
+|Rewards1 = 
+|Tips1 = 
+
+|Stage2 = 10-2 Deathmatch Octofinals 8
+|Description2 = 
+|Rewards2 = 
+|Tips2 = 
+
+|Stage3 = 10-3 Gathering of the Owl
+|Description3 = 
+|Rewards3 = 
+|Tips3 = 
+
+|Stage4 = 10-4 Armor for All
+|Description4 = 
+|Rewards4 = 
+|Tips4 = 
+
+|Stage5 = 10-5 King of the Hill Octofinals 8
+|Description5 = 
+|Rewards5 = 
+|Tips5 = 
+
+|Stage6 = 10-6 Mark of Courage 26
+|Description6 = 
+|Rewards6 = 
+|Tips6 = 
+
+|Stage7 = 10-7 Owl Clan Assassin
+|Description7 = 
+|Rewards7 = 
+|Tips7 = 
+
+|Stage8 = 10-8 Mark of Courage 27
+|Description8 = 
+|Rewards8 = 
+|Tips8 = 
+
+|Stage9 = 10-9 Mark of Courage 28
+|Description9 = 
+|Rewards9 = 
+|Tips9 = 
+
+|Stage10 = 10-10 Disloyal Protector
+|Description10 = 
+|Rewards10 = 
+|Tips10 = 
+
+|Stage11 = 10-11 The Crusaders' Treasure
+|Description11 = 
+|Rewards11 = 
+|Tips11 = 
+}}

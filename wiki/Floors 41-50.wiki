@@ -1,0 +1,51 @@
+{{Tower
+|FloorA = Floor 41
+|DescriptionA = 
+|RewardsA = 
+|TipsA = 
+
+|FloorB = Floor 42
+|DescriptionB = 
+|RewardsB = 
+|TipsB = 
+
+|FloorC = Floor 43
+|DescriptionC = 
+|RewardsC = 
+|TipsC = 
+
+|FloorD = Floor 44
+|DescriptionD = 
+|RewardsD = 
+|TipsD = 
+
+|FloorE = Floor 45
+|DescriptionE = 
+|RewardsE = 
+|TipsE = 
+
+|FloorF = Floor 46
+|DescriptionF = 
+|RewardsF = 
+|TipsF = 
+
+|FloorG = Floor 47
+|DescriptionG = 
+|RewardsG = 
+|TipsG = 
+
+|FloorH = Floor 48
+|DescriptionH = 
+|RewardsH = 
+|TipsH = 
+
+|FloorI = Floor 49
+|DescriptionI = 
+|RewardsI = 
+|TipsI = 
+
+|FloorJ = Floor 50
+|DescriptionJ = 
+|RewardsJ = 
+|TipsJ = 
+}}

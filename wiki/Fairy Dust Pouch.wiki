@@ -1,0 +1,13 @@
+{{Relic
+|name=Fairy Dust Pouch
+|atrcolor=red
+|attribute=PHYS
+|image=[[Image:Fairy_Dust_Pouch.png|150x150px|link=]]
+|lore=Even troublemaking fairies can be helpful.  Sprinkle fairy dust to treat external wounds.
+|relicskillname=Fairy Dust
+|relicCD=45
+|relicskilldesc=Sprinkle Fairy Dust on your battle wounds.  It will gradually restore HP to max over 8 sec and increase DMG towards enemies.
+|reliceffect=Recover <font color="yellow">5%</font> total, MAG DMG Increase <font color="yellow">2%</font>
+|reliceffect2=Recover <font color="yellow">?%</font> total, MAG DMG Increase <font color="yellow">?%</font>
+}}
+[[Category:Relic]]
