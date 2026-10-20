@@ -52,6 +52,10 @@ public static class Vfx
 	{
 		GameObject go = Object.Instantiate(prefab, pos, rot);
 		go.transform.localScale = Vector3.one * scale;
+		foreach (Light light in go.GetComponentsInChildren<Light>())
+		{
+			light.enabled = false;   // prefabs do Cartoon FX trazem luz em tempo real: clareava demais a arena (e pesa no celular)
+		}
 		ParticleSystem[] systems = go.GetComponentsInChildren<ParticleSystem>();
 		foreach (ParticleSystem ps in systems)
 		{
@@ -98,7 +102,8 @@ public static class Vfx
 	// na primeira vez que o efeito aparece (carregar prefab, criar material) faria a animacao pular esse tempo
 	public static void Preload()
 	{
-		foreach (string name in new[] { "VFX_MachadoBarbaro", "VFX_MachadoImpacto", "VFX_CornetaGuerra", "VFX_EscudoCorneta", "VFX_GolpeTerra", "VFX_ForcaTerra", "VFX_BufaloCorrida", "VFX_BufaloImpacto", "VFX_DivisorTrecho", "VFX_EsquivaPoeira" })
+		foreach (string name in new[] { "VFX_MachadoBarbaro", "VFX_MachadoImpacto", "VFX_CornetaGuerra", "VFX_EscudoCorneta", "VFX_GolpeTerra", "VFX_ForcaTerra", "VFX_BufaloCorrida", "VFX_BufaloImpacto", "VFX_DivisorTrecho", "VFX_EsquivaPoeira",
+			"VFX_RaioCaos", "VFX_RaioCaosSaida", "VFX_RaioCaosImpacto", "VFX_RaioPenetrante", "VFX_Relampago", "VFX_OndaRaios", "VFX_Ruptura", "VFX_RupturaPulso", "VFX_ChoqueImpacto" })
 		{
 			if (!s_own.ContainsKey(name))
 			{
@@ -351,23 +356,10 @@ public static class Vfx
 		Sparks(groundPos + Vector3.up * 0.5f, color, 20, 7f, 0.5f);
 	}
 
+	// Raio Penetrante: feixe eletrico de 'length' metros (prefab feito para 10 m)
 	public static void Beam(Vector3 from, Vector3 dir, float length, Color color)
 	{
-		LineRenderer line = new GameObject("vfx_beam").AddComponent<LineRenderer>();
-		line.material = Mat("trace_01", true);
-		line.textureMode = LineTextureMode.Stretch;
-		line.positionCount = 2;
-		line.SetPosition(0, from);
-		line.SetPosition(1, from + dir * length);
-		line.widthMultiplier = 0.9f;
-		line.startColor = line.endColor = color;
-		s_live.Add(new Live { line = line, life = 0.25f, total = 0.25f });
-		ParticleSystem sparkle = Burst("magic_02", from + dir * length * 0.5f, color, 22, 0.45f, 0.15f, 0.4f, true);
-		ParticleSystem.ShapeModule shape = sparkle.shape;
-		shape.shapeType = ParticleSystemShapeType.SingleSidedEdge;
-		shape.radius = length * 0.5f;
-		shape.rotation = new Vector3(0f, Angle(dir) - 90f, 0f);
-		Flash(from + dir * length, color, 1.6f);
+		Own("VFX_RaioPenetrante", from, Quaternion.LookRotation(dir), length / 10f, 0.7f);
 	}
 
 	public static void MagicBurst(Vector3 groundPos, Color color, float radius)
@@ -397,40 +389,33 @@ public static class Vfx
 		Burst("star_06", pos + Vector3.up * 0.5f, color, 14, 0.7f, 0.2f, 0.5f, true);
 	}
 
+	// Relampago: um raio caindo do ceu no ponto do acerto (o jogo solta um por golpe)
 	public static void Lightning(Vector3 groundPos, Color color, float radius)
 	{
-		Cfx("CFXR3 Hit Electric C (Air)", groundPos + Vector3.up * 0.5f, 1.3f, 1.2f);
-		LineRenderer line = new GameObject("vfx_raio").AddComponent<LineRenderer>();
-		line.material = Mat("trace_01", true);
-		line.positionCount = 6;
-		for (int i = 0; i < 6; i++)
-		{
-			Vector2 r = Random.insideUnitCircle * 0.35f;
-			line.SetPosition(i, groundPos + new Vector3(r.x, 9f - i * 1.8f, r.y));
-		}
-		line.widthMultiplier = 0.7f;
-		line.startColor = line.endColor = color;
-		s_live.Add(new Live { line = line, life = 0.2f, total = 0.2f });
-		Flash(groundPos + Vector3.up * 0.6f, color, radius * 1.6f);
-		Sparks(groundPos + Vector3.up * 0.3f, color, 16, 6f, 0.35f);
+		Own("VFX_Relampago", groundPos, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f), radius / 2.2f, 0.7f);
 	}
 
+	// Onda de Raios: arcos eletricos em leque a partir dos pes (prefab feito para alcance 5 m)
 	public static void Wave(Vector3 pos, Vector3 facing, Color color, float range)
 	{
-		Cfx("CFXR Electrified 3", pos + facing * range * 0.5f, 1.2f, 1.2f);
-		ParticleSystem ps = Single("trace_06", pos + facing * range * 0.5f, color, range * 1.8f, 0.3f, true, Angle(facing) + 90f);
-		Grow(ps, 0.5f, 1.2f);
-		Sparks(pos + facing * range * 0.6f, color, 20, 7f, 0.4f);
+		Own("VFX_OndaRaios", pos + Vector3.down * Arena.CenterHeight, Quaternion.LookRotation(facing), range / 5f, 0.8f);
 	}
 
+	// Ruptura Caotica: pulso a cada dano (a fenda inteira nasce em RuptureRift, no inicio da skill)
 	public static void Rupture(Vector3 groundPos, Color color, float radius)
 	{
-		Cfx("CFXR3 Hit Electric C (Air)", groundPos + Vector3.up * 0.7f, 1f, 1f);
-		ParticleSystem ps = Single("twirl_02", groundPos + Vector3.up * 0.1f, color, radius * 2.2f, 0.35f, true, Random.Range(0f, 360f));
-		ParticleSystem.RotationOverLifetimeModule rot = ps.rotationOverLifetime;
-		rot.enabled = true;
-		rot.z = new ParticleSystem.MinMaxCurve(8f);
-		Grow(ps, 1.1f, 0.4f);   // encolhe: suga para o centro
+		Own("VFX_RupturaPulso", groundPos, Quaternion.identity, radius / 3.6f, 0.6f);
+	}
+
+	public static void RuptureRift(Vector3 groundPos, float radius)
+	{
+		Own("VFX_Ruptura", groundPos, Quaternion.identity, radius / 3.6f, 3.8f);
+	}
+
+	// acerto eletrico no alvo (skills magicas sem projetil)
+	public static void ElectricHit(Vector3 pos, bool critical)
+	{
+		Own("VFX_ChoqueImpacto", pos, Quaternion.identity, critical ? 1.4f : 1f, 0.6f);
 	}
 
 	// Divisor de Terra: a onda corre pela linha (um trecho a cada 1,6 m, 28 m/s) e levanta as pedras nos mesmos
@@ -574,56 +559,51 @@ public static class Vfx
 	}
 
 	// projetil: nucleo brilhante + rastro de particulas (seguem o objeto do projetil)
+	// projetil do Relampago do Caos: prefab em laco preso no projetil (some com ReleaseProjectileVisual)
 	public static void ProjectileVisual(GameObject owner, Color color)
 	{
-		ParticleSystem core = Create("light_01", owner.transform.position, true, 9999f);
-		core.transform.SetParent(owner.transform, false);
-		core.transform.localPosition = Vector3.zero;
-		ParticleSystem.MainModule main = core.main;
-		main.loop = true;
-		main.duration = 1f;
-		main.startLifetime = 0.12f;
-		main.startSize = 1.1f;
-		main.startColor = color;
-		main.simulationSpace = ParticleSystemSimulationSpace.Local;
-		ParticleSystem.EmissionModule em = core.emission;
-		em.rateOverTime = 40f;
-		core.Play();
-		ParticleSystem trail = Create("magic_02", owner.transform.position, true, 9999f);
-		trail.transform.SetParent(owner.transform, false);
-		trail.transform.localPosition = Vector3.zero;
-		ParticleSystem.MainModule tm = trail.main;
-		tm.loop = true;
-		tm.duration = 1f;
-		tm.startLifetime = new ParticleSystem.MinMaxCurve(0.2f, 0.35f);
-		tm.startSize = new ParticleSystem.MinMaxCurve(0.2f, 0.45f);
-		tm.startColor = color;
-		tm.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
-		ParticleSystem.EmissionModule tem = trail.emission;
-		tem.rateOverTime = 0f;
-		tem.rateOverDistance = 12f;
-		trail.Play();
+		if (!s_own.TryGetValue("VFX_RaioCaos", out GameObject prefab))
+		{
+			prefab = Resources.Load<GameObject>("VFX_RaioCaos");
+			s_own["VFX_RaioCaos"] = prefab;
+		}
+		if (prefab == null)
+		{
+			return;
+		}
+		GameObject go = Object.Instantiate(prefab, owner.transform);
+		go.transform.localPosition = Vector3.zero;
+		s_live.Add(new Live { prefab = go, systems = go.GetComponentsInChildren<ParticleSystem>(), life = 9999f, total = 9999f });
 	}
 
+	// solta o efeito do projetil no mundo: para de emitir e o rastro some sozinho (sem sumir de uma vez)
 	public static void ReleaseProjectileVisual(GameObject owner)
 	{
-		foreach (ParticleSystem ps in owner.GetComponentsInChildren<ParticleSystem>())
+		for (int i = s_live.Count - 1; i >= 0; i--)
 		{
-			DestroyAura(ps.gameObject);
+			Live l = s_live[i];
+			if (l.prefab == null || l.prefab.transform.parent != owner.transform)
+			{
+				continue;
+			}
+			l.prefab.transform.SetParent(null, true);
+			foreach (ParticleSystem ps in l.systems)
+			{
+				ps.Stop(false, ParticleSystemStopBehavior.StopEmitting);
+			}
+			l.life = l.total = 0.4f;
+			s_live[i] = l;
 		}
 	}
 
 	public static void Muzzle(Vector3 pos, Color color)
 	{
-		Flash(pos, color, 1.2f);
-		Burst("magic_04", pos, color, 8, 0.25f, 0.1f, 0.3f, true);
+		Own("VFX_RaioCaosSaida", pos, Quaternion.identity, 1f, 0.4f);
 	}
 
 	public static void Impact(Vector3 pos, Color color)
 	{
-		Cfx("CFXR3 Hit Light B (Air)", pos, 0.7f, 1f);
-		Flash(pos, color, 1.8f);
-		Burst("spark_04", pos, color, 14, 0.3f, 0.15f, 0.4f, true);
+		Own("VFX_RaioCaosImpacto", pos, Quaternion.identity, 1f, 0.6f);
 	}
 
 	// aura em volta do lutador enquanto o buff durar (removida em DestroyAura)

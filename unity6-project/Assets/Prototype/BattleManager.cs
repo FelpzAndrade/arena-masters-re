@@ -47,6 +47,7 @@ public class BattleManager : MonoBehaviour
 	private MeshRenderer m_indicatorRenderer;
 	private GameObject m_rangeRing;
 	private SkillDef m_indicatorSkill;
+	public bool brainsPaused;              // capturas de teste: ninguem pensa sozinho (VfxCapture.PlaySkill)
 	private IBrain m_playerBrain;
 	private IBrain m_enemyBrain;
 	private readonly List<(GameObject go, float life, float total)> m_fx = new List<(GameObject, float, float)>();
@@ -117,6 +118,15 @@ public class BattleManager : MonoBehaviour
 					Vfx.AxeImpact(who.Position + Vector3.up * 0.2f);
 					return;
 				}
+				if (sd != null && sd.damageType == (CS.SkillDamageTypes)2)
+				{
+					// magia (Spark): o projetil ja mostra o acerto; as outras soltam o choque eletrico
+					if (sd.projectileSpeed <= 0f)
+					{
+						Vfx.ElectricHit(who.Position + Vector3.up * 0.2f, crit);
+					}
+					return;
+				}
 				Vfx.Hit(who.Position + Vector3.up * 0.2f, who.opponent.def.color, crit, who.opponent.def.skills[0].projectileSpeed > 0f);
 			};
 			f.onDeathFx = who => Vfx.Death(who.Position);
@@ -183,11 +193,11 @@ public class BattleManager : MonoBehaviour
 			HitStop.Tick(dt);
 			dt *= HitStop.FrozenScale;
 		}
-		if (player.IsAlive)
+		if (player.IsAlive && !brainsPaused)
 		{
 			m_playerBrain.Think(player, dt);
 		}
-		if (enemy.IsAlive)
+		if (enemy.IsAlive && !brainsPaused)
 		{
 			m_enemyBrain.Think(enemy, dt);
 		}
@@ -331,6 +341,10 @@ public class BattleManager : MonoBehaviour
 		if (sd.vfx == "teleport")
 		{
 			Vfx.Teleport(owner.Position, owner.def.color);
+		}
+		if (sd.vfx == "rupture")
+		{
+			Vfx.RuptureRift(ground, sd.range);   // a fenda inteira (3,4 s); cada dano solta so um pulso
 		}
 		if (sd.vfx == "bufalo")
 		{

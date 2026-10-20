@@ -204,6 +204,82 @@ def make_puff(size=128, rng=None):
 	return shade, a
 
 
+def bolt_path(n, length, amp, rng, periodic):
+	# linha quebrada do raio: soma de senos (frequencias inteiras = repete nas pontas) + zigue-zague fino
+	t = np.linspace(0.0, 1.0, n)
+	y = np.zeros(n)
+	for k, a in ((1, 0.5), (2, 0.35), (3, 0.25), (5, 0.18), (8, 0.12), (13, 0.08)):
+		f = k if periodic else k + rng.uniform(-0.4, 0.4)
+		y += a * np.sin(2 * np.pi * f * t + rng.uniform(0, 2 * np.pi))
+	jag = rng.uniform(-1, 1, n) * 0.15
+	if periodic:
+		jag[-1] = jag[0]
+	y = (y + jag) * amp
+	return t * length, y
+
+
+def make_bolt(w=512, h=128, rng=None):
+	# raio horizontal que repete em U (feixe e onda): miolo branco fino (RGB) + brilho (A), 2 fios finos ao lado
+	from PIL import ImageDraw, ImageFilter
+	s = 2
+	core = Image.new("L", (w * s, h * s), 0)
+	dc = ImageDraw.Draw(core)
+	for strand, (amp, width, val) in enumerate(((0.22, 5, 255), (0.32, 2, 170), (0.28, 2, 140))):
+		x, y = bolt_path(64, w * s, amp * h * s * 0.5, rng, True)
+		pts = list(zip(x, y + h * s / 2))
+		dc.line(pts, fill=val, width=width * s)
+	core_a = np.asarray(core.resize((w, h), Image.LANCZOS)) / 255.0
+	glow = np.asarray(core.filter(ImageFilter.GaussianBlur(9 * s)).resize((w, h), Image.LANCZOS)) / 255.0
+	glow = np.clip(glow * 2.2, 0, 1)
+	v = np.linspace(-1, 1, h)[:, None]
+	edge = 1.0 - smoothstep(0.8, 1.0, np.abs(v))      # topo e base zerados (Clamp em V)
+	alpha = np.clip(np.maximum(core_a, glow * 0.7), 0, 1) * edge
+	return np.clip(core_a * 1.2, 0, 1) * edge, alpha
+
+
+def make_bolt_v(w=128, h=512, rng=None):
+	# raio vertical do ceu ao chao, com galhos; afina nas pontas (nao repete)
+	from PIL import ImageDraw, ImageFilter
+	s = 2
+	core = Image.new("L", (w * s, h * s), 0)
+	dc = ImageDraw.Draw(core)
+	y, x = bolt_path(48, h * s, w * s * 0.18, rng, False)
+	main = list(zip(x + w * s / 2, y))
+	for i in range(len(main) - 1):
+		width = int((2 + 6 * (1 - i / len(main))) * s)
+		dc.line([main[i], main[i + 1]], fill=255, width=width)
+	for _ in range(4):
+		i0 = int(rng.integers(6, len(main) - 12))
+		bx, by = main[i0]
+		ang = rng.choice([-1, 1]) * rng.uniform(0.4, 0.9)
+		for _ in range(8):
+			nx, ny = bx + np.sin(ang) * 14 * s + rng.uniform(-5, 5) * s, by + np.cos(ang) * 16 * s
+			dc.line([(bx, by), (nx, ny)], fill=170, width=2 * s)
+			bx, by = nx, ny
+	core_a = np.asarray(core.resize((w, h), Image.LANCZOS)) / 255.0
+	glow = np.clip(np.asarray(core.filter(ImageFilter.GaussianBlur(8 * s)).resize((w, h), Image.LANCZOS)) / 255.0 * 2.2, 0, 1)
+	u = np.linspace(-1, 1, w)[None, :]
+	t = np.linspace(0, 1, h)[:, None]
+	fade = (1.0 - smoothstep(0.85, 1.0, np.abs(u))) * smoothstep(0.0, 0.05, t) * (1.0 - smoothstep(0.97, 1.0, t))
+	return np.clip(core_a * 1.2, 0, 1) * fade, np.clip(np.maximum(core_a, glow * 0.7), 0, 1) * fade
+
+
+def make_swirl(size=256, rng=None):
+	# redemoinho da fenda: 3 bracos em espiral que afinam para o centro; miolo vazio
+	y, x = np.mgrid[0:size, 0:size]
+	c = (size - 1) / 2.0
+	dx, dy = (x - c) / c, (y - c) / c
+	r = np.sqrt(dx * dx + dy * dy)
+	th = np.arctan2(dy, dx)
+	arms = 0.5 + 0.5 * np.cos(3 * (th + 5.0 * r))
+	arms = smoothstep(0.55, 0.95, arms)
+	n = periodic_noise(size, 16, rng)
+	ring = smoothstep(0.12, 0.35, r) * (1.0 - smoothstep(0.8, 0.98, r))
+	alpha = np.clip(arms * ring * (0.75 + 0.5 * n), 0, 1)
+	core = np.clip(arms * (1.0 - smoothstep(0.2, 0.8, r)) * ring, 0, 1)
+	return core, alpha
+
+
 def save(path, rgb, alpha):
 	rgb = np.clip(rgb, 0.0, 1.0)
 	img = np.dstack([rgb, rgb, rgb, np.clip(alpha, 0.0, 1.0)])
@@ -231,6 +307,14 @@ def main():
 	save(OUT / "T_Rocks.png", shade, rocks)
 	shade, puff = make_puff(rng=rng)
 	save(OUT / "T_Puff.png", shade, puff)
+	# texturas do Spark: sorteio proprio
+	rng = np.random.default_rng(23)
+	core, bolt = make_bolt(rng=rng)
+	save(OUT / "T_Bolt.png", core, bolt)
+	core, bolt = make_bolt_v(rng=rng)
+	save(OUT / "T_BoltV.png", core, bolt)
+	core, swirl = make_swirl(rng=rng)
+	save(OUT / "T_Swirl.png", core, swirl)
 
 
 if __name__ == "__main__":

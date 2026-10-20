@@ -134,6 +134,7 @@ public static class VfxMachadoBuilder
 		shape.enabled = false;
 		ParticleSystemRenderer renderer = go.GetComponent<ParticleSystemRenderer>();
 		renderer.sharedMaterial = mat;
+		renderer.maxParticleSize = 5f;        // padrao 0,5 (metade da tela) encolhia os discos grandes de chao com a camera perto
 		renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
 		renderer.receiveShadows = false;
 		renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;

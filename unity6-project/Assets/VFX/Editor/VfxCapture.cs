@@ -59,14 +59,15 @@ public static class VfxCapture
 	// tempo real (sem pausar: as particulas andam em tempo nao escalado). O inimigo fica parado durante a captura.
 	// Fotos em captures/vfx_<nome>_*.png. ahead = quanto a camera olha para a frente do jogador; enemyAhead > 0 poe o inimigo
 	// parado nessa distancia, na frente (para ver o acerto), senao ele fica longe da camera.
-	public static string PlaySkill(int skill, string name, float ahead = 1.2f, float enemyAhead = 0f, float spotX = 12.5f, float spotZ = -2.71f, float slow = 1f)
+	public static string PlaySkill(int skill, string name, float ahead = 1.2f, float enemyAhead = 0f, float spotX = 12.5f, float spotZ = -2.71f, float slow = 1f, bool enemyCasts = false)
 	{
 		BattleManager bm = Object.FindFirstObjectByType<BattleManager>();
 		if (!EditorApplication.isPlaying || bm == null || bm.player == null)
 		{
 			return "precisa estar no Play com a luta aberta";
 		}
-		Fighter p = bm.player, e = bm.enemy;
+		Fighter p = enemyCasts ? bm.enemy : bm.player, e = enemyCasts ? bm.player : bm.enemy;   // p usa a skill, e e o alvo
+		bm.brainsPaused = true;
 		p.invulnerable = e.invulnerable = true;
 		System.Reflection.FieldInfo goField = typeof(Fighter).GetField("go", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 		GameObject go = (GameObject)goField.GetValue(p), enemyGo = (GameObject)goField.GetValue(e);
@@ -127,6 +128,7 @@ public static class VfxCapture
 				EditorApplication.update -= cb;
 				Object.DestroyImmediate(cam.gameObject);
 				rt.Release();
+				bm.brainsPaused = false;
 				Debug.Log("[VFX] captura ao vivo pronta: " + name);
 				return;
 			}

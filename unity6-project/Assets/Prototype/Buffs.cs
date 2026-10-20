@@ -118,20 +118,20 @@ public static class BuffLibrary
 	public static readonly BuffDef Eletrocutado = new BuffDef
 	{
 		id = 3004, name = "Eletrocutado", type = BuffType.Debuff, duration = 1.5f, line = "lentidao", rank = 2,
-		control = MotionControlType.Slow, slowRatio = 0.55f, color = new Color(0.45f, 0.85f, 1f), auraTexture = "spark_04",
+		control = MotionControlType.Slow, slowRatio = 0.55f, color = new Color(0.45f, 0.85f, 1f), auraTexture = "spark_04", auraPrefab = "VFX_Eletrocutado",
 	};
 
 	// Spark, Relampago: +10% de dano magico, acumula 3x, 4s
 	public static readonly BuffDef CargaDePoder = new BuffDef
 	{
 		id = 3005, name = "Carga de Poder", type = BuffType.Buff, duration = 4f, line = "carga_poder", maxStack = 3,
-		color = new Color(0.5f, 0.8f, 1f), auraTexture = "spark_05",
+		color = new Color(0.5f, 0.8f, 1f), auraTexture = "spark_05", auraPrefab = "VFX_CargaPoder",
 	}.WithStats(s => { s.MagicalDamageAmp.value = 0.1f; });
 
 	public static readonly BuffDef Pressa = new BuffDef
 	{
 		id = 3006, name = "Pressa", type = BuffType.Buff, duration = 1.5f, line = "pressa",
-		color = new Color(0.6f, 1f, 0.8f), auraTexture = "trace_02",
+		color = new Color(0.6f, 1f, 0.8f), auraTexture = "trace_02", auraPrefab = "VFX_Pressa",
 	}.WithStats(s => { s.MovingSpeed.ratio = 0.2f; });
 
 	// "Inconsciente" da wiki = atordoamento (Stun) com a duracao de cada skill
