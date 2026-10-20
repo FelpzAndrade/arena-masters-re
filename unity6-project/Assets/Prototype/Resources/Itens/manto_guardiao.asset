@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84d99f5074f24747851d49f20f417c3, type: 3}
+  m_Name: manto_guardiao
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDef
+  id: manto_guardiao
+  nome: Manto do Guardiao de Pedra
+  slot: 1
+  grade: 2
+  icone: item_peitoral
+  principal:
+    atributo: 3
+    valor: 4000
+  secundarios:
+  - atributo: 8
+    valor: 0.05
+  - atributo: 6
+    valor: 0.01
+  - atributo: 2
+    valor: 0.01
+  conjunto: {fileID: 0}
+  magia: 0
+  chanceMagia: 0
+  esperaMagia: 3
+  descricaoMagia: 

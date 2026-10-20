@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b0dcad080dfc346a5c695090935f4a, type: 3}
+  m_Name: Conjunto_VigiliaRubra
+  m_EditorClassIdentifier: Assembly-CSharp::ConjuntoDef
+  nome: Vigilia Rubra
+  bonus2:
+  - atributo: 4
+    valor: 0.03
+  bonus3:
+  - atributo: 2
+    valor: 0.05
+  - atributo: 5
+    valor: 0.08
+  bonus4:
+  - atributo: 4
+    valor: 0.03

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84d99f5074f24747851d49f20f417c3, type: 3}
+  m_Name: garras_cacador
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDef
+  id: garras_cacador
+  nome: Garras do Cacador Noturno
+  slot: 3
+  grade: 2
+  icone: item_luvas
+  principal:
+    atributo: 3
+    valor: 3000
+  secundarios:
+  - atributo: 5
+    valor: 0.06
+  - atributo: 9
+    valor: 0.03
+  - atributo: 4
+    valor: 0.02
+  - atributo: 7
+    valor: 0.015
+  conjunto: {fileID: 0}
+  magia: 0
+  chanceMagia: 0
+  esperaMagia: 3
+  descricaoMagia: 

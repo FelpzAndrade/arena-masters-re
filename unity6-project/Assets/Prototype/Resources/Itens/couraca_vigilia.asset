@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84d99f5074f24747851d49f20f417c3, type: 3}
+  m_Name: couraca_vigilia
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDef
+  id: couraca_vigilia
+  nome: Couraca da Vigilia Rubra
+  slot: 1
+  grade: 1
+  icone: item_peitoral
+  principal:
+    atributo: 2
+    valor: 0.03
+  secundarios:
+  - atributo: 4
+    valor: 0.015
+  - atributo: 3
+    valor: 800
+  conjunto: {fileID: 11400000, guid: 865ed66fca70d1840885e395690cd00c, type: 2}
+  magia: 0
+  chanceMagia: 0
+  esperaMagia: 3
+  descricaoMagia: 

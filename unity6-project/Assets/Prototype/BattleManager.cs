@@ -77,9 +77,10 @@ public class BattleManager : MonoBehaviour
 		List<FichaHeroi> fichas = new List<FichaHeroi>();
 		foreach (string h in Herois)
 		{
-			fichas.Add(Ficha(Def(h)));
+			fichas.Add(Ficha(Def(h, true)));
 		}
-		TelaEscolhaHeroi.Criar(fichas, Escolha("heroiJogador", "Axie"), escolhido =>
+		TelaEscolhaHeroi tela = null;
+		tela = TelaEscolhaHeroi.Criar(fichas, Escolha("heroiJogador", "Axie"), escolhido =>
 		{
 			List<string> outros = new List<string>(Herois);
 			outros.Remove(escolhido);
@@ -87,6 +88,11 @@ public class BattleManager : MonoBehaviour
 			PlayerPrefs.SetString("heroiInimigo", outros[Random.Range(0, outros.Count)]);   // bot sorteado entre os outros
 			PlayerPrefs.Save();
 			Setup();
+		}, heroi =>
+		{
+			PlayerPrefs.SetString("heroiJogador", heroi);
+			tela.Fechar();
+			TelaInventario.Abrir(heroi, Def(heroi), MostrarEscolha);   // ao voltar, a escolha abre de novo com o poder novo
 		});
 	}
 
@@ -163,7 +169,7 @@ public class BattleManager : MonoBehaviour
 	}
 
 	// modelo da vitrine: igual ao da luta (pecas escondidas) tocando a pose parada em laco
-	private static GameObject ModeloVitrine(FighterDef d)
+	public static GameObject ModeloVitrine(FighterDef d)
 	{
 		if (d.model == null)
 		{
@@ -232,7 +238,7 @@ public class BattleManager : MonoBehaviour
 			RenderSettings.ambientLight = new Color(0.17f, 0.16f, 0.21f);   // espaco de cor Linear (URP): mais escuro que no Gamma
 		}
 
-		player = new Fighter(Def(Escolha("heroiJogador", "Axie")), arena.SpawnPoint(new Vector3(-10f, 0f, 0f)), arena);
+		player = new Fighter(Def(Escolha("heroiJogador", "Axie"), Application.isPlaying || Progresso.semSalvar), arena.SpawnPoint(new Vector3(-10f, 0f, 0f)), arena);   // jogador com o equipamento salvo
 		enemy = new Fighter(Def(Escolha("heroiInimigo", "Spark")), arena.SpawnPoint(new Vector3(10f, 0f, 0f)), arena);
 		player.opponent = enemy;
 		enemy.opponent = player;
@@ -283,6 +289,7 @@ public class BattleManager : MonoBehaviour
 				CameraShake.Add(0.2f);
 				Popup(who, sd.name.ToUpper() + "!", sd.color);
 			};
+			f.onDealtHit = ItensMagicos;
 			f.onImpact = (sd, crit) =>
 			{
 				HitStop.Request(sd.hitstop * (crit ? 1.8f : 1f));
@@ -306,16 +313,24 @@ public class BattleManager : MonoBehaviour
 	}
 
 	// heroi escolhido (PlayerPrefs; na captura do CI fica o padrao Axie x Spark)
+	public static string heroiJogadorTeste, heroiInimigoTeste;   // testes fora do Play (TesteEquipamento)
+
 	private static string Escolha(string chave, string padrao)
 	{
-		string h = Application.isPlaying ? PlayerPrefs.GetString(chave, padrao) : padrao;
+		string teste = chave == "heroiJogador" ? heroiJogadorTeste : heroiInimigoTeste;
+		string h = Application.isPlaying ? PlayerPrefs.GetString(chave, padrao) : teste ?? padrao;
 		return System.Array.IndexOf(Herois, h) >= 0 ? h : padrao;
 	}
 
-	private FighterDef Def(string heroi)
+	private FighterDef Def(string heroi, bool comEquipamento = false)
 	{
 		FighterDef d = heroi == "Spark" ? FighterDef.Spark() : heroi == "Cavaleiro" ? FighterDef.Cavaleiro() : FighterDef.Axie();
 		d.model = heroi == "Spark" ? bruxaModel : heroi == "Cavaleiro" ? cavaleiroModel : machadinhaModel;
+		if (comEquipamento)
+		{
+			System.Action<CS.CharStatus> base_ = d.applyStats;
+			d.applyStats = s => { base_(s); Progresso.Aplicar(heroi, s); };   // atributos dos 6 slots + bonus de conjunto
+		}
 		return d;
 	}
 
@@ -369,6 +384,8 @@ public class BattleManager : MonoBehaviour
 		UpdateProjectiles(dt);
 		UpdateIndicator();
 		UpdateFx(dt);
+		Agendados();
+		FimDaLuta();
 		EspadaPronta(player);
 		EspadaPronta(enemy);
 		Vfx.Update(dt);
@@ -576,6 +593,150 @@ public class BattleManager : MonoBehaviour
 			m_explosaoInfo ??= s_explosao.BuildInfo(990);
 			owner.ResolveHit(alvo, s_explosao, m_explosaoInfo, d.sqrMagnitude > 0.01f ? d.normalized : owner.facing);
 		}
+	}
+
+	// ---------- itens magicos (chance ao causar dano) ----------
+
+	private static readonly SkillDef s_raioItem = new SkillDef { name = "Relampago Errante", damageType = (CS.SkillDamageTypes)2, damageRatio = 2.5f, hitstop = 0.04f, shake = 0.12f, ultimateCharge = 0f, color = new Color(0.5f, 0.85f, 1f) };
+	private static readonly SkillDef s_esferaItem = new SkillDef { name = "Esfera Runica", damageRatio = 0.8f, hitstop = 0.03f, ultimateCharge = 0f, color = new Color(0.6f, 0.35f, 1f) };
+	private readonly Dictionary<ItemDef, float> m_esperaMagia = new Dictionary<ItemDef, float>();
+	private readonly List<(float quando, System.Action acao)> m_agendados = new List<(float, System.Action)>();
+	private CS.CSSkillInfo m_infoRaio, m_infoEsfera;
+
+	private void ItensMagicos(Fighter dono, Fighter alvo, SkillDef sd, int dano)
+	{
+		if (dono != player || sd == s_raioItem || sd == s_esferaItem || !Application.isPlaying)
+		{
+			return;   // so o jogador tem equipamento; o dano do proprio item nao dispara outro item
+		}
+		foreach (ItemDef item in Progresso.MagiasDoHeroi(dono.def.name))
+		{
+			if (m_esperaMagia.TryGetValue(item, out float livre) && Time.time < livre || Random.value >= item.chanceMagia)
+			{
+				continue;
+			}
+			m_esperaMagia[item] = Time.time + item.esperaMagia;
+			if (item.magia == Magia.Relampago)
+			{
+				Vfx.Lightning(alvo.Position + Vector3.down * Arena.CenterHeight, s_raioItem.color, 1.2f);
+				Popup(dono, "Relampago Errante!", s_raioItem.color);
+				m_infoRaio ??= s_raioItem.BuildInfo(991);
+				if (alvo.IsAlive)
+				{
+					dono.ResolveHit(alvo, s_raioItem, m_infoRaio, alvo.Position - dono.Position);
+				}
+			}
+			else if (item.magia == Magia.EsferaRunica && dono.Visual != null)
+			{
+				GameObject prefab = Resources.Load<GameObject>("VFX_EsferaGiratoria");
+				if (prefab != null)
+				{
+					EfeitoCor.Criar(prefab, dono.Visual.position + Vector3.up * 1.15f, Quaternion.identity, dono.Visual, s_esferaItem.color, 0.6f, 1.6f);
+				}
+				Popup(dono, "Esfera Runica!", s_esferaItem.color);
+				m_infoEsfera ??= s_esferaItem.BuildInfo(992);
+				for (int k = 1; k <= 2; k++)
+				{
+					m_agendados.Add((Time.time + 0.5f * k, () =>
+					{
+						Fighter a = dono.opponent;
+						if (a != null && a.IsAlive && !a.invulnerable && Vector3.Distance(a.Position, dono.Position) < 2.2f)
+						{
+							dono.ResolveHit(a, s_esferaItem, m_infoEsfera, a.Position - dono.Position);
+						}
+					}));
+				}
+			}
+		}
+	}
+
+	private void Agendados()
+	{
+		for (int i = m_agendados.Count - 1; i >= 0; i--)
+		{
+			if (Time.time >= m_agendados[i].quando)
+			{
+				System.Action a = m_agendados[i].acao;
+				m_agendados.RemoveAt(i);
+				a();
+			}
+		}
+	}
+
+	// ---------- fim de luta (3 abates) ----------
+
+	public const int AbatesParaVencer = 3;
+	private bool m_fim;
+
+	private void FimDaLuta()
+	{
+		if (m_fim || !Application.isPlaying || (player.kills < AbatesParaVencer && enemy.kills < AbatesParaVencer))
+		{
+			return;
+		}
+		m_fim = true;
+		brainsPaused = true;
+		bool vitoria = player.kills >= AbatesParaVencer;
+		(int ouro, ItemDef item) = Progresso.Recompensa(vitoria);
+		MostrarResultado(vitoria, ouro, item);
+	}
+
+	private void MostrarResultado(bool vitoria, int ouro, ItemDef item)
+	{
+		Canvas c = new GameObject("Resultado").AddComponent<Canvas>();
+		c.renderMode = RenderMode.ScreenSpaceOverlay;
+		c.sortingOrder = 40;
+		CanvasScaler sc = c.gameObject.AddComponent<CanvasScaler>();
+		sc.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+		sc.referenceResolution = new Vector2(1280f, 720f);
+		sc.matchWidthOrHeight = 1f;
+		c.gameObject.AddComponent<GraphicRaycaster>();
+		RectTransform fundo = Rect("Fundo", c.transform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(4000f, 4000f));
+		fundo.gameObject.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.6f);
+		RectTransform caixa = Rect("Caixa", c.transform, new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(620f, 400f));
+		Image ci = caixa.gameObject.AddComponent<Image>();
+		ci.sprite = TelaEscolhaHeroi.SpriteRedondo();
+		ci.type = Image.Type.Sliced;
+		ci.pixelsPerUnitMultiplier = 4f;
+		ci.color = new Color(0.1f, 0.08f, 0.1f, 0.95f);
+		TMPro.TextMeshProUGUI titulo = TextoTmp(caixa, new Vector2(0f, 130f), new Vector2(580f, 80f), vitoria ? "VITORIA!" : "DERROTA", 64f, vitoria ? new Color(1f, 0.8f, 0.3f) : new Color(0.75f, 0.75f, 0.8f));
+		titulo.fontStyle = TMPro.FontStyles.Bold;
+		TextoTmp(caixa, new Vector2(0f, 60f), new Vector2(580f, 34f), $"{player.kills} x {enemy.kills}", 28f, Color.white);
+		string ganho = $"+{ouro:N0} de ouro".Replace(",", ".");
+		if (item != null)
+		{
+			ganho += $"\nItem novo: <color=#{ColorUtility.ToHtmlStringRGB(Atributos.CoresGrade[(int)item.grade])}>{item.nome}</color> ({Atributos.NomesGrade[(int)item.grade]})";
+		}
+		TextoTmp(caixa, new Vector2(0f, -10f), new Vector2(580f, 80f), ganho, 24f, new Color(1f, 0.9f, 0.6f));
+		BotaoTmp(caixa, new Vector2(-150f, -130f), "EQUIPAMENTOS", new Color(0.25f, 0.22f, 0.35f), () =>
+		{
+			Destroy(c.gameObject);
+			TelaInventario.Abrir(player.def.name, Def(player.def.name), Recomecar);
+		});
+		BotaoTmp(caixa, new Vector2(150f, -130f), "JOGAR DE NOVO", new Color(0.85f, 0.45f, 0.12f), Recomecar);
+	}
+
+	private static TMPro.TextMeshProUGUI TextoTmp(Transform pai, Vector2 pos, Vector2 tam, string txt, float tamanho, Color cor)
+	{
+		TMPro.TextMeshProUGUI t = Rect("Txt", pai, new Vector2(0.5f, 0.5f), pos, tam).gameObject.AddComponent<TMPro.TextMeshProUGUI>();
+		t.text = txt;
+		t.fontSize = tamanho;
+		t.color = cor;
+		t.alignment = TMPro.TextAlignmentOptions.Center;
+		t.raycastTarget = false;
+		return t;
+	}
+
+	private static void BotaoTmp(Transform pai, Vector2 pos, string txt, Color cor, System.Action aoTocar)
+	{
+		RectTransform rt = Rect("Botao", pai, new Vector2(0.5f, 0.5f), pos, new Vector2(260f, 76f));
+		Image i = rt.gameObject.AddComponent<Image>();
+		i.sprite = TelaEscolhaHeroi.SpriteRedondo();
+		i.type = Image.Type.Sliced;
+		i.pixelsPerUnitMultiplier = 4f;
+		i.color = cor;
+		rt.gameObject.AddComponent<Button>().onClick.AddListener(() => aoTocar());
+		TextoTmp(rt, Vector2.zero, new Vector2(250f, 70f), txt, 24f, Color.white).fontStyle = TMPro.FontStyles.Bold;
 	}
 
 	private static EspadaBrilho Espada(Fighter f) => f.Visual != null ? f.Visual.GetComponent<EspadaBrilho>() : null;
@@ -836,7 +997,7 @@ public class BattleManager : MonoBehaviour
 		m_playerBuffs.rectTransform.pivot = new Vector2(0f, 1f);
 		m_enemyBuffs = Label(canvas.transform, new Vector2(1f, 1f), new Vector2(-30f, -98f), 16, TextAnchor.UpperRight, new Vector2(420f, 24f));
 		m_enemyBuffs.rectTransform.pivot = new Vector2(1f, 1f);
-		m_score = Label(canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -28f), 30, TextAnchor.UpperCenter, new Vector2(400f, 44f));
+		m_score = Label(canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -40f), 30, TextAnchor.UpperCenter, new Vector2(400f, 70f));
 		m_status = Label(canvas.transform, new Vector2(0.5f, 1f), new Vector2(0f, -70f), 18, TextAnchor.UpperCenter, new Vector2(700f, 30f));
 
 		// controles de toque (no PC os botoes tambem funcionam com o mouse e mostram a tecla de cada um)
@@ -909,7 +1070,7 @@ public class BattleManager : MonoBehaviour
 		m_enemyHp.fillAmount = enemy.hp / enemy.maxHp;
 		m_playerHpText.text = $"{Mathf.CeilToInt(player.hp)} / {Mathf.CeilToInt(player.maxHp)}" + (player.IsDeathDoor() ? "  (a beira da morte)" : string.Empty);
 		m_enemyHpText.text = $"{Mathf.CeilToInt(enemy.hp)} / {Mathf.CeilToInt(enemy.maxHp)}" + (enemy.IsDeathDoor() ? "  (a beira da morte)" : string.Empty);
-		m_score.text = $"<b>{player.kills}  x  {enemy.kills}</b>";
+		m_score.text = $"<b>{player.kills}  x  {enemy.kills}</b>\n<size=55%>vence quem fizer {AbatesParaVencer}</size>";
 		m_playerBuffs.text = BuffText(player);
 		m_enemyBuffs.text = BuffText(enemy);
 		string s = !player.IsAlive ? "Voce foi derrotado - renascendo..." : !enemy.IsAlive ? "K.O.! A Bruxa renasce em instantes" : player.CurrentSkillName;

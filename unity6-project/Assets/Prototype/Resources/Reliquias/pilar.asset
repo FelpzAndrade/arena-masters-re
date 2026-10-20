@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36886d452991d7e46ab701f671ec8f6b, type: 3}
+  m_Name: pilar
+  m_EditorClassIdentifier: Assembly-CSharp::ReliquiaDef
+  id: pilar
+  nome: Pilar do Inverno Eterno
+  tipo: 3
+  icone: rel_pilar
+  cor: {r: 0.5, g: 1.2, b: 2, a: 1}
+  recarga: 40
+  valor: 0.2
+  valorPorNivel: 0.02
+  valor2: 0
+  valor2PorNivel: 0
+  duracao: 4
+  duracaoPorNivel: 0.11
+  raio: 4
+  descricao: 'Pilar de gelo: inimigos a ate {r} ficam {v} mais lentos por {d}.'

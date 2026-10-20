@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36886d452991d7e46ab701f671ec8f6b, type: 3}
+  m_Name: egide
+  m_EditorClassIdentifier: Assembly-CSharp::ReliquiaDef
+  id: egide
+  nome: Egide do Bastiao
+  tipo: 1
+  icone: rel_egide
+  cor: {r: 1.6, g: 1.3, b: 0.5, a: 1}
+  recarga: 45
+  valor: 0.06
+  valorPorNivel: 0.005
+  valor2: 0.03
+  valor2PorNivel: 0.0025
+  duracao: 5
+  duracaoPorNivel: 0
+  raio: 0
+  descricao: Barreira que absorve {v} da vida maxima por {d}, com +{v2} de defesa.

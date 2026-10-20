@@ -32,6 +32,7 @@ public class Fighter : IActor
 	public System.Action<Fighter, ActiveBuff> onBuffRemoved;
 	public System.Action<Fighter, SkillDef, CSSkillInfo, Vector3, Vector3> onProjectile; // dono, skill, info, origem, direcao
 	public System.Action<SkillDef, bool> onImpact;                                      // hitstop/tremor
+	public System.Action<Fighter, Fighter, SkillDef, int> onDealtHit;                    // dono, alvo, skill, dano (itens magicos)
 	public System.Action<Fighter, SkillDef> onUltimate;                                 // camera lenta/zoom na ativacao
 	public System.Action<Fighter, int> onDodgeFx;                                       // esquiva: 0 = saida, 1..3 = fantasmas, 4 = pouso
 	public Transform Visual => m_visual;
@@ -864,6 +865,7 @@ public class Fighter : IActor
 		target.ChargeOnBeaten(damage);
 		target.TakeDamage(this, damage, critical, pushDir, sd);
 		def.passiveOnHit?.Invoke(this, target, sd, critical);
+		onDealtHit?.Invoke(this, target, sd, damage);
 		if (target.IsAlive)
 		{
 			TriggerProcs(sd, ProcTimingType.Hit, target);

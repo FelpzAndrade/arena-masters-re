@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c84d99f5074f24747851d49f20f417c3, type: 3}
+  m_Name: lamina_relampago
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDef
+  id: lamina_relampago
+  nome: Lamina do Relampago Errante
+  slot: 0
+  grade: 2
+  icone: item_espada
+  principal:
+    atributo: 0
+    valor: 240
+  secundarios:
+  - atributo: 4
+    valor: 0.025
+  - atributo: 5
+    valor: 0.05
+  - atributo: 9
+    valor: 0.02
+  conjunto: {fileID: 0}
+  magia: 1
+  chanceMagia: 0.08
+  esperaMagia: 3
+  descricaoMagia: '8% de chance ao causar dano: um raio cai no alvo (250% do ATK
+    magico). Espera de 3 s.'

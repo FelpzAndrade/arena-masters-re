@@ -24,22 +24,17 @@ public class FichaHeroi
 public class TelaEscolhaHeroi : MonoBehaviour
 {
 	public System.Action<string> aoConfirmar;   // nome do heroi escolhido
-
-	private const int Camada = 30;             // so o modelo da vitrine (camera e luz enxergam so ela)
-	private static readonly Vector3 Palco = new Vector3(0f, -400f, 0f);
+	public System.Action<string> aoEquipamentos;   // abrir o inventario do heroi selecionado (opcional)
 
 	private List<FichaHeroi> m_fichas;
 	private int m_atual = -1;
-	private GameObject m_modelo;
-	private Camera m_cam;
-	private Light m_luz;
-	private RenderTexture m_rt;
+	private Vitrine m_vitrine;
 	private readonly List<Image> m_cartoes = new List<Image>();
 	private TextMeshProUGUI m_nome, m_classe, m_atributos, m_skills, m_poder;
 
 	public string Escolhido => m_atual >= 0 ? m_fichas[m_atual].nome : null;
 
-	public static TelaEscolhaHeroi Criar(List<FichaHeroi> fichas, string inicial, System.Action<string> aoConfirmar)
+	public static TelaEscolhaHeroi Criar(List<FichaHeroi> fichas, string inicial, System.Action<string> aoConfirmar, System.Action<string> aoEquipamentos = null)
 	{
 		if (Object.FindAnyObjectByType<EventSystem>() == null)
 		{
@@ -58,6 +53,7 @@ public class TelaEscolhaHeroi : MonoBehaviour
 		TelaEscolhaHeroi t = canvas.gameObject.AddComponent<TelaEscolhaHeroi>();
 		t.m_fichas = fichas;
 		t.aoConfirmar = aoConfirmar;
+		t.aoEquipamentos = aoEquipamentos;
 		t.Montar(canvas.transform);
 		int i = fichas.FindIndex(f => f.nome == inicial);
 		t.Selecionar(i >= 0 ? i : 0);
@@ -90,24 +86,8 @@ public class TelaEscolhaHeroi : MonoBehaviour
 		}
 
 		// vitrine do modelo (girando)
-		m_rt = new RenderTexture(768, 768, 24, RenderTextureFormat.ARGB32) { name = "VitrineHeroi" };
 		RawImage vitrine = Rect("Vitrine", area, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-110f, -20f), new Vector2(560f, 560f)).gameObject.AddComponent<RawImage>();
-		vitrine.texture = m_rt;
-		vitrine.raycastTarget = false;
-		m_cam = new GameObject("CameraVitrine").AddComponent<Camera>();
-		m_cam.cullingMask = 1 << Camada;
-		m_cam.clearFlags = CameraClearFlags.SolidColor;
-		m_cam.backgroundColor = new Color(0f, 0f, 0f, 0f);
-		m_cam.fieldOfView = 28f;
-		m_cam.targetTexture = m_rt;
-		m_cam.transform.position = Palco + new Vector3(0f, 1.7f, 7.6f);
-		m_cam.transform.LookAt(Palco + Vector3.up * 1.05f);
-		m_luz = new GameObject("LuzVitrine").AddComponent<Light>();
-		m_luz.type = LightType.Directional;
-		m_luz.cullingMask = 1 << Camada;
-		m_luz.intensity = 1.25f;
-		m_luz.color = new Color(1f, 0.92f, 0.82f);
-		m_luz.transform.rotation = Quaternion.Euler(35f, 200f, 0f);
+		m_vitrine = Vitrine.Criar(vitrine);
 		Image chao = Rect("Base", area, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), new Vector2(-110f, -250f), new Vector2(380f, 70f)).gameObject.AddComponent<Image>();
 		chao.sprite = SpriteRedondo();
 		chao.color = new Color(1f, 1f, 1f, 0.06f);
@@ -136,6 +116,18 @@ public class TelaEscolhaHeroi : MonoBehaviour
 		li.color = new Color(0.85f, 0.45f, 0.12f);
 		lutar.gameObject.AddComponent<Button>().onClick.AddListener(Confirmar);
 		Texto(lutar, "Txt", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(240f, 80f), "LUTAR", 38f, TextAlignmentOptions.Center, Color.white).fontStyle = FontStyles.Bold;
+
+		if (aoEquipamentos != null)
+		{
+			RectTransform eq = Rect("Equipamentos", area, new Vector2(1f, 0f), new Vector2(1f, 0f), new Vector2(-420f, 56f), new Vector2(250f, 70f));
+			Image ei = eq.gameObject.AddComponent<Image>();
+			ei.sprite = SpriteRedondo();
+			ei.type = Image.Type.Sliced;
+			ei.pixelsPerUnitMultiplier = 4f;
+			ei.color = new Color(0.25f, 0.22f, 0.35f);
+			eq.gameObject.AddComponent<Button>().onClick.AddListener(() => aoEquipamentos(Escolhido));
+			Texto(eq, "Txt", new Vector2(0.5f, 0.5f), Vector2.zero, new Vector2(240f, 66f), "EQUIPAMENTOS", 24f, TextAlignmentOptions.Center, Color.white).fontStyle = FontStyles.Bold;
+		}
 	}
 
 	public void Selecionar(int i)
@@ -177,28 +169,7 @@ public class TelaEscolhaHeroi : MonoBehaviour
 
 	private void TrocarModelo(FichaHeroi f)
 	{
-		if (m_modelo != null)
-		{
-			Destroy(m_modelo);
-		}
-		m_modelo = f.montarModelo?.Invoke();
-		if (m_modelo == null)
-		{
-			return;
-		}
-		m_modelo.transform.SetPositionAndRotation(Palco, Quaternion.Euler(0f, 180f, 0f));
-		foreach (Transform t in m_modelo.GetComponentsInChildren<Transform>(true))
-		{
-			t.gameObject.layer = Camada;
-		}
-	}
-
-	private void Update()
-	{
-		if (m_modelo != null)
-		{
-			m_modelo.transform.Rotate(0f, 35f * Time.unscaledDeltaTime, 0f);   // gira devagar
-		}
+		m_vitrine.Trocar(f.montarModelo?.Invoke());
 	}
 
 	private void Confirmar()
@@ -210,29 +181,13 @@ public class TelaEscolhaHeroi : MonoBehaviour
 
 	public void Fechar()
 	{
-		if (m_modelo != null)
-		{
-			Destroy(m_modelo);
-		}
-		if (m_cam != null)
-		{
-			Destroy(m_cam.gameObject);
-		}
-		if (m_luz != null)
-		{
-			Destroy(m_luz.gameObject);
-		}
-		if (m_rt != null)
-		{
-			m_rt.Release();
-		}
-		Destroy(gameObject);
+		Destroy(gameObject);   // a vitrine apaga camera, luz e modelo sozinha
 	}
 
 	private static Sprite s_redondo;
 
 	// retangulo de cantos arredondados (fatiado: estica sem deformar os cantos)
-	private static Sprite SpriteRedondo()
+	public static Sprite SpriteRedondo()
 	{
 		if (s_redondo == null)
 		{
