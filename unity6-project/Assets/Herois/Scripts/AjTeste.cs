@@ -49,7 +49,42 @@ public class AjTeste : MonoBehaviour
 		{
 			Resetar();
 		}
-		m_anim.SetFloat("Velocidade", 0f);
+		Andar();
+	}
+
+	// WASD/setas: anda pela cena (parado durante a skill); a velocidade escolhe parado/andando/correndo no Animator
+	private void Andar()
+	{
+		Vector3 dir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+		float vel = 0f;
+		if (dir.sqrMagnitude > 0.01f && !m_skillB.Ativa)
+		{
+			dir.Normalize();
+			vel = 5f;
+			transform.position += dir * vel * Time.deltaTime;
+			transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 15f);
+		}
+		m_anim.SetFloat("Velocidade", vel, 0.08f, Time.deltaTime);
+	}
+
+	// botoes na tela: funcionam mesmo se a janela Game nao estiver com o foco do teclado
+	private void OnGUI()
+	{
+		GUI.skin.button.fontSize = 22;
+		float w = 170f, h = 56f, x = Screen.width - w - 20f, y = Screen.height - 3f * (h + 10f) - 20f;
+		if (GUI.Button(new Rect(x, y, w, h), "Skill B (Espaco)"))
+		{
+			SkillB();
+		}
+		if (GUI.Button(new Rect(x, y + h + 10f, w, h), "Ataque (J)"))
+		{
+			Atacar();
+		}
+		if (GUI.Button(new Rect(x, y + 2f * (h + 10f), w, h), "Voltar (T)"))
+		{
+			Resetar();
+		}
+		GUI.Label(new Rect(20f, 20f, 600f, 30f), "WASD anda | Espaco Skill B | J ataque | T volta");
 	}
 
 	public void Resetar()
