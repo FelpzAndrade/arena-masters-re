@@ -12,7 +12,6 @@ public class BattleManager : MonoBehaviour
 	public GameObject machadinhaModel;
 	public GameObject bruxaModel;
 	public GameObject[] effectPrefabs;      // Cartoon FX Remaster Free
-	public UnityEngine.Rendering.PostProcessing.PostProcessResources postResources;
 
 	public Fighter player;
 	public Fighter enemy;
@@ -95,7 +94,7 @@ public class BattleManager : MonoBehaviour
 		light.shadows = LightShadows.Soft;
 		light.transform.rotation = Quaternion.Euler(55f, -30f, 0f);
 		RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-		RenderSettings.ambientLight = new Color(0.32f, 0.3f, 0.36f);
+		RenderSettings.ambientLight = new Color(0.17f, 0.16f, 0.21f);   // espaco de cor Linear (URP): mais escuro que no Gamma
 
 		FighterDef machadinha = FighterDef.Axie();
 		machadinha.model = machadinhaModel;
@@ -315,35 +314,27 @@ public class BattleManager : MonoBehaviour
 	// bloom (magias, tochas, criticos brilham), cor mais quente/contrastada e vinheta
 	private void SetupPostProcessing()
 	{
-		if (postResources == null)
-		{
-			return;
-		}
 		cam.allowHDR = true;
-		UnityEngine.Rendering.PostProcessing.PostProcessLayer layer = cam.gameObject.AddComponent<UnityEngine.Rendering.PostProcessing.PostProcessLayer>();
-		layer.Init(postResources);
-		layer.volumeTrigger = cam.transform;
-		layer.volumeLayer = ~0;
-		layer.antialiasingMode = UnityEngine.Rendering.PostProcessing.PostProcessLayer.Antialiasing.FastApproximateAntialiasing;
-		UnityEngine.Rendering.PostProcessing.PostProcessProfile profile = ScriptableObject.CreateInstance<UnityEngine.Rendering.PostProcessing.PostProcessProfile>();
-		UnityEngine.Rendering.PostProcessing.Bloom bloom = profile.AddSettings<UnityEngine.Rendering.PostProcessing.Bloom>();
-		bloom.enabled.Override(true);
-		bloom.intensity.Override(2.2f);
-		bloom.threshold.Override(0.75f);
-		bloom.softKnee.Override(0.6f);
-		bloom.diffusion.Override(7f);
-		UnityEngine.Rendering.PostProcessing.ColorGrading grading = profile.AddSettings<UnityEngine.Rendering.PostProcessing.ColorGrading>();
-		grading.enabled.Override(true);
-		grading.tonemapper.Override(UnityEngine.Rendering.PostProcessing.Tonemapper.ACES);
-		grading.saturation.Override(12f);
-		grading.contrast.Override(14f);
-		grading.temperature.Override(6f);
-		grading.postExposure.Override(0.35f);
-		UnityEngine.Rendering.PostProcessing.Vignette vignette = profile.AddSettings<UnityEngine.Rendering.PostProcessing.Vignette>();
-		vignette.enabled.Override(true);
+		UnityEngine.Rendering.Universal.UniversalAdditionalCameraData data = UnityEngine.Rendering.Universal.CameraExtensions.GetUniversalAdditionalCameraData(cam);
+		data.renderPostProcessing = true;
+		data.antialiasing = UnityEngine.Rendering.Universal.AntialiasingMode.FastApproximateAntialiasing;
+		UnityEngine.Rendering.VolumeProfile profile = ScriptableObject.CreateInstance<UnityEngine.Rendering.VolumeProfile>();
+		UnityEngine.Rendering.Universal.Bloom bloom = profile.Add<UnityEngine.Rendering.Universal.Bloom>(true);
+		bloom.intensity.Override(1.1f);
+		bloom.threshold.Override(0.9f);
+		bloom.scatter.Override(0.7f);
+		UnityEngine.Rendering.Universal.Tonemapping tonemapping = profile.Add<UnityEngine.Rendering.Universal.Tonemapping>(true);
+		tonemapping.mode.Override(UnityEngine.Rendering.Universal.TonemappingMode.ACES);
+		UnityEngine.Rendering.Universal.ColorAdjustments color = profile.Add<UnityEngine.Rendering.Universal.ColorAdjustments>(true);
+		color.postExposure.Override(0.35f);
+		color.contrast.Override(14f);
+		color.saturation.Override(12f);
+		UnityEngine.Rendering.Universal.WhiteBalance white = profile.Add<UnityEngine.Rendering.Universal.WhiteBalance>(true);
+		white.temperature.Override(6f);
+		UnityEngine.Rendering.Universal.Vignette vignette = profile.Add<UnityEngine.Rendering.Universal.Vignette>(true);
 		vignette.intensity.Override(0.33f);
 		vignette.smoothness.Override(0.45f);
-		UnityEngine.Rendering.PostProcessing.PostProcessVolume volume = new GameObject("PosProcessamento").AddComponent<UnityEngine.Rendering.PostProcessing.PostProcessVolume>();
+		UnityEngine.Rendering.Volume volume = new GameObject("PosProcessamento").AddComponent<UnityEngine.Rendering.Volume>();
 		volume.isGlobal = true;
 		volume.priority = 1f;
 		volume.sharedProfile = profile;

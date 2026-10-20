@@ -10,6 +10,7 @@ public class HitFlash : MonoBehaviour
 	public float intensity = 0.45f;                  // brilho da emissao no pico (acima de ~0,7 o bloom estoura o boneco)
 
 	private static readonly int s_color = Shader.PropertyToID("_Color");
+	private static readonly int s_baseColor = Shader.PropertyToID("_BaseColor");   // URP Lit
 	private static readonly int s_emission = Shader.PropertyToID("_EmissionColor");
 
 	private Renderer[] m_renderers;
@@ -79,9 +80,10 @@ public class HitFlash : MonoBehaviour
 			}
 			Material m = r.sharedMaterial;
 			m_block.Clear();
-			if (m != null && m.HasProperty(s_color))
+			int main = m != null && m.HasProperty(s_baseColor) ? s_baseColor : s_color;
+			if (m != null && m.HasProperty(main))
 			{
-				m_block.SetColor(s_color, Color.Lerp(m.color, color, k * 0.5f));
+				m_block.SetColor(main, Color.Lerp(m.color, color, k * 0.5f));
 			}
 			if (m != null && m.HasProperty(s_emission))
 			{

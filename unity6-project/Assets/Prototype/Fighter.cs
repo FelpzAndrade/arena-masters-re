@@ -588,11 +588,7 @@ public class Fighter : IActor
 		tr.time = 0.16f;
 		tr.minVertexDistance = 0.05f;
 		tr.widthCurve = new AnimationCurve(new Keyframe(0f, 0.35f), new Keyframe(1f, 0f));
-		Material m = new Material(Shader.Find("Legacy Shaders/Particles/Additive") ?? Shader.Find("Sprites/Default"))
-		{
-			mainTexture = Resources.Load<Texture2D>("VFX/trace_04"),
-		};
-		tr.material = m;
+		tr.material = Vfx.ParticleMaterial(Resources.Load<Texture2D>("VFX/trace_04"), true);
 		Color c = Color.Lerp(color, Color.white, 0.4f);
 		Gradient g = new Gradient();
 		g.SetKeys(new[] { new GradientColorKey(c, 0f), new GradientColorKey(color, 1f) },

@@ -54,4 +54,48 @@ public static class VfxCapture
 		RenderTexture.active = null;
 		Debug.Log($"[VFX] captura: {shot} fotos");
 	}
+
+	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
+	public static void ReimportCfxr()
+	{
+		foreach (string f in Directory.GetFiles("Assets/JMO Assets/Cartoon FX Remaster/CFXR Assets/Shaders", "*.cfxrshader"))
+		{
+			AssetDatabase.ImportAsset(f.Replace('\\', '/'), ImportAssetOptions.ForceUpdate);
+		}
+	}
+
+	// lista o shader de cada efeito que aparece numa luta de 60 s (acha o que o pipeline nao desenha)
+	public static void Diagnose()
+	{
+		EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+		BattleManager bm = new GameObject("BattleManager").AddComponent<BattleManager>();
+		bm.playerControlled = false;
+		typeof(PrototypeSetup).GetMethod("AssignModels", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)?.Invoke(null, new object[] { bm });
+		bm.Setup();
+		System.Collections.Generic.HashSet<string> seen = new System.Collections.Generic.HashSet<string>();
+		System.Text.StringBuilder log = new System.Text.StringBuilder();
+		for (int frame = 0; frame < 30 * 60; frame++)
+		{
+			bm.Step(1f / 30f);
+			foreach (Renderer r in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None))
+			{
+				if (!(r is ParticleSystemRenderer || r is TrailRenderer || r is LineRenderer))
+				{
+					continue;
+				}
+				Transform root = r.transform.root;
+				foreach (Material m in r.sharedMaterials)
+				{
+					string sh = m == null ? "NULL" : m.shader.name;
+					bool ok = m != null && m.shader.isSupported && !ShaderUtil.ShaderHasError(m.shader);
+					string key = $"{root.name} / {r.name} : {sh} ok={ok}";
+					if (seen.Add(key))
+					{
+						log.AppendLine(key);
+					}
+				}
+			}
+		}
+		File.WriteAllText("C:/Users/felip/arena-masters-re/captures/vfx_diagnostico.txt", log.ToString());
+	}
 }

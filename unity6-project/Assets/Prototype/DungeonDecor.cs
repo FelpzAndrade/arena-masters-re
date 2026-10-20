@@ -136,8 +136,8 @@ public static class DungeonDecor
 							l.transform.localPosition = new Vector3(0f, 0.7f, 0.4f);
 							l.type = LightType.Point;
 							l.color = new Color(1f, 0.62f, 0.3f);
-							l.range = 9f;
-							l.intensity = 1.6f;
+							l.range = 10f;
+							l.intensity = 4f;   // URP: queda da luz fisica, precisa de mais intensidade
 							lights++;
 						}
 					}

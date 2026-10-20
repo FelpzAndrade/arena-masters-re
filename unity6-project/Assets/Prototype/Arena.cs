@@ -468,7 +468,7 @@ public class Arena
 
 	public static Material MakeMaterial(Color color)
 	{
-		Shader shader = Shader.Find("Standard") ?? Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Unlit/Color");
+		Shader shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Unlit/Color");
 		return new Material(shader) { color = color };
 	}
 }

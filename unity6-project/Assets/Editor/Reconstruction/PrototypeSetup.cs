@@ -23,11 +23,6 @@ public static class PrototypeSetup
 			fx.Add(AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(guid)));
 		}
 		bm.effectPrefabs = fx.ToArray();
-		string[] post = AssetDatabase.FindAssets("t:PostProcessResources");
-		if (post.Length > 0)
-		{
-			bm.postResources = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.PostProcessing.PostProcessResources>(AssetDatabase.GUIDToAssetPath(post[0]));
-		}
 		bm.bruxaModel = AssetDatabase.LoadAssetAtPath<GameObject>(MagePath);
 	}
 

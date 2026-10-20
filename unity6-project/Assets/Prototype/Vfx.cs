@@ -501,11 +501,21 @@ public static class Vfx
 		string key = tex + (additive ? "+" : "a");
 		if (!s_materials.TryGetValue(key, out Material m))
 		{
-			Shader shader = Shader.Find(additive ? "Legacy Shaders/Particles/Additive" : "Legacy Shaders/Particles/Alpha Blended")
-				?? Shader.Find("Particles/Standard Unlit");
-			m = new Material(shader) { mainTexture = Resources.Load<Texture2D>("VFX/" + tex) };
+			m = ParticleMaterial(Resources.Load<Texture2D>("VFX/" + tex), additive);
 			s_materials[key] = m;
 		}
+		return m;
+	}
+
+	// material de particula com o shader proprio (funciona no URP): brilho = cinza da textura, cor = cor da particula
+	public static Material ParticleMaterial(Texture2D tex, bool additive)
+	{
+		Material m = new Material(Shader.Find("ArenaMasters/VFX/Particula Dissolve")) { mainTexture = tex };
+		m.SetColor("_Color", Color.black);
+		m.SetColor("_CoreColor", Color.white);
+		m.SetFloat("_CorePower", 1f);
+		m.SetFloat("_Distortion", 0f);
+		m.SetFloat("_Additive", additive ? 1f : 0f);
 		return m;
 	}
 

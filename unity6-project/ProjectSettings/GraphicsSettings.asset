@@ -2,8 +2,8 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!30 &1
 GraphicsSettings:
-  serializedVersion: 7
   m_ObjectHideFlags: 0
+  serializedVersion: 16
   m_Deferred:
     m_Mode: 1
     m_Shader: {fileID: 69, guid: 0000000000000000f000000000000000, type: 0}
@@ -13,9 +13,6 @@ GraphicsSettings:
   m_ScreenSpaceShadows:
     m_Mode: 0
     m_Shader: {fileID: 0}
-  m_LegacyDeferred:
-    m_Mode: 1
-    m_Shader: {fileID: 63, guid: 0000000000000000f000000000000000, type: 0}
   m_DepthNormals:
     m_Mode: 1
     m_Shader: {fileID: 62, guid: 0000000000000000f000000000000000, type: 0}
@@ -28,6 +25,7 @@ GraphicsSettings:
   m_LensFlare:
     m_Mode: 0
     m_Shader: {fileID: 0}
+  m_VideoShadersIncludeMode: 2
   m_AlwaysIncludedShaders:
   - {fileID: 7, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 15104, guid: 0000000000000000f000000000000000, type: 0}
@@ -45,55 +43,100 @@ GraphicsSettings:
   - {fileID: 9002, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 9003, guid: 0000000000000000f000000000000000, type: 0}
   m_PreloadedShaders: []
-  m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderSettings_Tier1:
-    useCascadedShadowMaps: 1
-    standardShaderQuality: 2
-    useReflectionProbeBoxProjection: 1
-    useReflectionProbeBlending: 1
-  m_ShaderSettings_Tier2:
-    useCascadedShadowMaps: 1
-    standardShaderQuality: 2
-    useReflectionProbeBoxProjection: 1
-    useReflectionProbeBlending: 1
-  m_ShaderSettings_Tier3:
-    useCascadedShadowMaps: 1
-    standardShaderQuality: 2
-    useReflectionProbeBoxProjection: 1
-    useReflectionProbeBlending: 1
-  m_BuildTargetShaderSettings:
-  - m_BuildTarget: Android
+  m_PreloadShadersBatchTimeLimit: -1
+  m_GraphicsStateCollection: {fileID: 0}
+  m_CollectionStartupAction: 0
+  m_TraceSavePath: TracedCollection
+  m_TraceSendToEditor: 1
+  m_AdditionalWarmupCollections: []
+  m_WarmupAsync: 1
+  m_EnableCacheMissTracing: 0
+  m_WarmupProgressivelyLimit: -1
+  m_CacheMissCollectionPath: CacheMissCollection
+  m_SpritesDefaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000,
+    type: 0}
+  m_CustomRenderPipeline: {fileID: 11400000, guid: 49fdee936da49b342b866632b9212a31,
+    type: 2}
+  m_TransparencySortMode: 0
+  m_TransparencySortAxis: {x: 0, y: 0, z: 1}
+  m_DefaultRenderingPath: 1
+  m_DefaultMobileRenderingPath: 1
+  m_TierSettings:
+  - serializedVersion: 5
+    m_BuildTarget: 7
     m_Tier: 0
-    m_ShaderSettings:
-      useCascadedShadowMaps: 1
+    m_Settings:
       standardShaderQuality: 2
+      renderingPath: 1
+      hdrMode: 2
+      realtimeGICPUUsage: 25
       useReflectionProbeBoxProjection: 1
       useReflectionProbeBlending: 1
+      useHDR: 0
+      useDetailNormalMap: 0
+      useCascadedShadowMaps: 1
+      prefer32BitShadowMaps: 0
+      enableLPPV: 0
+      useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 0
-  - m_BuildTarget: Android
+  - serializedVersion: 5
+    m_BuildTarget: 7
     m_Tier: 1
-    m_ShaderSettings:
-      useCascadedShadowMaps: 1
+    m_Settings:
       standardShaderQuality: 2
+      renderingPath: 1
+      hdrMode: 2
+      realtimeGICPUUsage: 25
       useReflectionProbeBoxProjection: 1
       useReflectionProbeBlending: 1
+      useHDR: 0
+      useDetailNormalMap: 0
+      useCascadedShadowMaps: 1
+      prefer32BitShadowMaps: 0
+      enableLPPV: 0
+      useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 0
-  - m_BuildTarget: Android
+  - serializedVersion: 5
+    m_BuildTarget: 7
     m_Tier: 2
-    m_ShaderSettings:
-      useCascadedShadowMaps: 1
+    m_Settings:
       standardShaderQuality: 2
+      renderingPath: 1
+      hdrMode: 2
+      realtimeGICPUUsage: 25
       useReflectionProbeBoxProjection: 1
       useReflectionProbeBlending: 1
+      useHDR: 0
+      useDetailNormalMap: 0
+      useCascadedShadowMaps: 1
+      prefer32BitShadowMaps: 0
+      enableLPPV: 0
+      useDitherMaskForAlphaBlendedShadows: 0
     m_Automatic: 0
   m_LightmapStripping: 0
   m_FogStripping: 0
+  m_InstancingStripping: 0
+  m_BrgStripping: 0
   m_LightmapKeepPlain: 1
   m_LightmapKeepDirCombined: 1
-  m_LightmapKeepDirSeparate: 1
   m_LightmapKeepDynamicPlain: 1
   m_LightmapKeepDynamicDirCombined: 1
-  m_LightmapKeepDynamicDirSeparate: 1
+  m_LightmapKeepShadowMask: 1
+  m_LightmapKeepSubtractive: 1
   m_FogKeepLinear: 1
   m_FogKeepExp: 1
   m_FogKeepExp2: 1
+  m_AlbedoSwatchInfos: []
+  m_RenderPipelineGlobalSettingsMap:
+    UnityEngine.Rendering.Universal.UniversalRenderPipeline: {fileID: 11400000, guid: 21810188931021a4cae2a3a6d80bde5d,
+      type: 2}
+  m_ShaderBuildSettings:
+    keywordDeclarationOverrides: []
+    numInternalDefines: 0
+    defines: []
+  m_LightsUseLinearIntensity: 1
+  m_LightsUseColorTemperature: 1
+  m_LogWhenShaderIsCompiled: 0
+  m_LightProbeOutsideHullStrategy: 0
+  m_CameraRelativeLightCulling: 0
+  m_CameraRelativeShadowCulling: 0
