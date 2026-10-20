@@ -47,7 +47,10 @@ public class FighterDef
 			hiddenParts = new[] { "1H_Axe", "1H_Axe_Offhand", "Barbarian_Round_Shield", "Mug" },
 			weapon = "2H_Axe",
 			animIdle = "2H_Melee_Idle",
-			animRun = "Running_A",
+			animRun = "Axie_Correr",                 // feitas no Blender: machado firme na guarda, passada longa
+			animStrafeLeft = "Axie_Lado_E",
+			animStrafeRight = "Axie_Lado_D",
+			animBackwards = "Axie_Correr_Tras",
 			animHit = "Hit_A",
 			animDeath = "Death_A",
 			animAirborne = "Hit_B",
@@ -143,7 +146,8 @@ public class FighterDef
 			hiddenParts = new[] { "Spellbook", "Spellbook_open", "1H_Wand" },
 			weapon = "2H_Staff",
 			animIdle = "Idle",
-			animRun = "Running_A",
+			animRun = "Correr",                      // feitas no Blender: passada longa; para tras correndo (nao andando)
+			animBackwards = "Correr_Tras",
 			animHit = "Hit_A",
 			animDeath = "Death_B",
 			animAirborne = "Hit_B",

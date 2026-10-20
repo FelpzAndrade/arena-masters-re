@@ -98,6 +98,15 @@ public class Fighter : IActor
 		{ "Corneta_Guerra", 0.3f },    // feita no Blender: grito no quadro 9 de 22
 		{ "Golpe_Terra", 0.333f },     // feita no Blender: machado bate no chao no quadro 10 de 28
 	};
+
+	// velocidade natural de cada clipe de locomocao (m/s, medida no pe de apoio no Blender): o clipe toca na
+	// velocidade real / natural para o pe nao escorregar no chao
+	private static readonly Dictionary<string, float> GroundSpeed = new Dictionary<string, float>
+	{
+		{ "Running_A", 3.72f }, { "Running_Strafe_Left", 3.44f }, { "Running_Strafe_Right", 3.39f }, { "Walking_Backwards", 0.81f },
+		{ "Correr", 4.58f }, { "Axie_Correr", 4.58f }, { "Correr_Tras", 4f }, { "Axie_Correr_Tras", 4f },
+		{ "Axie_Lado_E", 3.44f }, { "Axie_Lado_D", 3.39f },
+	};
 	private bool m_ultHitCharge;           // EnableHitCharge: so o primeiro acerto de cada skill carrega
 
 	public Vector3 Position => go.transform.position;
@@ -460,7 +469,12 @@ public class Fighter : IActor
 		{
 			if (m_moved)
 			{
-				PlayLoop(LocomotionClip());
+				string loco = LocomotionClip();
+				PlayLoop(loco);
+				if (m_anim != null && m_anim[loco] != null && GroundSpeed.TryGetValue(loco, out float natural))
+				{
+					m_anim[loco].speed = Mathf.Clamp(MoveSpeed / natural, 0.6f, 1.9f);
+				}
 			}
 			else if (m_cheer > 0f)
 			{
@@ -527,13 +541,22 @@ public class Fighter : IActor
 			{
 				all.AddRange(sd.combo);
 			}
-			if (!string.IsNullOrEmpty(sd.anim) && m_anim[sd.anim] == null)
+			AddExtraClip(sd.anim);
+		}
+		foreach (string name in new[] { def.animIdle, def.animRun, def.animStrafeLeft, def.animStrafeRight, def.animBackwards })
+		{
+			AddExtraClip(name);
+		}
+	}
+
+	private void AddExtraClip(string name)
+	{
+		if (!string.IsNullOrEmpty(name) && m_anim[name] == null)
+		{
+			AnimationClip clip = Resources.Load<AnimationClip>("Anim/" + name);
+			if (clip != null)
 			{
-				AnimationClip clip = Resources.Load<AnimationClip>("Anim/" + sd.anim);
-				if (clip != null)
-				{
-					m_anim.AddClip(clip, sd.anim);
-				}
+				m_anim.AddClip(clip, name);
 			}
 		}
 	}
