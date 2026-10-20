@@ -150,6 +150,52 @@ public static class VfxCapture
 		return "agendado";
 	}
 
+	// No Play: congela a luta (ninguem pensa nem leva dano) e fotografa pela camera do jogo, com pos-processamento,
+	// direto num RenderTexture (o print da Game View pode vir velho quando o editor esta sem foco).
+	// Salva em unity6-project/Captures/<nome>.png e devolve o brilho (media e percentis 10/50/90, so a area de jogo).
+	public static string MapShot(string name)
+	{
+		BattleManager bm = Object.FindFirstObjectByType<BattleManager>();
+		if (!EditorApplication.isPlaying || bm == null)
+		{
+			return "precisa estar no Play com a luta aberta";
+		}
+		bm.brainsPaused = true;
+		bm.player.invulnerable = bm.enemy.invulnerable = true;
+		RenderTexture rt = new RenderTexture(960, 540, 24);
+		RenderTexture old = bm.cam.targetTexture;
+		bm.cam.targetTexture = rt;
+		bm.cam.Render();
+		bm.cam.targetTexture = old;
+		RenderTexture.active = rt;
+		Texture2D tex = new Texture2D(960, 540, TextureFormat.RGB24, false);
+		tex.ReadPixels(new Rect(0, 0, 960, 540), 0, 0);
+		tex.Apply();
+		RenderTexture.active = null;
+		rt.Release();
+		Directory.CreateDirectory("Captures");
+		File.WriteAllBytes($"Captures/{name}.png", tex.EncodeToPNG());
+		System.Collections.Generic.List<float> lum = new System.Collections.Generic.List<float>();
+		Color[] px = tex.GetPixels();
+		for (int i = 0; i < px.Length; i += 7)
+		{
+			int y = i / 960;
+			if (y > 110 && y < 500)   // sem a barra de habilidades e o placar (a imagem vem de baixo para cima)
+			{
+				Color c = px[i];
+				lum.Add(c.r * 0.299f + c.g * 0.587f + c.b * 0.114f);
+			}
+		}
+		lum.Sort();
+		float avg = 0f;
+		foreach (float l in lum)
+		{
+			avg += l;
+		}
+		avg /= lum.Count;
+		return $"media={avg:0.000} p10={lum[lum.Count / 10]:0.000} p50={lum[lum.Count / 2]:0.000} p90={lum[lum.Count * 9 / 10]:0.000}";
+	}
+
 	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
 	public static void ReimportCfxr()
 	{

@@ -166,7 +166,7 @@ public class BattleManager : MonoBehaviour
 		}
 		cam = new GameObject("Camera").AddComponent<Camera>();
 		cam.clearFlags = CameraClearFlags.SolidColor;
-		cam.backgroundColor = new Color(0.03f, 0.03f, 0.05f);
+		cam.backgroundColor = new Color(0.105f, 0.075f, 0.075f);   // fundo do vazio/fosso em marrom escuro (#1b1313), nao preto
 		cam.fieldOfView = CameraFov;
 		SetupPostProcessing();
 		m_playerBrain = playerControlled ? (IBrain)new PlayerBrain(cam) : new BotBrain(7);
@@ -383,15 +383,17 @@ public class BattleManager : MonoBehaviour
 		bloom.threshold.Override(0.9f);
 		bloom.scatter.Override(0.7f);
 		UnityEngine.Rendering.Universal.Tonemapping tonemapping = profile.Add<UnityEngine.Rendering.Universal.Tonemapping>(true);
-		tonemapping.mode.Override(UnityEngine.Rendering.Universal.TonemappingMode.ACES);
+		// Neutral, nao ACES: o ACES esmaga o escuro (a masmorra virava preto) e satura o laranja; medido contra a referencia
+		// do jogo (folha_referencia.jpg: brilho medio ~0,23, escuro ~0,09 marrom), com estes valores a tela fica em ~0,20 / 0,075
+		tonemapping.mode.Override(UnityEngine.Rendering.Universal.TonemappingMode.Neutral);
 		UnityEngine.Rendering.Universal.ColorAdjustments color = profile.Add<UnityEngine.Rendering.Universal.ColorAdjustments>(true);
-		color.postExposure.Override(0.35f);
-		color.contrast.Override(14f);
-		color.saturation.Override(12f);
+		color.postExposure.Override(1.4f);
+		color.contrast.Override(-8f);
+		color.saturation.Override(6f);
 		UnityEngine.Rendering.Universal.WhiteBalance white = profile.Add<UnityEngine.Rendering.Universal.WhiteBalance>(true);
-		white.temperature.Override(6f);
+		white.temperature.Override(5f);   // ambiente puxado pro quente: herois e efeitos frios saltam do fundo
 		UnityEngine.Rendering.Universal.Vignette vignette = profile.Add<UnityEngine.Rendering.Universal.Vignette>(true);
-		vignette.intensity.Override(0.33f);
+		vignette.intensity.Override(0.4f);
 		vignette.smoothness.Override(0.45f);
 		UnityEngine.Rendering.Volume volume = new GameObject("PosProcessamento").AddComponent<UnityEngine.Rendering.Volume>();
 		volume.isGlobal = true;

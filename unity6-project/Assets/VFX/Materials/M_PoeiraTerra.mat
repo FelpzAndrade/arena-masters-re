@@ -41,8 +41,8 @@ Material:
     - _Intensity: 1
     - _Softness: 0.04
     m_Colors:
-    - _Color: {r: 0.3, g: 0.24, b: 0.18, a: 1}
-    - _CoreColor: {r: 0.8, g: 0.68, b: 0.52, a: 1}
+    - _Color: {r: 0.16, g: 0.12, b: 0.09, a: 1}
+    - _CoreColor: {r: 0.4, g: 0.32, b: 0.24, a: 1}
     - _EdgeColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainScroll: {r: 0, g: 0, b: 0, a: 0}
     - _NoiseScroll: {r: 0.1, g: 0.15, b: 0, a: 0}

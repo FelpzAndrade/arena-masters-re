@@ -19,11 +19,12 @@ public static class ArenaBake
 	private const string ScenePath = "Assets/Scenes/Prototype1x1.unity";
 	private const string MapDir = "Assets/Map";
 	private const string LightRootName = "Iluminacao (bake)";
+	private const string DecalRootName = "Decalques";
 
 	// cores da paleta da referencia (paleta.png), em sRGB
 	private static readonly Color TorchColor = new Color(1f, 0.52f, 0.22f);       // fogo #9c441e clareado
 	private static readonly Color CenterColor = new Color(0.82f, 0.65f, 0.35f);   // areia iluminada #d0a759
-	private static readonly Color AmbientColor = new Color(0.11f, 0.075f, 0.07f); // sombra quente #1b1313
+	private static readonly Color AmbientColor = new Color(0.3f, 0.22f, 0.17f);   // sombra marrom (nao preta): na referencia o escuro fica em ~0,09
 
 	[MenuItem("Arena Masters/Mapa/Salvar arena e fazer bake")]
 	public static void Run()
@@ -40,7 +41,7 @@ public static class ArenaBake
 		Scene();
 		Directory.CreateDirectory(MapDir);
 
-		foreach (string n in new[] { DungeonDecor.RootName, LightRootName, "DuelArena (navmesh original)" })
+		foreach (string n in new[] { DungeonDecor.RootName, LightRootName, DecalRootName, "DuelArena (navmesh original)" })
 		{
 			GameObject old = GameObject.Find(n);
 			if (old != null)
@@ -59,7 +60,7 @@ public static class ArenaBake
 			Material[] mats = r.sharedMaterials;
 			for (int i = 0; i < mats.Length; i++)
 			{
-				if (mats[i] != null && mats[i].mainTexture == shared.mainTexture)
+				if (mats[i] != null && mats[i].mainTexture != null && mats[i].mainTexture.name == "dungeon_texture")
 				{
 					mats[i] = shared;
 				}
@@ -75,13 +76,16 @@ public static class ArenaBake
 		{
 			GameObjectUtility.SetStaticEditorFlags(t.gameObject, GameObjectUtility.GetStaticEditorFlags(t.gameObject) | StaticEditorFlags.BatchingStatic | StaticEditorFlags.ContributeGI);
 		}
+		Vector3 fightCenter = arena.SpawnPoint(Vector3.zero) + Vector3.down * Arena.CenterHeight;   // meio entre os dois spawns
+		ArenaVisual.Vary(root, fightCenter);
+		ArenaVisual.Decals(arena, fightCenter, DecalRootName);
 		// tochas do Build: viram luz de bake (a luz que pisca e a do LuzesBraseiros)
 		foreach (Light l in root.GetComponentsInChildren<Light>(true))
 		{
 			l.lightmapBakeType = LightmapBakeType.Baked;
 			l.color = TorchColor;
-			l.intensity = 2.5f;   // o bake do URP usa queda de luz antiga (pelo alcance), nao a fisica do tempo real
-			l.range = 9f;
+			l.intensity = 4f;   // o bake do URP usa queda de luz antiga (pelo alcance), nao a fisica do tempo real
+			l.range = 10f;
 			l.shadows = LightShadows.Soft;
 			l.shapeRadius = 0.25f;
 			flames.Add(l.transform.position);
@@ -95,7 +99,7 @@ public static class ArenaBake
 		sun.type = LightType.Directional;
 		sun.lightmapBakeType = LightmapBakeType.Mixed;
 		sun.color = new Color(1f, 0.86f, 0.72f);
-		sun.intensity = 0.35f;
+		sun.intensity = 0.45f;
 		sun.shadows = LightShadows.Soft;
 		sun.shadowStrength = 0.8f;
 		sun.transform.rotation = Quaternion.Euler(62f, -35f, 0f);
@@ -109,7 +113,7 @@ public static class ArenaBake
 		center.spotAngle = 95f;
 		center.innerSpotAngle = 40f;
 		center.range = 40f;
-		center.intensity = 1.3f;
+		center.intensity = 2.4f;
 		center.shadows = LightShadows.Soft;
 		center.shapeRadius = 2f;
 		center.transform.position = new Vector3(b.center.x, b.max.y + 16f, b.center.z);
@@ -181,6 +185,7 @@ public static class ArenaBake
 		so.FindProperty("m_SoftShadowsSupported").boolValue = true;
 		so.FindProperty("m_MixedLightingSupported").boolValue = true;
 		so.FindProperty("m_AdditionalLightsPerObjectLimit").intValue = 4;
+		so.FindProperty("m_ColorGradingMode").enumValueIndex = (int)UnityEngine.Rendering.Universal.ColorGradingMode.HighDynamicRange;   // ACES de verdade
 		so.ApplyModifiedPropertiesWithoutUndo();
 		var list = (UnityEngine.Rendering.Universal.ScriptableRendererData[])typeof(UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset)
 			.GetField("m_RendererDataList", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(rp);
@@ -189,6 +194,11 @@ public static class ArenaBake
 			if (d is UnityEngine.Rendering.Universal.UniversalRendererData u)
 			{
 				u.renderingMode = UnityEngine.Rendering.Universal.RenderingMode.ForwardPlus;
+				// sem este arquivo o renderer ignora todo o pos-processamento (bloom, cor, exposicao, vinheta)
+				if (u.postProcessData == null)
+				{
+					u.postProcessData = AssetDatabase.LoadAssetAtPath<UnityEngine.Rendering.Universal.PostProcessData>("Packages/com.unity.render-pipelines.universal/Runtime/Data/PostProcessData.asset");
+				}
 				EditorUtility.SetDirty(u);
 			}
 		}

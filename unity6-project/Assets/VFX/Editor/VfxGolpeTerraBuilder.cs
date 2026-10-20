@@ -85,8 +85,8 @@ public static class VfxGolpeTerraBuilder
 		dust.SetTexture("_MainTex", puff);
 		dust.SetTexture("_NoiseTex", noise);
 		dust.SetVector("_NoiseScroll", new Vector4(0.1f, 0.15f, 0f, 0f));
-		dust.SetColor("_Color", new Color(0.3f, 0.24f, 0.18f, 1f));
-		dust.SetColor("_CoreColor", new Color(0.8f, 0.68f, 0.52f, 1f));
+		dust.SetColor("_Color", new Color(0.16f, 0.12f, 0.09f, 1f));   // escuro: a exposicao da tela (+1,4) clareia tudo
+		dust.SetColor("_CoreColor", new Color(0.4f, 0.32f, 0.24f, 1f));
 		dust.SetFloat("_CorePower", 1f);
 		dust.SetColor("_EdgeColor", Color.black);   // borda do dissolve sem brilho (so corroi)
 		dust.SetFloat("_Distortion", 0.05f);
