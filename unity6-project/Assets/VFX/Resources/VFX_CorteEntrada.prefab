@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1cb00cbcd8d22542ae887671abc095a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EfeitoCor
-  cor: {r: 0.25, g: 0.55, b: 1, a: 1}
+  cor: {r: 0.04, g: 0.4, b: 1, a: 1}
   partes:
   - renderer: {fileID: 2355540101968169047}
     brilho: 2.6

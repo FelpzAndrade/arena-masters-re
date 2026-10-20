@@ -8,13 +8,16 @@ using UnityEngine;
 // Os efeitos sao os prefabs VFX_EsferaGiratoria e VFX_CorteEntrada (Assets/VFX/Resources), pintados por EfeitoCor.
 public class SkillEsferaGiratoria : MonoBehaviour
 {
-	[ColorUsage(false, true)] public Color cor = new Color(0.25f, 0.55f, 1f);
+	[ColorUsage(false, true)] public Color cor = new Color(0.04f, 0.4f, 1f);   // azul saturado (componentes baixos = cor forte depois do tonemapping)
 	public float escala = 1f;            // tamanho do efeito (1 = heroi de ~1,8 m)
 	public float alturaCentro = 0.95f;   // altura do centro do corpo (onde a esfera fica)
 	public float atraso = 0.2f;          // segundos entre apertar o botao e a esfera aparecer
 	public float duracao = 0.75f;        // tempo da esfera na tela
-	public float distancia = 3.5f;       // quanto o heroi avanca durante a esfera
-	public float raioAcerto = 1.3f;      // alcance do giro (para quem chama checar o acerto)
+	public float distancia = 4.5f;       // quanto o heroi avanca durante a esfera (na direcao da mira)
+	public float raioAcerto = 1.3f;      // raio da esfera (x escala): quem estiver dentro dela no caminho leva o acerto
+
+	public Vector3 Centro => transform.position + Vector3.up * alturaCentro;
+	public float Raio => raioAcerto * escala;
 
 	public bool Ativa => m_tempo >= 0f && m_tempo < atraso + duracao;
 	public bool EsferaNaTela => m_tempo >= atraso && m_tempo < atraso + duracao;

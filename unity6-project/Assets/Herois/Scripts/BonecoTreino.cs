@@ -24,7 +24,7 @@ public class BonecoTreino : MonoBehaviour
 		m_tranDir.y = 0f;
 		m_tranDir = m_tranDir.sqrMagnitude > 0f ? m_tranDir.normalized : Vector3.forward;
 		Vector3 pos = transform.position + Vector3.up * altura + new Vector3(Random.Range(-0.3f, 0.3f), 0f, 0f);
-		DamageNumber.Show(pos, dano.ToString(), new Color(1f, 0.92f, 0.6f), critico ? DamageNumber.Estilo.Critico : DamageNumber.Estilo.Golpe);
+		DamageNumber.Show(pos, dano.ToString(), new Color(1f, 0.85f, 0.15f), critico ? DamageNumber.Estilo.Critico : DamageNumber.Estilo.Golpe);
 	}
 
 	private void Update()

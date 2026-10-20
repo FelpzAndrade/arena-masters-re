@@ -21,7 +21,7 @@ public class CapturaSequencia : MonoBehaviour
 		CapturaSequencia c = new GameObject("CapturaSequencia").AddComponent<CapturaSequencia>();
 		c.nome = nome;
 		c.tempos = tempos;
-		c.cam = Camera.main;
+		c.cam = Camera.main != null ? Camera.main : Object.FindAnyObjectByType<Camera>();   // a camera da luta nao tem a tag MainCamera
 		c.acao = acao;
 		return c;
 	}

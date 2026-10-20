@@ -2172,12 +2172,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e51459a2508568e488c836045e2f9c3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkillEsferaGiratoria
-  cor: {r: 0.25, g: 0.55, b: 1, a: 1}
+  cor: {r: 0.04, g: 0.4, b: 1, a: 1}
   escala: 1.2632703
   alturaCentro: 1.0420209
   atraso: 0.2
   duracao: 0.75
-  distancia: 3.5
+  distancia: 4.5
   raioAcerto: 1.3
 --- !u!1001 &407295361
 PrefabInstance:

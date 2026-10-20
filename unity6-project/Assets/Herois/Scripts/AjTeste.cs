@@ -18,6 +18,7 @@ public class AjTeste : MonoBehaviour
 	private Vector3 m_inicio, m_inicioBoneco;
 	private string m_acao = "";
 	private int m_impactos;
+	private bool m_acertouCaminho;
 	private int m_passo;
 	private float m_semTocar = 99f;
 	private static GameObject s_impacto;
@@ -39,7 +40,7 @@ public class AjTeste : MonoBehaviour
 		m_semTocar += Time.deltaTime;
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			SkillB();
+			SkillB(MiraDoMouse());
 		}
 		if (Input.GetKeyDown(KeyCode.J))
 		{
@@ -50,6 +51,36 @@ public class AjTeste : MonoBehaviour
 			Resetar();
 		}
 		Andar();
+		AcertoNoCaminho();
+	}
+
+	// a esfera acerta quem estiver dentro dela no caminho (uma vez por alvo a cada uso)
+	private void AcertoNoCaminho()
+	{
+		if (!m_skillB.EsferaNaTela || m_acertouCaminho || boneco == null)
+		{
+			return;
+		}
+		Vector3 d = boneco.transform.position + Vector3.up * boneco.altura * 0.5f - m_skillB.Centro;
+		if (d.magnitude <= m_skillB.Raio + 0.4f)
+		{
+			m_acertouCaminho = true;
+			Acertar(99f, 980, 0.05f, 0.1f);
+		}
+	}
+
+	// ponto do chao sob o mouse (plano na altura do heroi); null se o mouse estiver fora da tela
+	private Vector3? MiraDoMouse()
+	{
+		Camera cam = Camera.main;
+		Vector3 m = Input.mousePosition;
+		if (cam == null || m.x < 0f || m.y < 0f || m.x > Screen.width || m.y > Screen.height)
+		{
+			return null;
+		}
+		Ray ray = cam.ScreenPointToRay(m);
+		Plane chao = new Plane(Vector3.up, transform.position);
+		return chao.Raycast(ray, out float dist) ? ray.GetPoint(dist) : (Vector3?)null;
 	}
 
 	// WASD/setas: anda pela cena (parado durante a skill); a velocidade escolhe parado/andando/correndo no Animator
@@ -74,7 +105,7 @@ public class AjTeste : MonoBehaviour
 		float w = 170f, h = 56f, x = Screen.width - w - 20f, y = Screen.height - 3f * (h + 10f) - 20f;
 		if (GUI.Button(new Rect(x, y, w, h), "Skill B (Espaco)"))
 		{
-			SkillB();
+			SkillB(null);
 		}
 		if (GUI.Button(new Rect(x, y + h + 10f, w, h), "Ataque (J)"))
 		{
@@ -99,9 +130,32 @@ public class AjTeste : MonoBehaviour
 
 	public void SkillB()
 	{
-		OlharBoneco();
+		SkillB(null);
+	}
+
+	// mira: ponto do chao para onde a esfera vai (null = na direcao do boneco)
+	public void SkillB(Vector3? mira)
+	{
+		if (m_skillB.Ativa)
+		{
+			return;
+		}
+		if (mira.HasValue)
+		{
+			Vector3 d = mira.Value - transform.position;
+			d.y = 0f;
+			if (d.sqrMagnitude > 0.04f)
+			{
+				transform.rotation = Quaternion.LookRotation(d);
+			}
+		}
+		else
+		{
+			OlharBoneco();
+		}
 		m_acao = "Redemoinho";
 		m_impactos = 0;
+		m_acertouCaminho = false;
 		m_anim.SetTrigger("Redemoinho");
 		m_skillB.Iniciar(transform.forward);
 	}
@@ -133,11 +187,7 @@ public class AjTeste : MonoBehaviour
 				m_skillB.CorteEntrada();
 				Acertar(alcanceGolpe, 1340, 0.05f, 0.12f);
 			}
-			else if (m_skillB.EsferaNaTela)
-			{
-				Acertar(m_skillB.raioAcerto * m_skillB.escala + 0.6f, 980, 0.05f, 0.1f);
-			}
-			return;
+			return;   // o giro acerta pelo caminho (AcertoNoCaminho), nao num quadro fixo
 		}
 		Acertar(alcanceGolpe, m_acao == "Ataque4" ? 860 : 520, 0.05f, m_acao == "Ataque4" ? 0.14f : 0.08f);
 	}

@@ -15,7 +15,7 @@ public class EfeitoCor : MonoBehaviour
 		public bool fixa;                  // true = mantem a cor do material
 	}
 
-	[ColorUsage(false, true)] public Color cor = new Color(0.25f, 0.55f, 1f);
+	[ColorUsage(false, true)] public Color cor = new Color(0.04f, 0.4f, 1f);   // azul saturado (componentes baixos = cor forte depois do tonemapping)
 	public Parte[] partes = new Parte[0];
 
 	private static readonly int s_color = Shader.PropertyToID("_Color");

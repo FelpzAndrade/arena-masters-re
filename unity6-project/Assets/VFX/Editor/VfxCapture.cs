@@ -234,6 +234,30 @@ public static class VfxCapture
 		return "agendado";
 	}
 
+	// Teste da Skill B com a luz da arena: na luta (Prototype1x1) em Play, poe o SkillEsferaGiratoria no Axie so durante o
+	// Play (nao muda a cena), dispara na direcao do Spark e fotografa pela camera da luta. Fotos em Captures/<nome>_<i>.png.
+	public static string ArenaSkillB(string name, float[] times)
+	{
+		BattleManager bm = Object.FindAnyObjectByType<BattleManager>();
+		if (!EditorApplication.isPlaying || bm == null)
+		{
+			return "precisa estar no Play com a luta aberta";
+		}
+		bm.brainsPaused = true;
+		bm.player.invulnerable = bm.enemy.invulnerable = true;
+		GameObject go = bm.player.go;
+		SkillEsferaGiratoria skill = go.GetComponent<SkillEsferaGiratoria>() ?? go.AddComponent<SkillEsferaGiratoria>();
+		skill.alturaCentro = 0f;   // o objeto do lutador ja fica no centro do corpo (1 m acima do pe)
+		skill.escala = 1f;
+		Vector3 dir = bm.enemy.Position - bm.player.Position;
+		CapturaSequencia.Iniciar(name, times, () =>
+		{
+			skill.Iniciar(dir);
+			skill.CorteEntrada();
+		});
+		return "agendado";
+	}
+
 	// os shaders do Cartoon FX sao gerados na importacao para o pipeline ativo: depois de trocar de pipeline, reimportar
 	public static void ReimportCfxr()
 	{

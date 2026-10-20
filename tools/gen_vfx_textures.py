@@ -280,19 +280,19 @@ def make_swirl(size=256, rng=None):
 	return core, alpha
 
 
-def make_ring_streak(size=512, rng=None):
+def make_ring_streak(size=512, rng=None, thick=1.0):
 	# anel de redemoinho (Skill B): faixa circular feita de riscos finos que correm em volta, com 3 "cabecas" fortes
 	# que afinam numa cauda (cara de giro rapido). RGB = miolo quente, A = brilho. Centro vazio, bordas zeradas (Clamp).
 	c = (size - 1) / 2.0
 	y, x = np.mgrid[0:size, 0:size]
 	r = np.sqrt((x - c) ** 2 + (y - c) ** 2) / c
 	th = np.arctan2(y - c, x - c)
-	band = smoothstep(0.62, 0.74, r) * (1.0 - smoothstep(0.86, 0.97, r))
+	band = smoothstep(0.8 - 0.18 * thick, 0.8 - 0.06 * thick, r) * (1.0 - smoothstep(0.8 + 0.06 * thick, 0.8 + 0.17 * thick, r))
 	# riscos: varias faixas finas em raios diferentes, cada uma com um trecho aceso de tamanho proprio
 	streaks = np.zeros_like(r)
 	for k in range(14):
-		rad = rng.uniform(0.66, 0.93)
-		w = rng.uniform(0.006, 0.018)
+		rad = rng.uniform(0.8 - 0.14 * thick, 0.8 + 0.13 * thick)
+		w = rng.uniform(0.006, 0.018) * thick
 		start = rng.uniform(0, 2 * np.pi)
 		length = rng.uniform(0.6, 2.2)
 		ang = np.mod(th - start, 2 * np.pi)
@@ -303,10 +303,20 @@ def make_ring_streak(size=512, rng=None):
 	for k in range(3):
 		ang = np.mod(th - k * 2 * np.pi / 3, 2 * np.pi)
 		tail = np.clip(1.0 - ang / 2.4, 0.0, 1.0) ** 2.2
-		heads = np.maximum(heads, tail * np.exp(-((r - 0.8) / 0.06) ** 2))
+		heads = np.maximum(heads, tail * np.exp(-((r - 0.8) / (0.06 * thick)) ** 2))
 	alpha = np.clip(np.maximum(streaks * 0.9, heads) + band * 0.18, 0.0, 1.0) * (1.0 - smoothstep(0.96, 1.0, r))
 	core = np.clip(heads * 1.1 + streaks * 0.35, 0.0, 1.0)
 	return core, alpha
+
+
+def make_thin_ring(size=512):
+	# filete fino e limpo (borda da esfera): uma linha so, sem falhas
+	c = (size - 1) / 2.0
+	y, x = np.mgrid[0:size, 0:size]
+	r = np.sqrt((x - c) ** 2 + (y - c) ** 2) / c
+	line = np.exp(-((r - 0.9) / 0.012) ** 2)
+	glow = np.exp(-((r - 0.9) / 0.05) ** 2) * 0.35
+	return np.clip(line, 0, 1), np.clip(line + glow, 0, 1) * (1.0 - smoothstep(0.97, 1.0, r))
 
 
 def save(path, rgb, alpha):
@@ -348,6 +358,11 @@ def main():
 	rng = np.random.default_rng(61)
 	core, ring = make_ring_streak(rng=rng)
 	save(OUT / "T_AnelRisco.png", core, ring)
+	for nome, k in (("T_AnelRiscoGrosso", 1.7), ("T_AnelRiscoFino", 0.45)):
+		core, ring = make_ring_streak(rng=rng, thick=k)
+		save(OUT / (nome + ".png"), core, ring)
+	core, ring = make_thin_ring()
+	save(OUT / "T_AnelFilete.png", core, ring)
 
 
 if __name__ == "__main__":

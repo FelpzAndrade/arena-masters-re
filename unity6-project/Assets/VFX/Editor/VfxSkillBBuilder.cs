@@ -24,21 +24,27 @@ public static class VfxSkillBBuilder
 	{
 		s_shader = Shader.Find("ArenaMasters/VFX/Particula Dissolve");
 		s_noise = Tex("T_Noise");
-		Texture2D streak = Tex("T_AnelRisco"), ring = Tex("T_Ring"), spark = Tex("T_Spark"), slash = Tex("T_SlashMask"), puff = Tex("T_Puff");
+		Texture2D streak = Tex("T_AnelRisco"), filete = Tex("T_AnelFilete"), ring = Tex("T_Ring"), spark = Tex("T_Spark"), slash = Tex("T_SlashMask"), puff = Tex("T_Puff");
 		Mesh arc = AssetDatabase.LoadAssetAtPath<Mesh>(Root + "/Meshes/M_ArcoCorte.asset");
-		if (s_shader == null || streak == null || ring == null || spark == null || slash == null || puff == null || arc == null)
+		Mesh esfera = AssetDatabase.LoadAssetAtPath<Mesh>(Root + "/Meshes/M_Esfera.asset");   // da Corneta de Guerra (raio 0,5)
+		if (s_shader == null || streak == null || filete == null || ring == null || spark == null || slash == null || puff == null || arc == null || esfera == null)
 		{
 			Debug.LogError("[VFX] faltam shader, texturas (tools/gen_vfx_textures.py) ou M_ArcoCorte (Montar Machado Barbaro)");
 			return;
 		}
 		C.SetClamp(streak);
+		C.SetClamp(filete);
 		Mesh quad = B.SaveAsset(BuildQuad(), Root + "/Meshes/M_QuadChao.asset");
 
 		// materiais com cor neutra: o EfeitoCor pinta por heroi (os fixos ja tem a cor final)
 		Material anel = Mat("M_AnelEsfera", streak, Color.white, Color.white, 1.4f, 0.02f, 1f);
 		anel.SetVector("_NoiseScroll", new Vector4(-1.5f, 0.3f, 0f, 0f));
-		Material borda = Mat("M_BordaEsfera", ring, Color.white, Color.white, 1.5f, 0.02f, 1f);
-		Material nucleo = Mat("M_NucleoEsfera", spark, new Color(0.16f, 0.05f, 0.32f), new Color(0.3f, 0.1f, 0.55f), 1f, 0f, 0f);   // roxo escuro atras do heroi
+		Material anelGrosso = Mat("M_AnelEsferaGrosso", Tex("T_AnelRiscoGrosso"), Color.white, Color.white, 1.4f, 0.02f, 1f);
+		Material anelFino = Mat("M_AnelEsferaFino", Tex("T_AnelRiscoFino"), Color.white, Color.white, 1.4f, 0.02f, 1f);
+		C.SetClamp(Tex("T_AnelRiscoGrosso"));
+		C.SetClamp(Tex("T_AnelRiscoFino"));
+		Material borda = Mat("M_BordaEsfera", filete, Color.white, Color.white, 1f, 0f, 1f);
+		Material nucleo = Mat("M_NucleoEsfera", null, new Color(0.035f, 0.008f, 0.07f), new Color(0.035f, 0.008f, 0.07f), 1f, 0f, 0f);   // bem escuro: a exposicao da tela (+1,4) clareia   // roxo escuro atras do heroi
 		Material faisca = Mat("M_FaiscaEsfera", spark, Color.white, Color.white, 1f, 0f, 1f);
 		Material corte = Mat("M_CorteEsfera", slash, Color.white, Color.white, 2f, 0.04f, 1f);
 		corte.SetTextureScale("_NoiseTex", new Vector2(2.5f, 1f));
@@ -52,17 +58,19 @@ public static class VfxSkillBBuilder
 		// ---------- esfera ----------
 		GameObject go = new GameObject("VFX_EsferaGiratoria");
 		List<EfeitoCor.Parte> partes = new List<EfeitoCor.Parte>();
-		Vector3[] tilts = { new Vector3(14f, 0f, 0f), new Vector3(-58f, 35f, 0f), new Vector3(62f, -50f, 20f) };
-		float[] spins = { 17f, -21f, 14f };
-		float[] sizes = { 2.5f, 2.3f, 2.15f };
+		// 3 faixas legiveis de cima: grossa por fora, media, fina por dentro; eixos so levemente diferentes
+		Material[] aneis = { anelGrosso, anel, anelFino };
+		Vector3[] tilts = { new Vector3(10f, 0f, 0f), new Vector3(-20f, 55f, 0f), new Vector3(26f, -65f, 8f) };
+		float[] spins = { 14f, -19f, 25f };
+		float[] sizes = { 2.55f, 2.2f, 1.9f };
 		for (int i = 0; i < 3; i++)
 		{
-			ParticleSystemRenderer r = Ring(go.transform, "Anel" + (i + 1), anel, quad, tilts[i], spins[i], sizes[i]);
-			partes.Add(new EfeitoCor.Parte { renderer = r, brilho = 1.7f, miolo = 0.45f });
+			ParticleSystemRenderer r = Ring(go.transform, "Anel" + (i + 1), aneis[i], quad, tilts[i], spins[i], sizes[i]);
+			partes.Add(new EfeitoCor.Parte { renderer = r, brilho = 0.9f, miolo = 0.12f });   // azul saturado: perto do limite do bloom, sem estourar em branco
 		}
-		partes.Add(new EfeitoCor.Parte { renderer = Rim(go.transform, borda), brilho = 1.5f, miolo = 0.75f });
-		partes.Add(new EfeitoCor.Parte { renderer = Core(go.transform, nucleo), brilho = 0.12f, miolo = 0.1f, fixa = true });   // roxo escuro do material
-		partes.Add(new EfeitoCor.Parte { renderer = Orbit(go.transform, faisca), brilho = 3f, miolo = 0.7f });
+		partes.Add(new EfeitoCor.Parte { renderer = Rim(go.transform, borda), brilho = 1.3f, miolo = 0.92f });   // so o filete fino fica branco
+		partes.Add(new EfeitoCor.Parte { renderer = Core(go.transform, nucleo, esfera), brilho = 0.12f, miolo = 0.1f, fixa = true });   // roxo escuro do material
+		partes.Add(new EfeitoCor.Parte { renderer = Orbit(go.transform, faisca), brilho = 1.4f, miolo = 0.35f });
 		EfeitoCor ec = go.AddComponent<EfeitoCor>();
 		ec.partes = partes.ToArray();
 		B.SavePrefab(go, Root + "/Resources/VFX_EsferaGiratoria.prefab");
@@ -182,17 +190,20 @@ public static class VfxSkillBBuilder
 		return ps.GetComponent<ParticleSystemRenderer>();
 	}
 
-	// disco escuro atras do heroi (pivot empurra o billboard para longe da camera: nao cobre o corpo)
-	private static ParticleSystemRenderer Core(Transform parent, Material mat)
+	// nucleo: esfera interna roxo-escura, misturada (nao soma luz) e semitransparente; escurece o chao atras do heroi
+	// e separa o efeito do piso quente sem esconder o corpo (alpha baixo; frente e costas da esfera somam ~0,5)
+	private static ParticleSystemRenderer Core(Transform parent, Material mat, Mesh sphere)
 	{
 		ParticleSystem ps = Sphere(parent, "Nucleo", mat, 1);
 		ParticleSystem.MainModule main = ps.main;
-		main.startSize = 2.6f;
-		main.startColor = new Color(1f, 1f, 1f, 0.55f);
+		main.startSize = 1.75f;
+		main.startColor = new Color(1f, 1f, 1f, 0.3f);
 		B.Burst(ps, 0f, 1);
 		ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
-		r.pivot = new Vector3(0f, 0f, -0.45f);   // negativo = para longe da camera
-		r.sortingFudge = 10f;   // desenha antes dos aneis
+		r.renderMode = ParticleSystemRenderMode.Mesh;
+		r.mesh = sphere;
+		r.alignment = ParticleSystemRenderSpace.Local;
+		r.sortingFudge = 10f;   // desenha antes dos aneis (aneis por cima)
 		return r;
 	}
 
