@@ -48,6 +48,8 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 		_Additive ("Aditivo", Range(0, 1)) = 1
 		// multiplicador geral do brilho
 		_Intensity ("Intensidade", Range(0, 10)) = 1
+		// tinta do material inteiro (cor e transparencia); bom para objetos sem cor de vertice, como o indicador de mira
+		_Tint ("Tinta geral", Color) = (1, 1, 1, 1)
 	}
 
 	SubShader
@@ -84,6 +86,7 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 			half _Softness;
 			half _Additive;
 			half _Intensity;
+			half4 _Tint;
 
 			struct appdata
 			{
@@ -124,8 +127,8 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 				half edge = visible - smoothstep(thr + _EdgeWidth, thr + _EdgeWidth + _Softness, n);
 
 				half core = pow(mask.r, _CorePower);
-				half3 col = lerp(_Color.rgb, _CoreColor.rgb, core) * i.color.rgb + _EdgeColor.rgb * edge;
-				half a = mask.a * visible * i.color.a;
+				half3 col = (lerp(_Color.rgb, _CoreColor.rgb, core) * i.color.rgb + _EdgeColor.rgb * edge) * _Tint.rgb;
+				half a = mask.a * visible * i.color.a * _Tint.a;
 				return half4(col * (a * _Intensity), a * (1.0h - _Additive));
 			}
 			ENDHLSL

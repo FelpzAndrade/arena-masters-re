@@ -1,5 +1,6 @@
 # Abre o Blender com o Axie (KayKit Barbarian) e liga o servidor do BlenderMCP.
-# Uso: blender.exe --python tools/blender/abrir_axie.py
+# Uso: blender.exe tools/blender/axie.blend --python tools/blender/abrir_axie.py
+#   (sem o .blend, importa o Barbarian.fbx do zero)
 import bpy
 
 FBX = r"C:\Users\felip\arena-masters-re\unity6-project\Assets\Prototype\KayKit\Characters\Barbarian.fbx"
@@ -15,6 +16,8 @@ def ligar():
 
 
 def importar():
+    if "Rig" in bpy.data.objects:
+        return None                    # cena salva ja aberta
     for ob in list(bpy.data.objects):
         bpy.data.objects.remove(ob, do_unlink=True)
     bpy.ops.import_scene.fbx(filepath=FBX)

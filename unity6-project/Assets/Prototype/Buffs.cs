@@ -23,6 +23,7 @@ public class BuffDef
 	public bool clearOnDie = true;         // strClearOnDie: so esses saem quando o lutador morre
 	public Color color = Color.white;
 	public string auraTexture = "magic_02";
+	public string auraPrefab;              // efeito proprio (Assets/VFX/Resources) no lugar da aura de textura
 	public CSBuffInfo stats = new CSBuffInfo();
 
 	public BuffDef WithStats(System.Action<CSBuffInfo> apply)
@@ -110,7 +111,7 @@ public static class BuffLibrary
 	public static readonly BuffDef BarreiraCorneta = new BuffDef
 	{
 		id = 3003, name = "Barreira", type = BuffType.Buff, duration = 3f, line = "barreira", shieldPerMaxHp = 0.1f,
-		color = new Color(1f, 0.85f, 0.4f), auraTexture = "circle_03",
+		color = new Color(1f, 0.85f, 0.4f), auraTexture = "circle_03", auraPrefab = "VFX_EscudoCorneta",
 	};
 
 	// Spark, passiva Eletrocutar: deixa muito lento

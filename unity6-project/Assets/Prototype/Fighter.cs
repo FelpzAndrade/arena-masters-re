@@ -95,6 +95,7 @@ public class Fighter : IActor
 		{ "2H_Melee_Attack_Spinning", 0.256f }, { "Jump_Full_Short", 0.85f }, { "Spellcast_Shoot", 0.3f },
 		{ "Spellcasting", 0.45f }, { "Spellcast_Raise", 0.9f },
 		{ "Bufalo_Cabecada", 0.4f },   // feita no Blender: cabecada no quadro 12 de 27 (30 fps)
+		{ "Corneta_Guerra", 0.3f },    // feita no Blender: grito no quadro 9 de 22
 	};
 	private bool m_ultHitCharge;           // EnableHitCharge: so o primeiro acerto de cada skill carrega
 

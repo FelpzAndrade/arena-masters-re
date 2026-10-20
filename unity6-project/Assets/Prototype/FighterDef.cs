@@ -113,7 +113,7 @@ public class FighterDef
 				// C - Corneta de Guerra (12s): barreira de 3s que absorve 10% da vida maxima
 				new SkillDef
 				{
-					name = "Corneta de Guerra", vfx = "barrier", anim = "Cheer", damageRatio = 0f, cooldown = 12f, windup = 0.3f, recovery = 0.3f,
+					name = "Corneta de Guerra", vfx = "warhorn", anim = "Corneta_Guerra", damageRatio = 0f, cooldown = 12f, windup = 0.3f, recovery = 0.3f,
 					range = 3f, angle = 360f, color = new Color(1f, 0.85f, 0.4f),
 					procs = { new BuffProc { timing = ProcTimingType.None, buff = BuffLibrary.BarreiraCorneta, onSelf = true } },
 				},

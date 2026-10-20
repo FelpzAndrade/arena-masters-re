@@ -114,7 +114,7 @@ public static class VfxMachadoBuilder
 		return mesh;
 	}
 
-	private static ParticleSystem NewSystem(Transform parent, string name, Material mat, int maxParticles)
+	internal static ParticleSystem NewSystem(Transform parent, string name, Material mat, int maxParticles)
 	{
 		GameObject go = new GameObject(name);
 		go.transform.SetParent(parent, false);
@@ -141,13 +141,13 @@ public static class VfxMachadoBuilder
 		return ps;
 	}
 
-	private static void Burst(ParticleSystem ps, float time, int count)
+	internal static void Burst(ParticleSystem ps, float time, int count)
 	{
 		ParticleSystem.EmissionModule emission = ps.emission;
 		emission.SetBursts(new[] { new ParticleSystem.Burst(time, (short)count) });
 	}
 
-	private static AnimationCurve Curve(params float[] timeValue)
+	internal static AnimationCurve Curve(params float[] timeValue)
 	{
 		AnimationCurve c = new AnimationCurve();
 		for (int i = 0; i + 1 < timeValue.Length; i += 2)
@@ -162,7 +162,7 @@ public static class VfxMachadoBuilder
 		return c;
 	}
 
-	private static Gradient Fade(Color color, float holdUntil)
+	internal static Gradient Fade(Color color, float holdUntil)
 	{
 		Gradient g = new Gradient();
 		g.SetKeys(
@@ -306,7 +306,7 @@ public static class VfxMachadoBuilder
 	}
 
 	// atualiza no lugar quando ja existe (mantem o GUID e as referencias dos prefabs)
-	private static T SaveAsset<T>(T asset, string path) where T : Object
+	internal static T SaveAsset<T>(T asset, string path) where T : Object
 	{
 		T existing = AssetDatabase.LoadAssetAtPath<T>(path);
 		if (existing == null)
@@ -320,7 +320,7 @@ public static class VfxMachadoBuilder
 		return existing;
 	}
 
-	private static void SavePrefab(GameObject go, string path)
+	internal static void SavePrefab(GameObject go, string path)
 	{
 		PrefabUtility.SaveAsPrefabAsset(go, path);
 		Object.DestroyImmediate(go);

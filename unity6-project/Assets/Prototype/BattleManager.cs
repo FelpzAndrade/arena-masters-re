@@ -119,7 +119,7 @@ public class BattleManager : MonoBehaviour
 				Vfx.Hit(who.Position + Vector3.up * 0.2f, who.opponent.def.color, crit, who.opponent.def.skills[0].projectileSpeed > 0f);
 			};
 			f.onDeathFx = who => Vfx.Death(who.Position);
-			f.onBuffAdded = (who, b) => b.aura = Vfx.Aura(who.go.transform, b.def.auraTexture, b.def.color, b.def.control == CS.MotionControlType.Stun);
+			f.onBuffAdded = (who, b) => b.aura = b.def.auraPrefab != null ? Vfx.OwnAura(who.go.transform, b.def.auraPrefab) : Vfx.Aura(who.go.transform, b.def.auraTexture, b.def.color, b.def.control == CS.MotionControlType.Stun);
 			f.onBuffRemoved = (who, b) => Vfx.DestroyAura(b.aura);
 			f.onProjectile = SpawnProjectile;
 			f.onUltimate = (who, sd) =>
@@ -228,6 +228,10 @@ public class BattleManager : MonoBehaviour
 		Vector3 ground = center + Vector3.down * Arena.CenterHeight;
 		switch (sd.vfx)
 		{
+			case "warhorn":
+				Vfx.WarHorn(owner.Position + Vector3.down * Arena.CenterHeight);
+				CameraShake.Add(0.12f);
+				return;
 			case "axeslash":
 				Vfx.AxeSlash(owner.Position, owner.facing, sd.range, sd.vfxRoll);
 				return;
@@ -422,7 +426,7 @@ public class BattleManager : MonoBehaviour
 
 	private void BuildIndicator()
 	{
-		Material mat = new Material(Shader.Find("Sprites/Default"));
+		Material mat = Vfx.ParticleMaterial(Texture2D.whiteTexture, false);   // Sprites/Default fica rosa em malha 3D no URP
 		m_indicator = new GameObject("indicador");
 		m_indicatorMesh = m_indicator.AddComponent<MeshFilter>();
 		m_indicatorRenderer = m_indicator.AddComponent<MeshRenderer>();
@@ -455,7 +459,7 @@ public class BattleManager : MonoBehaviour
 			bool circle = sd.areaAtTarget || sd.angle >= 360f;
 			float length = sd.range + sd.dashDistance;
 			m_indicatorMesh.sharedMesh = circle ? SectorMesh(360f, sd.range) : SectorMesh(Mathf.Max(sd.angle, 12f), length);
-			m_indicatorRenderer.sharedMaterial.color = c;
+			m_indicatorRenderer.sharedMaterial.SetColor("_Tint", c);
 		}
 		Vector3 feet = player.Position + Vector3.down * (Arena.CenterHeight - 0.08f);
 		Vector3 aim = brain.AimPoint - player.Position;

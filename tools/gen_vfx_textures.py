@@ -3,6 +3,8 @@
 #                    RGB = miolo quente (1 no fio), A = formato. Bordas da imagem com alpha 0 (textura em Clamp).
 #   T_Noise.png      ruido fractal que repete nas bordas (dissolve e distorcao). RGB = A = valor.
 #   T_Spark.png      faisca: miolo branco + halo + cruz fina. RGB branco, A = brilho.
+#   T_Ring.png       anel de onda de choque (RGB = borda quente, A = anel).
+#   T_Hex.png        grade de hexagonos da cupula de escudo (RGB = linhas, A = linhas + fundo fraco).
 # Uso: tools/venv/Scripts/python.exe -I tools/gen_vfx_textures.py [pasta_de_saida]
 import sys
 from pathlib import Path
@@ -89,6 +91,34 @@ def make_spark(size=128):
 	return a
 
 
+def make_ring(size=256):
+	# anel de onda de choque: borda externa dura, cauda suave para dentro, falhas de ruido
+	c = (size - 1) / 2.0
+	y, x = np.mgrid[0:size, 0:size]
+	r = np.sqrt((x - c) ** 2 + (y - c) ** 2) / c
+	ring = smoothstep(0.55, 0.9, r) * (1.0 - smoothstep(0.9, 0.97, r))
+	ang = np.arctan2(y - c, x - c)
+	wobble = 0.8 + 0.2 * np.sin(ang * 7.0) * np.sin(ang * 3.0 + 1.3)
+	core = smoothstep(0.82, 0.9, r) * (1.0 - smoothstep(0.9, 0.95, r))
+	return core, np.clip(ring * wobble, 0.0, 1.0)
+
+
+def make_hex(size=256, nx=4, ny=2):
+	# grade de hexagonos que repete nas bordas: RGB = linhas (miolo), A = linhas + leve preenchimento.
+	# Periodo do padrao = (1, raiz de 3); nx x ny periodos cabem na imagem, entao a borda emenda certinho.
+	sq3 = np.sqrt(3.0)
+	u = (np.arange(size) + 0.5) / size
+	X, Y = np.meshgrid(u * nx, u * ny * sq3)
+	rx, ry = 1.0, sq3
+	ax, ay = np.mod(X, rx) - rx / 2, np.mod(Y, ry) - ry / 2
+	bx, by = np.mod(X - rx / 2, rx) - rx / 2, np.mod(Y - ry / 2, ry) - ry / 2
+	use_a = ax * ax + ay * ay < bx * bx + by * by
+	gx, gy = np.abs(np.where(use_a, ax, bx)), np.abs(np.where(use_a, ay, by))
+	d = np.maximum(gx * 0.5 + gy * sq3 / 2, gx)          # 0,5 na borda do hexagono
+	line = smoothstep(0.43, 0.49, d)
+	return line, np.clip(line * 0.85 + 0.1, 0.0, 1.0)
+
+
 def save(path, rgb, alpha):
 	rgb = np.clip(rgb, 0.0, 1.0)
 	img = np.dstack([rgb, rgb, rgb, np.clip(alpha, 0.0, 1.0)])
@@ -104,6 +134,10 @@ def main():
 	save(OUT / "T_Noise.png", noise, noise)
 	spark = make_spark()
 	save(OUT / "T_Spark.png", np.ones_like(spark), spark)
+	core, ring = make_ring()
+	save(OUT / "T_Ring.png", core, ring)
+	line, hexa = make_hex()
+	save(OUT / "T_Hex.png", line, hexa)
 
 
 if __name__ == "__main__":

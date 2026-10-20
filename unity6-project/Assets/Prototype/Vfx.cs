@@ -92,6 +92,35 @@ public static class Vfx
 		Own("VFX_MachadoBarbaro", pos, Quaternion.LookRotation(facing) * Quaternion.Euler(0f, 0f, roll), range / 2.4f, 1.1f);
 	}
 
+	// Corneta de Guerra: grito com ondas de choque no chao (groundPos = pes do Axie)
+	public static void WarHorn(Vector3 groundPos)
+	{
+		Own("VFX_CornetaGuerra", groundPos, Quaternion.identity, 1f, 1.3f);
+	}
+
+	// aura de efeito proprio presa no lutador enquanto o buff durar (removida em DestroyAura)
+	public static GameObject OwnAura(Transform owner, string name)
+	{
+		GameObject prefab = Resources.Load<GameObject>(name);
+		if (prefab == null)
+		{
+			Debug.LogWarning("[VFX] prefab nao encontrado: " + name);
+			return null;
+		}
+		GameObject go = Object.Instantiate(prefab, owner);
+		go.transform.localPosition = Vector3.zero;
+		ParticleSystem[] systems = go.GetComponentsInChildren<ParticleSystem>();
+		if (!Application.isPlaying)
+		{
+			foreach (ParticleSystem ps in systems)
+			{
+				ps.Simulate(0f, false, true, false);
+			}
+		}
+		s_live.Add(new Live { prefab = go, systems = systems, life = 9999f, total = 9999f });
+		return go;
+	}
+
 	public static void AxeImpact(Vector3 pos)
 	{
 		Own("VFX_MachadoImpacto", pos, Quaternion.identity, 1f, 0.5f);
@@ -427,7 +456,7 @@ public static class Vfx
 		{
 			return;
 		}
-		int i = s_live.FindIndex(l => l.ps != null && l.ps.gameObject == aura);
+		int i = s_live.FindIndex(l => (l.ps != null && l.ps.gameObject == aura) || l.prefab == aura);
 		if (i >= 0)
 		{
 			s_live.RemoveAt(i);
