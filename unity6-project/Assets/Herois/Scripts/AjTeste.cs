@@ -20,6 +20,8 @@ public class AjTeste : MonoBehaviour
 	private int m_impactos;
 	private bool m_acertouCaminho;
 	private SkillUltimateExplosao m_ult;
+	private Equipamento m_equip;
+	private static GameObject s_faiscaPonta;
 	private int m_passo;
 	private float m_semTocar = 99f;
 	private static GameObject s_impacto;
@@ -29,6 +31,7 @@ public class AjTeste : MonoBehaviour
 		m_anim = GetComponent<Animator>();
 		m_anim.applyRootMotion = false;
 		m_skillB = GetComponent<SkillEsferaGiratoria>();
+		m_equip = GetComponent<Equipamento>();
 		m_ult = GetComponent<SkillUltimateExplosao>();
 		if (m_ult != null)
 		{
@@ -40,6 +43,19 @@ public class AjTeste : MonoBehaviour
 		if (boneco != null)
 		{
 			m_inicioBoneco = boneco.transform.position;
+		}
+	}
+
+	// Start (nao Awake): o Equipamento cria a espada e a ponta da lamina no Awake dele
+	private void Start()
+	{
+		if (m_equip != null)
+		{
+			m_skillB.pontaDaLamina = m_equip.PontaDaLamina;
+			if (m_ult != null && m_equip.PontaDaLamina != null)
+			{
+				m_ult.mao = m_equip.PontaDaLamina;   // brilho de carga da ultimate na ponta da espada
+			}
 		}
 	}
 
@@ -64,6 +80,13 @@ public class AjTeste : MonoBehaviour
 		}
 		Andar();
 		AcertoNoCaminho();
+		if (m_equip != null)
+		{
+			// rastro so durante golpe (qualquer estado fora da locomocao, menos tomar dano/morrer) ou com a esfera girando
+			AnimatorStateInfo st = m_anim.GetCurrentAnimatorStateInfo(0);
+			bool golpe = !st.IsName("Locomocao") && !st.IsName("TomarDano") && !st.IsName("Morrer") || m_anim.IsInTransition(0) && !m_anim.GetNextAnimatorStateInfo(0).IsName("Locomocao");
+			m_equip.Rastro(golpe || m_skillB.EsferaNaTela);
+		}
 	}
 
 	// a esfera acerta quem estiver dentro dela no caminho (uma vez por alvo a cada uso)
@@ -247,6 +270,7 @@ public class AjTeste : MonoBehaviour
 	public void OnImpacto()
 	{
 		m_impactos++;
+		FaiscaNaPonta();
 		if (m_acao == "GolpeChao")
 		{
 			m_ult.Impacto();
@@ -289,6 +313,20 @@ public class AjTeste : MonoBehaviour
 		if (combo != null)
 		{
 			combo.Hit();
+		}
+	}
+
+	// clarao pequeno na ponta da lamina no quadro do golpe (usa o mesmo clarao do corte de entrada, cor da skill)
+	private void FaiscaNaPonta()
+	{
+		if (m_equip == null || m_equip.PontaDaLamina == null)
+		{
+			return;
+		}
+		s_faiscaPonta ??= Resources.Load<GameObject>("VFX_UltCarga");
+		if (s_faiscaPonta != null)
+		{
+			EfeitoCor.Criar(s_faiscaPonta, m_equip.PontaDaLamina.position, Quaternion.identity, null, m_skillB.cor, 0.8f, 0.4f);
 		}
 	}
 

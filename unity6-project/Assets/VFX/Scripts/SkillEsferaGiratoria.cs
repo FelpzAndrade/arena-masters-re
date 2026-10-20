@@ -14,6 +14,7 @@ public class SkillEsferaGiratoria : MonoBehaviour
 	public float atraso = 0.2f;          // segundos entre apertar o botao e a esfera aparecer
 	public float duracao = 0.75f;        // tempo da esfera na tela
 	public float distancia = 4.5f;       // quanto o heroi avanca durante a esfera (na direcao da mira)
+	public Transform pontaDaLamina;      // opcional (componente Equipamento): o corte de entrada sai na altura da lamina
 	public float raioAcerto = 1.3f;      // raio da esfera (x escala): quem estiver dentro dela no caminho leva o acerto
 
 	public Vector3 Centro => transform.position + Vector3.up * alturaCentro;
@@ -44,6 +45,10 @@ public class SkillEsferaGiratoria : MonoBehaviour
 		if (s_corte != null)
 		{
 			Vector3 pos = transform.position + Vector3.up * alturaCentro * 0.9f;
+			if (pontaDaLamina != null)
+			{
+				pos.y = Mathf.Clamp(pontaDaLamina.position.y, transform.position.y + 0.4f, transform.position.y + alturaCentro * 1.4f);
+			}
 			EfeitoCor.Criar(s_corte, pos, Quaternion.LookRotation(m_direcao.sqrMagnitude > 0f ? m_direcao : transform.forward) * Quaternion.Euler(0f, 0f, 18f), null, cor, escala * 0.8f, 0.8f);   // arco quase deitado: legivel de cima
 		}
 	}

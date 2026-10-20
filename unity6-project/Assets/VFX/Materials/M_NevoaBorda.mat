@@ -39,6 +39,7 @@ Material:
     - _Distortion: 0.06
     - _EdgeWidth: 0.08
     - _Intensity: 1
+    - _QuebraBorda: 0
     - _Softness: 0.04
     m_Colors:
     - _Color: {r: 0.36, g: 0.28, b: 0.22, a: 1}

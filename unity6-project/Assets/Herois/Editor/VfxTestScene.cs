@@ -81,6 +81,8 @@ public static class VfxTestScene
 		SkillEsferaGiratoria skill = aj.AddComponent<SkillEsferaGiratoria>();
 		skill.alturaCentro = b.size.y * 0.52f;
 		skill.escala = b.size.y / 1.8f + 0.15f;
+		Equipamento equip = aj.AddComponent<Equipamento>();   // espada, escudo e elmo (KayKit Adventurers)
+		equip.encaixes = AjEquipar.Encaixes();
 		SkillUltimateExplosao ult = aj.AddComponent<SkillUltimateExplosao>();
 		ult.escala = skill.escala;
 		AjTeste teste = aj.AddComponent<AjTeste>();
