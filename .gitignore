@@ -44,3 +44,8 @@
 !/unity6-project/Assets/Map.meta
 !/unity6-project/Assets/Scenes/
 !/unity6-project/Assets/Scenes.meta
+/unity6-project/Assets/Scenes/*
+!/unity6-project/Assets/Scenes/Prototype1x1.unity
+!/unity6-project/Assets/Scenes/Prototype1x1.unity.meta
+!/unity6-project/Assets/Scenes/Prototype1x1/
+!/unity6-project/Assets/Scenes/Prototype1x1.meta
