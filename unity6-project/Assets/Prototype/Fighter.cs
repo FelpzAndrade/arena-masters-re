@@ -33,6 +33,9 @@ public class Fighter : IActor
 	public System.Action<Fighter, SkillDef, CSSkillInfo, Vector3, Vector3> onProjectile; // dono, skill, info, origem, direcao
 	public System.Action<SkillDef, bool> onImpact;                                      // hitstop/tremor
 	public System.Action<Fighter, SkillDef> onUltimate;                                 // camera lenta/zoom na ativacao
+	public System.Action<Fighter, int> onDodgeFx;                                       // esquiva: 0 = saida, 1..3 = fantasmas, 4 = pouso
+	public Transform Visual => m_visual;
+	private int m_ghosts;
 
 	public float hp;
 	public float maxHp;
@@ -330,6 +333,11 @@ public class Fighter : IActor
 		state = State.Casting;
 		m_stateTime = 0f;
 		invulnerable = slot == DodgeSlot;
+		if (slot == DodgeSlot)
+		{
+			m_ghosts = 0;
+			onDodgeFx?.Invoke(this, 0);
+		}
 	}
 
 	public void Move(Vector3 dir, float dt, bool keepFacing = false)
@@ -543,7 +551,7 @@ public class Fighter : IActor
 			}
 			AddExtraClip(sd.anim);
 		}
-		foreach (string name in new[] { def.animIdle, def.animRun, def.animStrafeLeft, def.animStrafeRight, def.animBackwards })
+		foreach (string name in new[] { def.animIdle, def.animRun, def.animStrafeLeft, def.animStrafeRight, def.animBackwards, def.animHit, def.animHitHeavy })
 		{
 			AddExtraClip(name);
 		}
@@ -564,7 +572,8 @@ public class Fighter : IActor
 	// toca a animacao da skill acelerada para o impacto do clipe cair exatamente no fim do windup
 	private void PlaySkillAnim(SkillDef sd)
 	{
-		float total = Mathf.Max(0.2f, sd.windup + (sd.hitCount - 1) * sd.hitInterval + sd.recovery);
+		float release = sd.windup > 0f ? sd.windup : 0.2f;   // igual ao UpdateCast (esquiva: windup 0 = 0,2 s de corrida)
+		float total = Mathf.Max(0.2f, release + (sd.hitCount - 1) * sd.hitInterval + sd.recovery);
 		if (m_anim == null || sd.anim == null || m_anim[sd.anim] == null)
 		{
 			return;
@@ -679,6 +688,15 @@ public class Fighter : IActor
 			TryMoveTo(Position + facing * speed * dt);
 		}
 		float release = sd.windup > 0f ? sd.windup : 0.2f;
+		if (m_slot == DodgeSlot)
+		{
+			// 3 imagens fantasma espalhadas pela corrida da esquiva
+			while (m_ghosts < 3 && m_stateTime >= m_ghosts * release / 3f)
+			{
+				m_ghosts++;
+				onDodgeFx?.Invoke(this, m_ghosts);
+			}
+		}
 		if (m_stateTime < release)
 		{
 			return;
@@ -709,6 +727,10 @@ public class Fighter : IActor
 			{
 				return;
 			}
+		}
+		if (m_slot == DodgeSlot)
+		{
+			onDodgeFx?.Invoke(this, 4);
 		}
 		state = State.Recovering;
 		m_stateTime = 0f;
@@ -1397,6 +1419,6 @@ public class Fighter : IActor
 		}
 		AnimationState st = m_anim["fakebeaten"];
 		st.time = 0f;
-		m_anim.Blend("fakebeaten", 0.7f, 0.05f);
+		m_anim.Blend("fakebeaten", 0.5f, 0.05f);   // o clipe de golpe feito no Blender recua bastante
 	}
 }

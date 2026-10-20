@@ -98,7 +98,7 @@ public static class Vfx
 	// na primeira vez que o efeito aparece (carregar prefab, criar material) faria a animacao pular esse tempo
 	public static void Preload()
 	{
-		foreach (string name in new[] { "VFX_MachadoBarbaro", "VFX_MachadoImpacto", "VFX_CornetaGuerra", "VFX_EscudoCorneta", "VFX_GolpeTerra", "VFX_ForcaTerra", "VFX_BufaloCorrida", "VFX_BufaloImpacto", "VFX_DivisorTrecho" })
+		foreach (string name in new[] { "VFX_MachadoBarbaro", "VFX_MachadoImpacto", "VFX_CornetaGuerra", "VFX_EscudoCorneta", "VFX_GolpeTerra", "VFX_ForcaTerra", "VFX_BufaloCorrida", "VFX_BufaloImpacto", "VFX_DivisorTrecho", "VFX_EsquivaPoeira" })
 		{
 			if (!s_own.ContainsKey(name))
 			{
@@ -129,6 +129,120 @@ public static class Vfx
 	{
 		float k = range / 3f;
 		Own("VFX_GolpeTerra", groundPos + facing * (1.1f * k), Quaternion.LookRotation(facing), k, 1.9f);
+	}
+
+	// esquiva: poeira chutada para tras nos pes (saida e pouso); facing = para onde o heroi corre
+	public static void DodgeDust(Vector3 groundPos, Vector3 facing, float scale)
+	{
+		Own("VFX_EsquivaPoeira", groundPos, Quaternion.LookRotation(facing), scale, 0.9f);
+	}
+
+	// imagem fantasma: copia a malha do boneco nesta pose (BakeMesh) com o shader Fantasma e some em 'life' segundos
+	private class Ghost
+	{
+		public GameObject root;
+		public List<Mesh> meshes;
+		public List<Renderer> renderers;
+		public float life, total;
+		public Color color;
+	}
+
+	private static readonly List<Ghost> s_ghosts = new List<Ghost>();
+	private static Material s_ghostMat;
+	private static MaterialPropertyBlock s_ghostBlock;
+
+	public static void Afterimage(Transform visual, Color color, float life)
+	{
+		if (visual == null)
+		{
+			return;
+		}
+		if (s_ghostMat == null)
+		{
+			s_ghostMat = Resources.Load<Material>("M_Fantasma");   // menu Arena Masters/VFX/Montar Esquiva
+			s_ghostBlock = new MaterialPropertyBlock();
+		}
+		if (s_ghostMat == null)
+		{
+			return;
+		}
+		Ghost g = new Ghost { root = new GameObject("fantasma"), meshes = new List<Mesh>(), renderers = new List<Renderer>(), life = life, total = life, color = color };
+		foreach (Renderer r in visual.GetComponentsInChildren<Renderer>())
+		{
+			if (!r.enabled || !r.gameObject.activeInHierarchy || r is ParticleSystemRenderer || r is TrailRenderer)
+			{
+				continue;
+			}
+			Mesh mesh;
+			Matrix4x4 m;
+			if (r is SkinnedMeshRenderer smr)
+			{
+				mesh = new Mesh();
+				smr.BakeMesh(mesh, true);
+				g.meshes.Add(mesh);
+				m = Matrix4x4.TRS(smr.transform.position, smr.transform.rotation, Vector3.one);
+			}
+			else if (r.TryGetComponent(out MeshFilter mf) && mf.sharedMesh != null)
+			{
+				mesh = mf.sharedMesh;                // arma presa no osso: copia a malha como esta
+				m = r.transform.localToWorldMatrix;
+			}
+			else
+			{
+				continue;
+			}
+			GameObject part = new GameObject(r.name);
+			part.transform.SetParent(g.root.transform, false);
+			part.transform.SetPositionAndRotation(m.GetColumn(3), m.rotation);
+			part.transform.localScale = m.lossyScale;
+			part.AddComponent<MeshFilter>().sharedMesh = mesh;
+			MeshRenderer mr = part.AddComponent<MeshRenderer>();
+			mr.sharedMaterial = s_ghostMat;
+			mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+			mr.receiveShadows = false;
+			g.renderers.Add(mr);
+		}
+		s_ghosts.Add(g);
+		UpdateGhost(g);
+	}
+
+	private static void UpdateGhost(Ghost g)
+	{
+		float k = Mathf.Clamp01(g.life / g.total);
+		s_ghostBlock.SetColor("_Color", g.color);
+		s_ghostBlock.SetFloat("_Alpha", k * k * 0.7f);   // some rapido no comeco e devagar no fim
+		foreach (Renderer r in g.renderers)
+		{
+			r.SetPropertyBlock(s_ghostBlock);
+		}
+	}
+
+	private static void UpdateGhosts(float dt)
+	{
+		for (int i = s_ghosts.Count - 1; i >= 0; i--)
+		{
+			Ghost g = s_ghosts[i];
+			g.life -= dt;
+			if (g.life > 0f && g.root != null)
+			{
+				UpdateGhost(g);
+				continue;
+			}
+			DestroyGhost(g);
+			s_ghosts.RemoveAt(i);
+		}
+	}
+
+	private static void DestroyGhost(Ghost g)
+	{
+		foreach (Mesh m in g.meshes)
+		{
+			Object.DestroyImmediate(m);
+		}
+		if (g.root != null)
+		{
+			Object.DestroyImmediate(g.root);
+		}
 	}
 
 	// Investida do Bufalo: rastro preso no Axie durante a corrida e explosao na cabecada (pos = ponto do impacto, altura do peito)
@@ -184,6 +298,12 @@ public static class Vfx
 		s_live.Clear();
 		s_materials.Clear();
 		s_rocks.Clear();
+		foreach (Ghost g in s_ghosts)
+		{
+			DestroyGhost(g);
+		}
+		s_ghosts.Clear();
+		s_ghostMat = null;
 		s_pillar = null;
 		s_pillarMat = null;
 		s_own.Clear();
@@ -564,6 +684,7 @@ public static class Vfx
 	public static void Update(float dt)
 	{
 		UpdateRocks(dt);
+		UpdateGhosts(Time.unscaledDeltaTime > 0f && Application.isPlaying ? Time.unscaledDeltaTime : dt);   // fantasma some no tempo real (anda no hit stop)
 		for (int i = s_live.Count - 1; i >= 0; i--)
 		{
 			Live l = s_live[i];

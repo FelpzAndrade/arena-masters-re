@@ -120,6 +120,18 @@ public class BattleManager : MonoBehaviour
 				Vfx.Hit(who.Position + Vector3.up * 0.2f, who.opponent.def.color, crit, who.opponent.def.skills[0].projectileSpeed > 0f);
 			};
 			f.onDeathFx = who => Vfx.Death(who.Position);
+			f.onDodgeFx = (who, step) =>
+			{
+				Vector3 feet = who.Position + Vector3.down * Arena.CenterHeight;
+				if (step == 0 || step == 4)
+				{
+					Vfx.DodgeDust(feet, who.facing, step == 0 ? 1f : 0.8f);
+				}
+				else
+				{
+					Vfx.Afterimage(who.Visual, who.def.color * 1.3f, 0.28f);
+				}
+			};
 			f.onBuffAdded = (who, b) => b.aura = b.def.auraPrefab != null ? Vfx.OwnAura(who.go.transform, b.def.auraPrefab) : Vfx.Aura(who.go.transform, b.def.auraTexture, b.def.color, b.def.control == CS.MotionControlType.Stun);
 			f.onBuffRemoved = (who, b) => Vfx.DestroyAura(b.aura);
 			f.onProjectile = SpawnProjectile;

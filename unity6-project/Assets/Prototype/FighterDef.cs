@@ -46,12 +46,13 @@ public class FighterDef
 			color = new Color(0.85f, 0.3f, 0.2f),
 			hiddenParts = new[] { "1H_Axe", "1H_Axe_Offhand", "Barbarian_Round_Shield", "Mug" },
 			weapon = "2H_Axe",
-			animIdle = "2H_Melee_Idle",
+			animIdle = "Axie_Parado",                 // feitas no Blender: guarda com joelho dobrado e respiracao
 			animRun = "Axie_Correr",                 // feitas no Blender: machado firme na guarda, passada longa
 			animStrafeLeft = "Axie_Lado_E",
 			animStrafeRight = "Axie_Lado_D",
 			animBackwards = "Axie_Correr_Tras",
-			animHit = "Hit_A",
+			animHit = "Axie_Golpe_Leve",
+			animHitHeavy = "Axie_Golpe_Forte",
 			animDeath = "Death_A",
 			animAirborne = "Hit_B",
 			moveSpeed = 7.2f,
@@ -121,7 +122,7 @@ public class FighterDef
 					procs = { new BuffProc { timing = ProcTimingType.None, buff = BuffLibrary.BarreiraCorneta, onSelf = true } },
 				},
 			},
-			dodge = new SkillDef { name = "Rolamento", vfx = "dust", anim = "Dodge_Forward", cooldown = 4f, windup = 0f, recovery = 0.3f, dashDistance = 4.5f, damageRatio = 0f },
+			dodge = new SkillDef { name = "Rolamento", vfx = "dust", anim = "Axie_Rolamento", cooldown = 4f, windup = 0f, recovery = 0.3f, dashDistance = 4.5f, damageRatio = 0f },
 			// Divisor de Terra: onda de choque em linha reta (1500%) que joga os inimigos para os lados e levanta uma linha de pedras
 			ultimate = new SkillDef
 			{
@@ -145,10 +146,11 @@ public class FighterDef
 			color = new Color(0.35f, 0.55f, 1f),
 			hiddenParts = new[] { "Spellbook", "Spellbook_open", "1H_Wand" },
 			weapon = "2H_Staff",
-			animIdle = "Idle",
+			animIdle = "Parado",
 			animRun = "Correr",                      // feitas no Blender: passada longa; para tras correndo (nao andando)
 			animBackwards = "Correr_Tras",
-			animHit = "Hit_A",
+			animHit = "Golpe_Leve",
+			animHitHeavy = "Golpe_Forte",
 			animDeath = "Death_B",
 			animAirborne = "Hit_B",
 			moveSpeed = 7f,
@@ -201,7 +203,7 @@ public class FighterDef
 					procs = { eletrocutar, new BuffProc { timing = ProcTimingType.None, buff = BuffLibrary.Pressa, onSelf = true } },
 				},
 			},
-			dodge = new SkillDef { name = "Disparada", vfx = "dust", anim = "Dodge_Forward", cooldown = 4f, windup = 0f, recovery = 0.2f, dashDistance = 5f, damageRatio = 0f },
+			dodge = new SkillDef { name = "Disparada", vfx = "dust", anim = "Rolamento", cooldown = 4f, windup = 0f, recovery = 0.2f, dashDistance = 5f, damageRatio = 0f },
 			// Ruptura Caotica: fenda a frente que suga os inimigos para o centro e da dano continuo (3,33 vezes/s, 90%)
 			ultimate = new SkillDef
 			{
