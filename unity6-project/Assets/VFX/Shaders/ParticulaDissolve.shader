@@ -42,6 +42,9 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 		[HDR] _EdgeColor ("Cor da borda (HDR)", Color) = (6, 1.8, 0.4, 1)
 		// suavidade do recorte do dissolve (pequeno = recorte seco)
 		_Softness ("Suavidade do recorte", Range(0.001, 0.5)) = 0.04
+		// quebra a borda do desenho: o dissolve come mais onde o alfa da mascara e baixo (bordas) do que no miolo;
+		// com o ruido rolando, a borda fica viva e irregular em vez de um circulo liso. 0 = desligado
+		_QuebraBorda ("Quebra da borda pelo ruido", Range(0, 1.5)) = 0
 
 		[Header(Mistura)]
 		// 1 = aditivo (soma luz), 0 = transparente comum; da pra misturar
@@ -84,6 +87,7 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 			half _EdgeWidth;
 			half4 _EdgeColor;
 			half _Softness;
+			half _QuebraBorda;
 			half _Additive;
 			half _Intensity;
 			half4 _Tint;
@@ -121,7 +125,7 @@ Shader "ArenaMasters/VFX/Particula Dissolve"
 				half4 mask = tex2D(_MainTex, i.uv.xy + (n - 0.5h) * _Distortion);
 
 				// dissolve: o limiar sobe de "abaixo de 0" (nada some) ate 1 (tudo some)
-				half d = saturate(i.life.x + _Dissolve);
+				half d = saturate(i.life.x + _Dissolve + _QuebraBorda * (1.0h - mask.a) * mask.a * 2.0h);
 				half thr = lerp(-(_EdgeWidth + _Softness), 1.0h, d);
 				half visible = smoothstep(thr, thr + _Softness, n);
 				half edge = visible - smoothstep(thr + _EdgeWidth, thr + _EdgeWidth + _Softness, n);

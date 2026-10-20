@@ -23,6 +23,7 @@ public static class DamageNumber
 		public Estilo estilo;
 		public float age, life, scale;
 		public Color color;
+		public Vector3 origem;     // onde o numero foi pedido (antes do empilhamento)
 	}
 
 	private static readonly List<Item> s_items = new List<Item>();
@@ -55,6 +56,31 @@ public static class DamageNumber
 			it.tmp.textWrappingMode = TextWrappingModes.NoWrap;
 			it.tmp.color = it.color;
 			it.t = it.tmp.transform;
+		}
+		if (estilo != Estilo.Simples)
+		{
+			// varios ao mesmo tempo no mesmo alvo: cada novo nasce acima do anterior e alternando de lado (nao sobrepoe)
+			int vizinhos = 0;
+			float topo = float.MinValue;
+			foreach (Item o in s_items)
+			{
+				if (o.estilo != Estilo.Simples && o.t != null && o.age < 0.45f)
+				{
+					Vector3 d = o.origem - pos;
+					d.y = 0f;
+					if (d.magnitude < 1.2f)
+					{
+						vizinhos++;
+						topo = Mathf.Max(topo, o.t.position.y);   // onde o vizinho esta agora (ele ja subiu)
+					}
+				}
+			}
+			it.origem = pos;
+			if (vizinhos > 0)
+			{
+				pos.y = Mathf.Max(pos.y, topo + 0.45f);
+				pos += Vector3.right * (vizinhos % 2 == 1 ? 0.3f : -0.3f);
+			}
 		}
 		it.t.position = pos;
 		s_items.Add(it);

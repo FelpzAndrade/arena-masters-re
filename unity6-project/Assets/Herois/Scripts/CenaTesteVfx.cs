@@ -33,5 +33,6 @@ public class CenaTesteVfx : MonoBehaviour
 		transform.position = focus + new Vector3(0f, Mathf.Sin(a), -Mathf.Cos(a)) * distancia + CameraShake.Offset(realDt);
 		transform.rotation = Quaternion.Euler(Pitch, 0f, 0f);
 		DamageNumber.Tick(m_cam);
+		Vfx.Update(Time.deltaTime);   // imagens fantasma (Vfx.Afterimage) somem por aqui, como na luta
 	}
 }

@@ -54,6 +54,14 @@ public static class VfxSkillBBuilder
 		Material clarao = Mat("M_ClaraoImpacto", spark, new Color(4f, 2.6f, 0.8f), new Color(6f, 5.6f, 5f), 1.2f, 0f, 1f);
 		Material risco = Mat("M_RiscoImpacto", spark, new Color(4f, 3f, 1.2f), new Color(6f, 5.5f, 4.5f), 1f, 0f, 1f);
 		Material anelImpacto = Mat("M_AnelImpacto", ring, new Color(3.5f, 2.4f, 0.8f), new Color(6f, 5f, 3.5f), 1.5f, 0.03f, 1f);
+		foreach (Material m in new[] { anel, anelGrosso, anelFino, anelImpacto })
+		{
+			QuebraBorda(m);   // camada 1 da passada de detalhe: bordas quebradas por ruido animado
+		}
+		Material brilhoChao = Mat("M_BrilhoChaoEsfera", spark, Color.white, Color.white, 1f, 0f, 1f);
+		Material rastro = Mat("M_RastroChaoEsfera", puff, Color.white, Color.white, 1f, 0.05f, 0.35f);
+		rastro.SetColor("_EdgeColor", Color.black);
+		Material poeira = AssetDatabase.LoadAssetAtPath<Material>(Root + "/Materials/M_PoeiraTerra.mat");
 
 		// ---------- esfera ----------
 		GameObject go = new GameObject("VFX_EsferaGiratoria");
@@ -71,6 +79,19 @@ public static class VfxSkillBBuilder
 		partes.Add(new EfeitoCor.Parte { renderer = Rim(go.transform, borda), brilho = 1.3f, miolo = 0.92f });   // so o filete fino fica branco
 		partes.Add(new EfeitoCor.Parte { renderer = Core(go.transform, nucleo, esfera), brilho = 0.12f, miolo = 0.1f, fixa = true });   // roxo escuro do material
 		partes.Add(new EfeitoCor.Parte { renderer = Orbit(go.transform, faisca), brilho = 1.4f, miolo = 0.35f });
+		// camada 2: chao (o SkillEsferaGiratoria cola o objeto "Chao" no piso depois de criar)
+		Transform chao = new GameObject("Chao").transform;
+		chao.SetParent(go.transform, false);
+		chao.localPosition = new Vector3(0f, -0.82f, 0f);
+		partes.Add(new EfeitoCor.Parte { renderer = FloorGlow(chao, brilhoChao), brilho = 0.7f, miolo = 0.2f });
+		partes.Add(new EfeitoCor.Parte { renderer = FloorTrail(chao, rastro), brilho = 0.3f, miolo = 0f });
+		if (poeira != null)
+		{
+			FloorDust(chao, poeira);
+		}
+		// camada 3: rastro de energia ficando para tras enquanto a esfera anda
+		partes.Add(new EfeitoCor.Parte { renderer = TrailSparks(go.transform, faisca), brilho = 1.6f, miolo = 0.5f });
+		partes.Add(new EfeitoCor.Parte { renderer = TrailWisps(go.transform, faisca), brilho = 1.1f, miolo = 0.4f });
 		EfeitoCor ec = go.AddComponent<EfeitoCor>();
 		ec.partes = partes.ToArray();
 		B.SavePrefab(go, Root + "/Resources/VFX_EsferaGiratoria.prefab");
@@ -95,6 +116,18 @@ public static class VfxSkillBBuilder
 
 		AssetDatabase.SaveAssets();
 		Debug.Log("[VFX] Skill B montada: VFX_EsferaGiratoria, VFX_CorteEntrada, VFX_ImpactoGolpe");
+	}
+
+	// bordas vivas: ruido de fiapos rolando rapido + dissolve que come mais onde o alfa e baixo (shader: _QuebraBorda)
+	internal static void QuebraBorda(Material m)
+	{
+		m.SetTexture("_NoiseTex", AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Textures/T_RuidoFiapo.png"));
+		m.SetTextureScale("_NoiseTex", new Vector2(2f, 2f));
+		m.SetVector("_NoiseScroll", new Vector4(-1.3f, 0.7f, 0f, 0f));
+		m.SetFloat("_QuebraBorda", 1f);
+		m.SetFloat("_EdgeWidth", 0.05f);
+		m.SetFloat("_Distortion", 0.035f);
+		EditorUtility.SetDirty(m);
 	}
 
 	private static Texture2D Tex(string name) => AssetDatabase.LoadAssetAtPath<Texture2D>(Root + "/Textures/" + name + ".png");
@@ -356,5 +389,127 @@ public static class VfxSkillBBuilder
 		r.renderMode = ParticleSystemRenderMode.Stretch;
 		r.velocityScale = 0.05f;
 		r.lengthScale = 2.2f;
+	}
+
+	// ---------- camadas de detalhe (chao e rastro) ----------
+
+	// "luz" falsa no piso: brilho aditivo deitado, da cor do efeito (sem luz em tempo real: regra do combate_spec.md)
+	private static ParticleSystemRenderer FloorGlow(Transform parent, Material mat)
+	{
+		ParticleSystem ps = Sphere(parent, "BrilhoChao", mat, 1);
+		ParticleSystem.MainModule main = ps.main;
+		main.startSize = 3.4f;
+		main.startColor = new Color(1f, 1f, 1f, 0.8f);
+		B.Burst(ps, 0f, 1);
+		ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
+		r.renderMode = ParticleSystemRenderMode.HorizontalBillboard;
+		return r;
+	}
+
+	// marca no chao que fica para tras e some em 0,5 s (decal feito de particulas deitadas, mundo, por distancia)
+	private static ParticleSystemRenderer FloorTrail(Transform parent, Material mat)
+	{
+		ParticleSystem ps = B.NewSystem(parent, "RastroChao", mat, 10);
+		ParticleSystem.MainModule main = ps.main;
+		main.duration = 0.75f;
+		main.startLifetime = 0.5f;
+		main.startSize = new ParticleSystem.MinMaxCurve(1.2f, 1.6f);
+		main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+		main.startColor = Color.white;
+		main.simulationSpace = ParticleSystemSimulationSpace.World;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverDistance = 2.4f;
+		ParticleSystem.ColorOverLifetimeModule c = ps.colorOverLifetime;
+		c.enabled = true;
+		c.color = B.Fade(Color.white, 0.2f);
+		C.DissolveStreams(ps, B.Curve(0f, 0f, 0.3f, 0f, 1f, 1f));
+		ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
+		r.renderMode = ParticleSystemRenderMode.HorizontalBillboard;
+		return r;
+	}
+
+	// poeira levantando onde a esfera passa (material da poeira do Golpe da Terra: cor do chao, fixa)
+	private static void FloorDust(Transform parent, Material mat)
+	{
+		ParticleSystem ps = B.NewSystem(parent, "PoeiraChao", mat, 8);
+		ps.transform.localPosition = new Vector3(0f, 0.25f, 0f);
+		ParticleSystem.MainModule main = ps.main;
+		main.duration = 0.75f;
+		main.startLifetime = new ParticleSystem.MinMaxCurve(0.5f, 0.75f);
+		main.startSize = new ParticleSystem.MinMaxCurve(0.5f, 0.9f);
+		main.startRotation = new ParticleSystem.MinMaxCurve(0f, Mathf.PI * 2f);
+		main.startColor = new Color(1f, 1f, 1f, 0.65f);
+		main.simulationSpace = ParticleSystemSimulationSpace.World;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverDistance = 1.8f;
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = true;
+		shape.shapeType = ParticleSystemShapeType.Circle;
+		shape.radius = 0.8f;
+		shape.rotation = new Vector3(90f, 0f, 0f);
+		ParticleSystem.VelocityOverLifetimeModule v = ps.velocityOverLifetime;
+		v.enabled = true;
+		v.space = ParticleSystemSimulationSpace.World;
+		v.x = new ParticleSystem.MinMaxCurve(-0.4f, 0.4f);   // os 3 eixos precisam do mesmo modo de curva
+		v.y = new ParticleSystem.MinMaxCurve(0.6f, 1.2f);
+		v.z = new ParticleSystem.MinMaxCurve(-0.4f, 0.4f);
+		ParticleSystem.SizeOverLifetimeModule s = ps.sizeOverLifetime;
+		s.enabled = true;
+		s.size = new ParticleSystem.MinMaxCurve(1f, B.Curve(0f, 0.5f, 0.3f, 1f, 1f, 1.5f));
+		ParticleSystem.ColorOverLifetimeModule c = ps.colorOverLifetime;
+		c.enabled = true;
+		c.color = B.Fade(Color.white, 0.4f);
+		C.DissolveStreams(ps, B.Curve(0f, 0f, 0.4f, 0f, 1f, 1f));
+	}
+
+	// faiscas soltas na superficie da esfera, ficam no mundo (para tras) e caem um pouco
+	private static ParticleSystemRenderer TrailSparks(Transform parent, Material mat)
+	{
+		ParticleSystem ps = B.NewSystem(parent, "RastroFaiscas", mat, 12);
+		ParticleSystem.MainModule main = ps.main;
+		main.duration = 0.75f;
+		main.startLifetime = new ParticleSystem.MinMaxCurve(0.25f, 0.45f);
+		main.startSize = new ParticleSystem.MinMaxCurve(0.05f, 0.1f);
+		main.startSpeed = new ParticleSystem.MinMaxCurve(0.5f, 1.5f);
+		main.gravityModifier = 0.6f;
+		main.simulationSpace = ParticleSystemSimulationSpace.World;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverDistance = 3f;
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = true;
+		shape.shapeType = ParticleSystemShapeType.Sphere;
+		shape.radius = 1.1f;
+		shape.radiusThickness = 0.1f;
+		ParticleSystem.SizeOverLifetimeModule s = ps.sizeOverLifetime;
+		s.enabled = true;
+		s.size = new ParticleSystem.MinMaxCurve(1f, B.Curve(0f, 1f, 1f, 0f));
+		return ps.GetComponent<ParticleSystemRenderer>();
+	}
+
+	// fiapos de energia: riscos longos e finos que saem da borda da esfera e ficam para tras
+	private static ParticleSystemRenderer TrailWisps(Transform parent, Material mat)
+	{
+		ParticleSystem ps = B.NewSystem(parent, "RastroFiapos", mat, 8);
+		ParticleSystem.MainModule main = ps.main;
+		main.duration = 0.75f;
+		main.startLifetime = new ParticleSystem.MinMaxCurve(0.2f, 0.32f);
+		main.startSize = new ParticleSystem.MinMaxCurve(0.04f, 0.07f);
+		main.startSpeed = new ParticleSystem.MinMaxCurve(2f, 4f);
+		main.simulationSpace = ParticleSystemSimulationSpace.World;
+		ParticleSystem.EmissionModule em = ps.emission;
+		em.rateOverDistance = 2f;
+		ParticleSystem.ShapeModule shape = ps.shape;
+		shape.enabled = true;
+		shape.shapeType = ParticleSystemShapeType.Sphere;
+		shape.radius = 1.15f;
+		shape.radiusThickness = 0f;
+		ParticleSystem.ColorOverLifetimeModule c = ps.colorOverLifetime;
+		c.enabled = true;
+		c.color = B.Fade(Color.white, 0.3f);
+		ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
+		r.renderMode = ParticleSystemRenderMode.Stretch;
+		r.velocityScale = 0.12f;
+		r.lengthScale = 3f;
+		return r;
 	}
 }

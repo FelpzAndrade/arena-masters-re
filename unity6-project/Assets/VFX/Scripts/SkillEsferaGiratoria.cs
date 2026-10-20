@@ -25,6 +25,7 @@ public class SkillEsferaGiratoria : MonoBehaviour
 	private float m_tempo = -1f;
 	private Vector3 m_direcao;
 	private bool m_esferaCriada;
+	private int m_fantasmas;
 	private static GameObject s_esfera, s_corte;
 
 	public void Iniciar(Vector3 direcao)
@@ -33,6 +34,7 @@ public class SkillEsferaGiratoria : MonoBehaviour
 		m_direcao = direcao.sqrMagnitude > 0.001f ? direcao.normalized : transform.forward;
 		m_tempo = 0f;
 		m_esferaCriada = false;
+		m_fantasmas = 0;
 	}
 
 	// corte de entrada na frente do heroi (chamar no OnImpacto do golpe de entrada)
@@ -60,13 +62,24 @@ public class SkillEsferaGiratoria : MonoBehaviour
 			s_esfera ??= Resources.Load<GameObject>("VFX_EsferaGiratoria");
 			if (s_esfera != null)
 			{
-				GameObject go = EfeitoCor.Criar(s_esfera, transform.position + Vector3.up * alturaCentro, Quaternion.identity, transform, cor, escala, duracao + 0.05f);
+				GameObject go = EfeitoCor.Criar(s_esfera, transform.position + Vector3.up * alturaCentro, Quaternion.identity, transform, cor, escala, duracao + 0.6f);   // +0,6: o rastro no chao termina de sumir
 				go.transform.localScale = Vector3.one * escala / Mathf.Max(0.001f, transform.lossyScale.x);
+				Transform chao = go.transform.Find("Chao");
+				if (chao != null)
+				{
+					chao.position = new Vector3(chao.position.x, transform.position.y + 0.04f, chao.position.z);   // brilho, rastro e poeira no piso
+				}
 			}
 		}
 		if (EsferaNaTela)
 		{
 			transform.position += m_direcao * (distancia / duracao) * dt;
+			// silhuetas translucidas do heroi no caminho (Vfx.Afterimage, o mesmo da esquiva): 3, sumindo em 0,3 s
+			while (m_fantasmas < 3 && m_tempo >= atraso + duracao * (0.2f + 0.25f * m_fantasmas))
+			{
+				m_fantasmas++;
+				Vfx.Afterimage(transform, Color.Lerp(cor, Color.white, 0.45f) * 3f, 0.3f);   // claro: aparece atraves dos aneis
+			}
 		}
 		if (m_tempo >= atraso + duracao)
 		{

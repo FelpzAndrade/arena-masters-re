@@ -309,6 +309,35 @@ def make_ring_streak(size=512, rng=None, thick=1.0):
 	return core, alpha
 
 
+def periodic_noise_xy(size, fx, fy, rng):
+	# ruido de valor que repete nas bordas, com frequencia diferente em X e Y (fiapos esticados)
+	grid = rng.random((fy, fx))
+	cx = np.arange(size) * fx / size
+	cy = np.arange(size) * fy / size
+	x0 = np.floor(cx).astype(int); y0 = np.floor(cy).astype(int)
+	tx = cx - x0; ty = cy - y0
+	tx = tx * tx * (3 - 2 * tx); ty = ty * ty * (3 - 2 * ty)
+	x1 = (x0 + 1) % fx; y1 = (y0 + 1) % fy
+	a = grid[np.ix_(y0, x0)] * (1 - tx[None, :]) + grid[np.ix_(y0, x1)] * tx[None, :]
+	b = grid[np.ix_(y1, x0)] * (1 - tx[None, :]) + grid[np.ix_(y1, x1)] * tx[None, :]
+	return a * (1 - ty[:, None]) + b * ty[:, None]
+
+
+def make_wisp_noise(size=256, rng=None):
+	# ruido de fiapos (quebra a borda dos aneis no dissolve): esticado num eixo, com veios finos (ridged), repete
+	n = np.zeros((size, size))
+	amp, tot = 1.0, 0.0
+	for fx, fy in ((2, 8), (4, 16), (8, 32), (16, 64)):
+		n += periodic_noise_xy(size, fx, fy, rng) * amp
+		tot += amp
+		amp *= 0.55
+	n /= tot
+	ridge = 1.0 - np.abs(n - 0.5) * 2.0                  # veios: claro onde o ruido cruza o meio
+	v = np.clip(0.55 * n + 0.45 * ridge ** 3, 0, 1)
+	lo, hi = np.percentile(v, 1), np.percentile(v, 99)
+	return np.clip((v - lo) / (hi - lo), 0, 1)
+
+
 def make_thin_ring(size=512):
 	# filete fino e limpo (borda da esfera): uma linha so, sem falhas
 	c = (size - 1) / 2.0
@@ -363,6 +392,9 @@ def main():
 		save(OUT / (nome + ".png"), core, ring)
 	core, ring = make_thin_ring()
 	save(OUT / "T_AnelFilete.png", core, ring)
+	# ruido de fiapos para quebrar as bordas dos aneis (passada de detalhe das Skills A e B)
+	wisp = make_wisp_noise(rng=np.random.default_rng(71))
+	save(OUT / "T_RuidoFiapo.png", wisp, wisp)
 
 
 if __name__ == "__main__":

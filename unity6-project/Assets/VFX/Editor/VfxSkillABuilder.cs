@@ -37,6 +37,7 @@ public static class VfxSkillABuilder
 		Material raio = Mat("M_UltRaio", boltV, Color.white, Color.white, 1.2f, 0.04f, 1f);
 		Material massa = Mat("M_UltMassa", null, new Color(0.03f, 0.01f, 0.05f), new Color(0.03f, 0.01f, 0.05f), 1f, 0f, 0f);
 		Material onda = Mat("M_UltOnda", ring, Color.white, Color.white, 1.5f, 0.03f, 1f);
+		VfxSkillBBuilder.QuebraBorda(onda);   // borda das ondas e da massa quebrada por ruido animado
 		Material estilhaco = Mat("M_UltEstilhaco", spark, new Color(0.9f, 1.8f, 2.6f), new Color(2.2f, 3f, 3.6f), 1f, 0f, 1f);   // azul-claro fixo
 		Material respingo = Mat("M_UltRespingo", puff, new Color(0.05f, 0.01f, 0.03f), new Color(0.12f, 0.03f, 0.06f), 1f, 0.04f, 0f);
 		respingo.SetColor("_EdgeColor", Color.black);
