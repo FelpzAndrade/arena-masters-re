@@ -38,7 +38,9 @@ public class LuzesBraseiros : MonoBehaviour
 			l.color = cor;
 			l.range = alcance;
 			l.shadows = LightShadows.None;
-			l.lightmapBakeType = LightmapBakeType.Realtime;
+#if UNITY_EDITOR
+			l.lightmapBakeType = LightmapBakeType.Realtime;   // so existe no editor (no jogo a luz criada em codigo ja e tempo real)
+#endif
 			l.enabled = false;
 			m_lights[i] = l;
 			m_seed[i] = i * 13.7f;

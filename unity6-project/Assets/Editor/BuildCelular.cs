@@ -23,6 +23,9 @@ public static class BuildCelular
 	{
 		PlayerSettings.companyName = "Felipe";
 		PlayerSettings.productName = "Arena Masters RE";
+		PlayerSettings.bundleVersion = "0.1";
+		PlayerSettings.Android.bundleVersionCode = Mathf.Max(1, PlayerSettings.Android.bundleVersionCode);   // o Android exige >= 1 (o projeto original vinha com 0)
+		PlayerSettings.iOS.buildNumber = "1";
 		foreach (NamedBuildTarget alvo in new[] { NamedBuildTarget.Android, NamedBuildTarget.iOS })
 		{
 			PlayerSettings.SetApplicationIdentifier(alvo, Pacote);
@@ -30,7 +33,7 @@ public static class BuildCelular
 			PlayerSettings.SetManagedStrippingLevel(alvo, ManagedStrippingLevel.Low);   // nivel baixo: o codigo decompilado usa reflexao
 		}
 		// paisagem (gira entre as duas paisagens, nunca em pe)
-		PlayerSettings.defaultInterfaceOrientation = UIOrientation.AutoRotation;
+		PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;   // forcado: com a rotacao travada no aparelho, o AutoRotation abria em pe
 		PlayerSettings.allowedAutorotateToPortrait = false;
 		PlayerSettings.allowedAutorotateToPortraitUpsideDown = false;
 		PlayerSettings.allowedAutorotateToLandscapeLeft = true;
